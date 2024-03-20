@@ -6,7 +6,7 @@ export default function FloatingActionButton() {
     <Fab
       color="agesciYellow"
       style={{
-        position: "absolute",
+        position: "fixed",
         right: "24px",
         bottom: "100px",
       }}
