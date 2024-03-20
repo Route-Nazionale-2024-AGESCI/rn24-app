@@ -37,7 +37,11 @@ export default function NavBar() {
       }}
     >
       <BottomNavigation
-        sx={{ bgcolor: backgroundColor, borderRadius: "16px 16px 0 0" }}
+        sx={{
+          bgcolor: backgroundColor,
+          borderRadius: "16px 16px 0 0",
+          height: "80px",
+        }}
         value={destinazione}
         onChange={handleDestinationChange}
       >
