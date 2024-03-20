@@ -10,6 +10,7 @@ import {
 } from "../ui/CardButton";
 import EventSummaryCard from "../ui/EventSummaryCard";
 import FloatingActionButton from "../ui/FloatingActionButton";
+import ImageCard from "../ui/ImageCard";
 
 export default function Home() {
   return (
@@ -91,6 +92,22 @@ export default function Home() {
           <BookletButton />
           <QrCodeButton />
         </Stack>
+        <Box height="32px" />
+        <Typography
+          variant="h5"
+          fontFamily="Montserrat"
+          fontSize="14px"
+          fontWeight={800}
+          mb="8px"
+        >
+          Servizio
+        </Typography>
+        <ImageCard
+          imgSrc="Verona.jpg"
+          imgAlt="Verona"
+          title="Tracce"
+          subtitle="Scopri tutte le informazioni logistiche sul servizio della tua Comunità Capi"
+        />
       </Box>
       <FloatingActionButton />
       <NavBar />
