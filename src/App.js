@@ -1,27 +1,53 @@
 import React from "react";
 import Home from "./pages/Home";
-// import logo from './logo.svg';
-// import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const yellowBase = "#F6AB2D",
+  purpleBase = "#6D5095",
+  greenBase = "#38A368",
+  redBase = "#E75750";
+
+let theme = createTheme();
+theme = createTheme(theme, {
+  palette: {
+    agesciYellow: theme.palette.augmentColor({
+      color: {
+        main: yellowBase,
+      },
+      name: "agesciYellow",
+    }),
+    agesciPurple: theme.palette.augmentColor({
+      color: {
+        main: purpleBase,
+      },
+      name: "agesciPurple",
+    }),
+    agesciGreen: theme.palette.augmentColor({
+      color: {
+        main: greenBase,
+      },
+      name: "agesciGreen",
+    }),
+    agesciRed: theme.palette.augmentColor({
+      color: {
+        main: redBase,
+      },
+      name: "agesciRed",
+    }),
+    white: theme.palette.augmentColor({
+      color: {
+        main: "#FFFFFF",
+      },
+      name: "white",
+    }),
+  },
+});
 
 function App() {
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
-    <Home />
+    <ThemeProvider theme={theme}>
+      <Home />
+    </ThemeProvider>
   );
 }
 
