@@ -1,6 +1,10 @@
 import React from "react";
 import Home from "./pages/Home";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
@@ -41,7 +45,11 @@ theme = createTheme(theme, {
       name: "white",
     }),
   },
+  typography: {
+    fontFamily: ["montserrat"].join(","),
+  },
 });
+theme = responsiveFontSizes(theme);
 
 function App() {
   return (
