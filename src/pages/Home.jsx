@@ -8,6 +8,7 @@ import {
   BookletButton,
   QrCodeButton,
 } from "../ui/CardButton";
+import EventSummaryCard from "../ui/EventSummaryCard";
 
 export default function Home() {
   return (
@@ -32,6 +33,22 @@ export default function Home() {
         </Typography>
         <Box height="48px" />
         <AddContactButton />
+        <Box height="32px" />
+        <Typography
+          variant="h5"
+          fontFamily="Montserrat"
+          fontSize="14px"
+          fontWeight={800}
+          mb="8px"
+        >
+          Prossimi eventi
+        </Typography>
+        <EventSummaryCard
+          title="Titolo dell’evento lorem ipsum simplit dolor elment"
+          standName="Nome stand"
+          startDateTime={new Date(2024, 7, 26, 10, 0, 0, 0)}
+          endDateTime={new Date(2024, 7, 26, 12, 0, 0, 0)}
+        />
         <Box height="32px" />
         <Typography
           variant="h5"
