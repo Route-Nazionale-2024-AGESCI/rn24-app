@@ -2,7 +2,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import NavBar from "../ui/NavBar";
 import AppBar from "../ui/AppBar";
-import { AddContactButton } from "../ui/CardButton";
+import Stack from "@mui/material/Stack";
+import {
+  AddContactButton,
+  BookletButton,
+  QrCodeButton,
+} from "../ui/CardButton";
 
 export default function Home() {
   return (
@@ -25,8 +30,22 @@ export default function Home() {
         >
           Bentornato nell'App di RN24
         </Typography>
-        <Box height="48px"></Box>
+        <Box height="48px" />
         <AddContactButton />
+        <Box height="32px" />
+        <Typography
+          variant="h5"
+          fontFamily="Montserrat"
+          fontSize="14px"
+          fontWeight={800}
+          mb="8px"
+        >
+          Materiali
+        </Typography>
+        <Stack direction="row" spacing="16px">
+          <BookletButton />
+          <QrCodeButton />
+        </Stack>
       </Box>
       <NavBar />
     </>

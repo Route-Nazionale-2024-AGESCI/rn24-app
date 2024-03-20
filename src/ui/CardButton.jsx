@@ -1,11 +1,7 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActionArea from "@mui/material/CardActionArea";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import Box from "@mui/material/Box";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 export default function CardButton({ text, icon, bgColor }) {
   return (
@@ -16,13 +12,13 @@ export default function CardButton({ text, icon, bgColor }) {
         borderRadius: "8px",
         width: "100%",
         textTransform: "none",
+        lineHeight: "16px",
         fontSize: "14px",
         fontWeight: "600",
         fontFamily: ["Montserrat"],
         display: "flex",
         justifyContent: "start",
         pl: "16px",
-        //bgcolor: bgColor,
       }}
       disableElevation
       color={bgColor}
@@ -62,6 +58,26 @@ export function AddContactButton() {
       text="Aggiungi Contatto"
       bgColor="agesciPurple"
       icon={<PersonAddAlt1Icon sx={{ mr: "16px" }} />}
-    ></CardButton>
+    />
+  );
+}
+
+export function QrCodeButton() {
+  return (
+    <CardButton
+      text="Scansiona QR Code"
+      bgColor="agesciRed"
+      icon={<QrCodeIcon sx={{ mr: "8px" }} />}
+    />
+  );
+}
+
+export function BookletButton() {
+  return (
+    <CardButton
+      text="Consulta il Libretto"
+      bgColor="agesciGreen"
+      icon={<MenuBookIcon sx={{ mr: "8px" }} />}
+    />
   );
 }
