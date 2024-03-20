@@ -9,11 +9,12 @@ import {
   QrCodeButton,
 } from "../ui/CardButton";
 import EventSummaryCard from "../ui/EventSummaryCard";
+import FloatingActionButton from "../ui/FloatingActionButton";
 
 export default function Home() {
   return (
     <>
-      <Box sx={{ mt: "40px", mx: "24px" }}>
+      <Box sx={{ mt: "40px", mx: "24px", mb: "100px" }}>
         <AppBar />
         <Typography
           fontFamily="Montserrat"
@@ -91,6 +92,7 @@ export default function Home() {
           <QrCodeButton />
         </Stack>
       </Box>
+      <FloatingActionButton />
       <NavBar />
     </>
   );
