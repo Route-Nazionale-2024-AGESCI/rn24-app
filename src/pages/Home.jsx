@@ -43,12 +43,39 @@ export default function Home() {
         >
           Prossimi eventi
         </Typography>
-        <EventSummaryCard
-          title="Titolo dell’evento lorem ipsum simplit dolor elment"
-          standName="Nome stand"
-          startDateTime={new Date(2024, 7, 26, 10, 0, 0, 0)}
-          endDateTime={new Date(2024, 7, 26, 12, 0, 0, 0)}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflow: "auto",
+            gap: "8px",
+          }}
+        >
+          <EventSummaryCard
+            title="Titolo dell’evento lorem ipsum simplit dolor elment"
+            standName="Nome stand"
+            startDateTime={new Date(2024, 7, 26, 10, 0, 0, 0)}
+            endDateTime={new Date(2024, 7, 26, 12, 0, 0, 0)}
+          />
+          <EventSummaryCard
+            title="Evento2"
+            standName="Villa Buri"
+            startDateTime={new Date(2024, 7, 26, 15, 0, 0, 0)}
+            endDateTime={new Date(2024, 7, 26, 16, 45, 0, 0)}
+          />
+          <EventSummaryCard
+            title="Evento con un titolo decisamente troppo lungo che dovrebbe essere troncato. Se dovessero essere inseriti eventi con titoli esageratamente lunghi, questo non deve forzare la UI verso comportamenti inaspettati"
+            standName="Verona piccola Gerusalemme"
+            startDateTime={new Date(2024, 7, 27, 9, 0, 0, 0)}
+            endDateTime={new Date(2024, 7, 27, 11, 0, 0, 0)}
+          />
+          <EventSummaryCard
+            title=""
+            standName="Evento senza titolo?"
+            startDateTime={new Date(2024, 7, 27, 14, 30, 0, 0)}
+            endDateTime={new Date(2024, 7, 27, 16, 30, 0, 0)}
+          />
+        </Box>
         <Box height="32px" />
         <Typography
           variant="h5"
