@@ -19,35 +19,14 @@ export default function CardButton({ text, icon, bgColor }) {
         display: "flex",
         justifyContent: "start",
         pl: "16px",
+        textAlign: "left",
       }}
       disableElevation
       color={bgColor}
       variant="contained"
       startIcon={icon}
     >
-      {/* <CardActionArea>
-        <CardContent> */}
-      {/* <Stack direction="row" spacing="16px"> */}
-      {/* <Box
-              sx={{
-                borderRadius: "200px",
-                bgcolor: "#334455",
-                height: "40px",
-                width: "40px",
-                p: "10px 12px 10px 12px",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
-              }}
-            > */}
-      {/* {icon} */}
-      {/* </Box> */}
-      {/* <Typography variant="h6" fontWeight={600} fontSize={14}> */}
       {text}
-      {/* </Typography> */}
-      {/* </Stack> */}
-      {/* </CardContent>
-      </CardActionArea> */}
     </Button>
   );
 }
