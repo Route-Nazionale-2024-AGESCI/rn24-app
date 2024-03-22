@@ -43,7 +43,7 @@ export default function EventSummaryCard({
           }}
         >
           <Typography
-            variant="h3"
+            variant="subtitle1"
             fontSize="20px"
             fontFamily="Montserrat"
             fontWeight={600}
@@ -52,7 +52,7 @@ export default function EventSummaryCard({
             {startDT.getDate().toString().padStart(2, "0")}
           </Typography>
           <Typography
-            variant="h4"
+            variant="subtitle2"
             fontSize="14px"
             fontFamily="Montserrat"
             fontWeight={600}
