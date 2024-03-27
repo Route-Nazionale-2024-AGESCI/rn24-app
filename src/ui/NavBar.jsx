@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import MuiBottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Container from "@mui/material/Container";
@@ -22,9 +23,15 @@ const BottomNavigationAction = styled(MuiBottomNavigationAction)(`
 
 export default function NavBar() {
   const [destinazione, setDestinazione] = React.useState("Home");
+  const location = useLocation();
   const handleDestinationChange = (event, newValue) => {
     setDestinazione(newValue);
   };
+
+  React.useEffect(() => {
+    console.log(location.pathname);
+    setDestinazione(location.pathname);
+  }, [location.pathname]);
 
   return (
     <Container
@@ -45,21 +52,33 @@ export default function NavBar() {
         value={destinazione}
         onChange={handleDestinationChange}
       >
-        <BottomNavigationAction label="Home" value="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction
+          label="Home"
+          value="/"
+          icon={<HomeIcon />}
+          component={Link}
+          to="/"
+        />
         <BottomNavigationAction
           label="Calendario"
-          value="Calendario"
+          value="/calendario"
           icon={<CalendarMonthIcon />}
+          component={Link}
+          to="/calendario"
         />
         <BottomNavigationAction
           label="Mappa"
-          value="Mappa"
+          value="/mappa"
           icon={<MapIcon />}
+          component={Link}
+          to="/mappa"
         />
         <BottomNavigationAction
           label="Avvisi"
-          value="Avvisi"
+          value="/avvisi"
           icon={<ReportProblemIcon />}
+          component={Link}
+          to="/avvisi"
         />
       </BottomNavigation>
     </Container>

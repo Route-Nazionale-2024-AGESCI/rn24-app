@@ -1,30 +1,41 @@
 import Button from "@mui/material/Button";
+import { Link as RouterLink } from "react-router-dom";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-export default function CardButton({ text, icon, bgColor }) {
+const style = {
+  maxWidth: "400px",
+  height: "64px",
+  borderRadius: "8px",
+  width: "100%",
+  textTransform: "none",
+  lineHeight: "16px",
+  fontSize: "14px",
+  fontWeight: "600",
+  fontFamily: ["Montserrat"],
+  display: "flex",
+  justifyContent: "start",
+  pl: "16px",
+  textAlign: "left",
+};
+
+export default function CardButton({ text, icon, bgColor, to = undefined }) {
+  const linkProps =
+    to === undefined
+      ? {}
+      : {
+          component: RouterLink,
+          to,
+        };
   return (
     <Button
-      sx={{
-        maxWidth: "400px",
-        height: "64px",
-        borderRadius: "8px",
-        width: "100%",
-        textTransform: "none",
-        lineHeight: "16px",
-        fontSize: "14px",
-        fontWeight: "600",
-        fontFamily: ["Montserrat"],
-        display: "flex",
-        justifyContent: "start",
-        pl: "16px",
-        textAlign: "left",
-      }}
+      sx={style}
       disableElevation
       color={bgColor}
       variant="contained"
       startIcon={icon}
+      {...linkProps}
     >
       {text}
     </Button>

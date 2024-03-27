@@ -1,5 +1,6 @@
 import React from "react";
-import Home from "./pages/Home";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 import {
   ThemeProvider,
   createTheme,
@@ -54,7 +55,7 @@ theme = responsiveFontSizes(theme);
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
