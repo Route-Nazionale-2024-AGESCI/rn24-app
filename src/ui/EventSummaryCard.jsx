@@ -45,7 +45,6 @@ export default function EventSummaryCard({
           <Typography
             variant="subtitle1"
             fontSize="20px"
-            fontFamily="Montserrat"
             fontWeight={600}
             sx={{ color: "#6D5095" }}
           >
@@ -54,7 +53,6 @@ export default function EventSummaryCard({
           <Typography
             variant="subtitle2"
             fontSize="14px"
-            fontFamily="Montserrat"
             fontWeight={600}
             textTransform="uppercase"
             sx={{ color: "#6D5095" }}
@@ -65,7 +63,6 @@ export default function EventSummaryCard({
         <Stack direction="column" maxWidth="204px">
           <Typography
             variant="subtitle1"
-            fontFamily="Montserrat"
             fontSize="12px"
             lineHeight="15px"
             fontWeight={600}
@@ -85,7 +82,6 @@ export default function EventSummaryCard({
             <AccessTimeIcon sx={{ fontSize: 12, color: "#959695" }} />
             <Typography
               variant="subtitle2"
-              fontFamily="Montserrat"
               fontSize="12px"
               fontWeight={400}
               textAlign="left"
@@ -102,7 +98,6 @@ export default function EventSummaryCard({
             <PlaceIcon sx={{ fontSize: 12, color: "#959695" }} />
             <Typography
               variant="subtitle2"
-              fontFamily="Montserrat"
               fontSize="12px"
               fontWeight={400}
               textAlign="left"

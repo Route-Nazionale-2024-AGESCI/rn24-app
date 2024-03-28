@@ -15,7 +15,6 @@ export default function SegmentError() {
     >
       <Typography
         variant="h4"
-        fontFamily="Montserrat"
         fontSize="18px"
         fontWeight={600}
         sx={{ mb: "30px", mt: "40px" }}
@@ -24,7 +23,6 @@ export default function SegmentError() {
       </Typography>
       <Typography
         variant="h6"
-        fontFamily="Montserrat"
         fontSize="16px"
         fontWeight={400}
         sx={{ mb: "16px" }}
@@ -33,7 +31,6 @@ export default function SegmentError() {
       </Typography>
       <Typography
         variant="body2"
-        fontFamily="Montserrat"
         fontSize="14px"
         fontWeight={300}
         sx={{ mb: "40px" }}

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import MuiBottomNavigationAction from "@mui/material/BottomNavigationAction";
+import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
 
@@ -18,7 +19,7 @@ const BottomNavigationAction = styled(MuiBottomNavigationAction)(`
   color: ${inactiveColor};
   &.Mui-selected {
     color: ${selectedColor};
-  }
+  };
 `);
 
 export default function NavBar() {
@@ -32,6 +33,8 @@ export default function NavBar() {
     console.log(location.pathname);
     setDestinazione(location.pathname);
   }, [location.pathname]);
+
+  const Label = ({ text }) => <Typography fontSize="12px">{text}</Typography>;
 
   return (
     <Container
@@ -53,28 +56,28 @@ export default function NavBar() {
         onChange={handleDestinationChange}
       >
         <BottomNavigationAction
-          label="Home"
+          label={<Label text="Home" />}
           value="/"
           icon={<HomeIcon />}
           component={Link}
           to="/"
         />
         <BottomNavigationAction
-          label="Calendario"
+          label={<Label text="Calendario" />}
           value="/calendario"
           icon={<CalendarMonthIcon />}
           component={Link}
           to="/calendario"
         />
         <BottomNavigationAction
-          label="Mappa"
+          label={<Label text="Mappa" />}
           value="/mappa"
           icon={<MapIcon />}
           component={Link}
           to="/mappa"
         />
         <BottomNavigationAction
-          label="Avvisi"
+          label={<Label text="Avvisi" />}
           value="/avvisi"
           icon={<ReportProblemIcon />}
           component={Link}

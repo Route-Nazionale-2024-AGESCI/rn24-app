@@ -12,32 +12,16 @@ import ImageCard from "../ui/ImageCard";
 export default function Home() {
   return (
     <>
-      <Typography
-        fontFamily="Montserrat"
-        variant="h6"
-        fontSize="20px"
-        fontWeight={900}
-      >
+      <Typography variant="h6" fontSize="20px" fontWeight={900}>
         Ciao, Gianfilippo
       </Typography>
-      <Typography
-        fontFamily="Montserrat"
-        variant="p"
-        fontSize="14px"
-        fontWeight={400}
-      >
+      <Typography variant="body1" fontSize="14px" fontWeight={400}>
         Bentornato nell'App di RN24
       </Typography>
       <Box height="48px" />
       <AddContactButton />
       <Box height="32px" />
-      <Typography
-        variant="h5"
-        fontFamily="Montserrat"
-        fontSize="14px"
-        fontWeight={800}
-        mb="8px"
-      >
+      <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
         Prossimi eventi
       </Typography>
       <Box
@@ -74,13 +58,7 @@ export default function Home() {
         />
       </Box>
       <Box height="32px" />
-      <Typography
-        variant="h5"
-        fontFamily="Montserrat"
-        fontSize="14px"
-        fontWeight={800}
-        mb="8px"
-      >
+      <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
         Materiali
       </Typography>
       <Stack direction="row" spacing="16px">
@@ -88,13 +66,7 @@ export default function Home() {
         <QrCodeButton />
       </Stack>
       <Box height="32px" />
-      <Typography
-        variant="h5"
-        fontFamily="Montserrat"
-        fontSize="14px"
-        fontWeight={800}
-        mb="8px"
-      >
+      <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
         Servizio
       </Typography>
       <ImageCard

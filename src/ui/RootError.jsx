@@ -17,7 +17,6 @@ export default function RootError() {
     >
       <Typography
         variant="h4"
-        fontFamily="Montserrat"
         fontSize="20px"
         fontWeight={700}
         sx={{ mb: "30px", mt: "40px" }}
@@ -26,7 +25,6 @@ export default function RootError() {
       </Typography>
       <Typography
         variant="h6"
-        fontFamily="Montserrat"
         fontSize="16px"
         fontWeight={500}
         sx={{ mb: "16px" }}
@@ -35,7 +33,6 @@ export default function RootError() {
       </Typography>
       <Typography
         variant="body2"
-        fontFamily="Montserrat"
         fontSize="14px"
         fontWeight={400}
         sx={{ mb: "40px" }}

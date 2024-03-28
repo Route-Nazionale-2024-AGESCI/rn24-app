@@ -12,7 +12,11 @@ const yellowBase = "#F6AB2D",
   greenBase = "#38A368",
   redBase = "#E75750";
 
-let theme = createTheme();
+let theme = createTheme({
+  typography: {
+    allVariants: { fontFamily: ["Montserrat"].join(",") },
+  },
+});
 theme = createTheme(theme, {
   palette: {
     agesciYellow: theme.palette.augmentColor({
@@ -45,9 +49,6 @@ theme = createTheme(theme, {
       },
       name: "white",
     }),
-  },
-  typography: {
-    fontFamily: ["montserrat"].join(","),
   },
 });
 theme = responsiveFontSizes(theme);

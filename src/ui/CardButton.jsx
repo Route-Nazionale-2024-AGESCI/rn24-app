@@ -13,7 +13,6 @@ const style = {
   lineHeight: "16px",
   fontSize: "14px",
   fontWeight: "600",
-  fontFamily: ["Montserrat"],
   display: "flex",
   justifyContent: "start",
   pl: "16px",
