@@ -11,7 +11,7 @@ import ImageCard from "../ui/ImageCard";
 
 export default function Home() {
   return (
-    <>
+    <Box sx={{ mx: "24px" }}>
       <Typography variant="h6" fontSize="20px" fontWeight={900}>
         Ciao, Gianfilippo
       </Typography>
@@ -75,6 +75,6 @@ export default function Home() {
         title="Tracce"
         subtitle="Scopri tutte le informazioni logistiche sul servizio della tua Comunità Capi"
       />
-    </>
+    </Box>
   );
 }

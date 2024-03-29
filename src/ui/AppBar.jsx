@@ -12,8 +12,8 @@ export default function AppBar() {
     <Container
       sx={{
         backgroundColor: "transparent",
-        //mt: "40px",
         mb: "32px",
+
         p: 0,
       }}
     >
@@ -22,6 +22,8 @@ export default function AppBar() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          mx: "24px",
+          height: "40px",
         }}
       >
         <RnLogo />

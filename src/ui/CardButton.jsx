@@ -4,21 +4,6 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-const style = {
-  maxWidth: "400px",
-  height: "64px",
-  borderRadius: "8px",
-  width: "100%",
-  textTransform: "none",
-  lineHeight: "16px",
-  fontSize: "14px",
-  fontWeight: "600",
-  display: "flex",
-  justifyContent: "start",
-  pl: "16px",
-  textAlign: "left",
-};
-
 export default function CardButton({ text, icon, bgColor, to = undefined }) {
   const linkProps =
     to === undefined
@@ -27,6 +12,21 @@ export default function CardButton({ text, icon, bgColor, to = undefined }) {
           component: RouterLink,
           to,
         };
+
+  const style = {
+    maxWidth: "400px",
+    height: "64px",
+    borderRadius: "8px",
+    width: "100%",
+    textTransform: "none",
+    lineHeight: "16px",
+    fontSize: "14px",
+    fontWeight: "600",
+    display: "flex",
+    justifyContent: "start",
+    pl: "16px",
+    textAlign: "left",
+  };
   return (
     <Button
       sx={style}
@@ -46,6 +46,7 @@ export function AddContactButton() {
     <CardButton
       text="Aggiungi Contatto"
       bgColor="agesciPurple"
+      to="/aggiungiContatto"
       icon={<PersonAddAlt1Icon sx={{ mr: "16px" }} />}
     />
   );
