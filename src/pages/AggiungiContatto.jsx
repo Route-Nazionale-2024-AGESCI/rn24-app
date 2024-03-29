@@ -74,13 +74,13 @@ export default function AggiungiContatto() {
               bgColor="agesciGreen"
               icon={<ContactlessIcon />}
               text="Utilizza Sensore NFC"
-              to="/"
+              to="/aggiungiContatto/nfc"
             />
             <BoxButton
               bgColor="agesciRed"
               text="Scansiona QR Code"
               icon={<QrCodeIcon />}
-              to="/"
+              to="/aggiungiContatto/qr"
             />
           </Box>
           <Typography fontSize="14px" fontWeight={800}>
@@ -88,7 +88,7 @@ export default function AggiungiContatto() {
           </Typography>
           <BoxButton
             bgColor="agesciPurple"
-            to="/"
+            to="/aggiungiContatto/codice"
             text="Inserisci Codice Manualmente"
             icon={<KeyboardIcon />}
             big

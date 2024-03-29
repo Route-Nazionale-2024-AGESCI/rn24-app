@@ -30,7 +30,6 @@ export default function NavBar() {
   };
 
   React.useEffect(() => {
-    console.log(location.pathname);
     setDestinazione(location.pathname);
   }, [location.pathname]);
 

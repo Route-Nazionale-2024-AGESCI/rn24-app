@@ -13,10 +13,17 @@ export default function BackToOtherMethods() {
     >
       <Button
         variant="text"
-        startIcon={<ArrowBackIcon />}
+        startIcon={<ArrowBackIcon sx={{ color: "#ffffff" }} />}
         component={RouterLink}
+        to="/aggiungiContatto"
       >
-        Torna agli altri metodi
+        <Typography
+          fontSize="16px"
+          fontWeight={600}
+          sx={{ color: "#ffffff", textTransform: "none" }}
+        >
+          Torna agli altri metodi
+        </Typography>
       </Button>
     </Box>
   );
