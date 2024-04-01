@@ -21,7 +21,7 @@ export default function RecuperoPwd() {
       }}
     >
       <Typography fontWeight={900} fontSize="25px" sx={{ mb: "40px" }}>
-        Recupera password
+        Recupera Password
       </Typography>
       <Form
         style={{
