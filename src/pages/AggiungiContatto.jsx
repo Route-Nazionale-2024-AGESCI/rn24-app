@@ -9,6 +9,8 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import ContactlessIcon from "@mui/icons-material/Contactless";
 
+import WhitePaper from "../ui/WhitePaper";
+
 function BoxButton({ bgColor, icon, text, to, big = false }) {
   return (
     <Button
@@ -49,17 +51,7 @@ export default function AggiungiContatto() {
       >
         Aggiungi Contatto
       </Typography>
-      <Box
-        sx={{
-          background: "white",
-          textAlign: "center",
-          borderRadius: "16px 16px 0 0",
-          mt: "16px",
-          mb: "-20px",
-          pt: "40px",
-          height: `calc(100vh - 228px)`,
-        }}
-      >
+      <WhitePaper>
         <Stack spacing="32px" alignItems="center">
           <Box
             sx={{
@@ -83,7 +75,7 @@ export default function AggiungiContatto() {
               to="/aggiungiContatto/qr"
             />
           </Box>
-          <Typography fontSize="14px" fontWeight={800}>
+          <Typography fontSize="14px" fontWeight={800} textAlign="center">
             Oppure
           </Typography>
           <BoxButton
@@ -94,7 +86,7 @@ export default function AggiungiContatto() {
             big
           />
         </Stack>
-      </Box>
+      </WhitePaper>
     </>
   );
 }
