@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 
-import BackToOtherMethods from "../ui/BackToOtherMethods";
+import BackToOtherMethods from "../../ui/BackToOtherMethods";
 
-export default function QrLayout() {
+export default function NfcLayout() {
   return (
     <Box
       sx={{
@@ -11,7 +11,7 @@ export default function QrLayout() {
         mb: "-80px",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "agesciRed.main",
+        bgcolor: "agesciGreen.main",
       }}
     >
       <BackToOtherMethods />

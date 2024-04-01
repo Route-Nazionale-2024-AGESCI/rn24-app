@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 
-import BackToOtherMethods from "../ui/BackToOtherMethods";
+import BackToOtherMethods from "../../ui/BackToOtherMethods";
 
-export default function NfcLayout() {
+export default function CodiceLayout() {
   return (
     <Box
       sx={{
@@ -11,7 +11,7 @@ export default function NfcLayout() {
         mb: "-80px",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "agesciGreen.main",
+        bgcolor: "agesciPurple.main",
       }}
     >
       <BackToOtherMethods />

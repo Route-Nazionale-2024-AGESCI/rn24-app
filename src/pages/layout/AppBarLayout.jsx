@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
-import AppBar from "../ui/AppBar";
+import AppBar from "../../ui/AppBar";
 
 export default function AppBarLayout() {
   return (
