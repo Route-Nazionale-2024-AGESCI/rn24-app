@@ -4,19 +4,19 @@ import Avvisi from "./pages/Avvisi";
 import Mappa from "./pages/Mappa";
 import Calendario from "./pages/Calendario";
 import Tracce from "./pages/Tracce";
-import NavBarLayout from "./pages/NavBarLayout";
-import AppBarLayout from "./pages/AppBarLayout";
-import FabLayout from "./pages/FabLayout";
-import AccessLayout from "./pages/AccessLayout";
+import NavBarLayout from "./pages/layout/NavBarLayout";
+import AppBarLayout from "./pages/layout/AppBarLayout";
+import FabLayout from "./pages/layout/FabLayout";
+import AccessLayout from "./pages/layout/AccessLayout";
 import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import AggiungiContatto from "./pages/AggiungiContatto";
 import Login from "./pages/Login";
 import RecuperoPwd from "./pages/RecuperoPwd";
 import RecuperoCodice from "./pages/RecuperoCodice";
-import QrLayout from "./pages/QrLayout";
-import NfcLayout from "./pages/NfcLayout";
-import CodiceLayout from "./pages/CodiceLayout";
+import QrLayout from "./pages/layout/QrLayout";
+import NfcLayout from "./pages/layout/NfcLayout";
+import CodiceLayout from "./pages/layout/CodiceLayout";
 import RicercaNfc from "./pages/RicercaNfc";
 import ScansionaQr from "./pages/ScansionaQr";
 import InserisciCodice from "./pages/InserisciCodice";
@@ -30,26 +30,26 @@ export const router = createBrowserRouter([
     children: [
       {
         children: [
-          // {
-          //   element: <AccessLayout />,
-          //   children: [
-          //     {
-          //       path: "login",
-          //       element: <Login />,
-          //       errorElement: <SegmentedError />,
-          //     },
-          //     {
-          //       path: "recuperoPassword",
-          //       element: <RecuperoPwd />,
-          //       errorElement: <SegmentedError />,
-          //     },
-          //     {
-          //       path: "recuperoCodice",
-          //       element: <RecuperoCodice />,
-          //       errorElement: <SegmentedError />,
-          //     },
-          //   ],
-          // },
+          {
+            element: <AccessLayout />,
+            children: [
+              {
+                path: "login",
+                element: <Login />,
+                errorElement: <SegmentedError />,
+              },
+              //     {
+              //       path: "recuperoPassword",
+              //       element: <RecuperoPwd />,
+              //       errorElement: <SegmentedError />,
+              //     },
+              //     {
+              //       path: "recuperoCodice",
+              //       element: <RecuperoCodice />,
+              //       errorElement: <SegmentedError />,
+              //     },
+            ],
+          },
 
           {
             element: <NavBarLayout />,
