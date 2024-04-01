@@ -38,11 +38,11 @@ export const router = createBrowserRouter([
                 element: <Login />,
                 errorElement: <SegmentedError />,
               },
-              //     {
-              //       path: "recuperoPassword",
-              //       element: <RecuperoPwd />,
-              //       errorElement: <SegmentedError />,
-              //     },
+              {
+                path: "recuperoPassword",
+                element: <RecuperoPwd />,
+                errorElement: <SegmentedError />,
+              },
               //     {
               //       path: "recuperoCodice",
               //       element: <RecuperoCodice />,
