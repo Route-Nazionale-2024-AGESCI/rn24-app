@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master    # change to main if needed
-      - tapion/autodeploy
   workflow_dispatch:
 
 jobs:
