@@ -1,4 +1,4 @@
-name: Deploy on fly.io
+name: Deploy on fly
 on:
   push:
     branches:
@@ -16,6 +16,6 @@ jobs:
         with:
           owner: Route-Nazionale-2024-AGESCI
           repo: rn24-backend
-          github_token: ${{ secrets.rn24-personal-access-token }}
+          github_token: ${{ secrets.PAT }}
           workflow_file_name: fly.yml
           ref: master
