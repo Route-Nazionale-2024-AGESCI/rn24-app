@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 
 import BackToOtherMethods from "../../ui/BackToOtherMethods";
 
-export default function NfcLayout() {
+export default function NfcLayout({ back }) {
   return (
     <Box
       sx={{
@@ -14,7 +14,7 @@ export default function NfcLayout() {
         bgcolor: "agesciGreen.main",
       }}
     >
-      <BackToOtherMethods />
+      <BackToOtherMethods back={back} />
       <Box
         sx={{
           textAlign: "center",

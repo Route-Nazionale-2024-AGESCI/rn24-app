@@ -3,7 +3,8 @@ import Button from "@mui/material/Button";
 import { Link as RouterLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-export default function BackToOtherMethods() {
+
+export default function BackToOtherMethods({ back }) {
   return (
     <Box
       sx={{
@@ -15,7 +16,7 @@ export default function BackToOtherMethods() {
         variant="text"
         startIcon={<ArrowBackIcon sx={{ color: "#ffffff" }} />}
         component={RouterLink}
-        to="/aggiungiContatto"
+        to={back}
       >
         <Typography
           fontSize="16px"
