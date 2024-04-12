@@ -10,7 +10,8 @@ export default function WhitePaper({ children }) {
         mt: "16px",
         mb: "-20px",
         pt: "40px",
-        height: `calc(100vh - 228px)`,
+        pb: "80px",
+        minHeight: `calc(100vh - 228px)`,
       }}
     >
       {children}

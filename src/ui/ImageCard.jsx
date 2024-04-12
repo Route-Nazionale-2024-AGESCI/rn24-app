@@ -3,6 +3,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function ImageCard({ imgSrc, imgAlt, title, subtitle }) {
   return (
@@ -13,7 +14,7 @@ export default function ImageCard({ imgSrc, imgAlt, title, subtitle }) {
         width: "100%",
       }}
     >
-      <CardActionArea>
+      <CardActionArea component={RouterLink} to="/tracce">
         <CardMedia
           component="image"
           image={imgSrc}
@@ -33,11 +34,15 @@ export default function ImageCard({ imgSrc, imgAlt, title, subtitle }) {
             }}
           >
             <Typography
-              sx={{ color: "#FFFFFF", fontSize: "18px", fontWeight: 600 }}
+              sx={{
+                color: "#FFFFFF",
+                fontSize: "18px",
+                fontWeight: 600,
+              }}
             >
               {title}
             </Typography>
-            <Typography sx={{ color: "#FFFFFF", fontSize: "14px" }}>
+            <Typography sx={{ color: "#FFFFFF", fontSize: "12px" }}>
               {subtitle}
             </Typography>
           </CardContent>
