@@ -1,7 +1,11 @@
 import Box from "@mui/material/Box";
 import { QRCodeSVG } from "qrcode.react";
 
+import useUser from "../lib/hooks/useUser";
+
 export default function CondividiQr() {
+  const user = useUser();
+  const userInfo = JSON.stringify(user);
   return (
     <Box
       sx={{
@@ -10,7 +14,7 @@ export default function CondividiQr() {
         borderRadius: "8px",
       }}
     >
-      <QRCodeSVG value="1234567" size={200} />
+      <QRCodeSVG value={userInfo} size={200} />
     </Box>
   );
 }
