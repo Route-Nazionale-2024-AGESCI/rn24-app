@@ -1,95 +1,171 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { QrReader } from "react-qr-reader";
+import AccessButton from "../ui/AccessButton";
 
 export default function ScansionaQr() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
-  const addContactToAddressBook = (info) => {
-    console.log(info);
-  };
-
   const handleScan = (data, error) => {
     if (data) {
       try {
-        setData(data.text);
-        //console.dir(data.text);
         const contactInfo = JSON.parse(data.text);
+        // Informazioni di contatto mancanti
         if (
-          contactInfo.nome &&
-          contactInfo.cognome &&
-          contactInfo.telefono &&
-          contactInfo.email
+          contactInfo.telefono === undefined ||
+          contactInfo.nome === undefined
         ) {
-          addContactToAddressBook(contactInfo);
-        } else {
           throw new Error(
             "Il QR Code scansionato non contiene le informazioni di contatto corrette."
           );
         }
-      } catch (err) {
-        // Gestisci gli errori di parsing del JSON
-        setError(err.message);
+        setData(contactInfo);
+      } catch (error) {
+        setError(error.message);
       }
     }
+
+    // Errore nella scansione del QR Code
     if (error) {
       setError(error.message);
     }
   };
 
-  const handleError = (err) => {
-    // Gestisci gli errori di lettura del QR Code
-    setError(err.message);
-  };
-
   return (
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     height: "100vh",
-    //   }}
-    // >*}
-    <Box
-      sx={{
-        backgroundColor: "#ffffff",
-        padding: "8px",
-        borderRadius: "8px",
-        width: "300px",
-        height: "300px",
-      }}
-    >
+    <>
+      {/* Canvas per la scansione del QR Code */}
       {!data && !error && (
         <QrReader
           delay={300}
-          // onError={handleError}
           onResult={handleScan}
-          //style={{ width: "300px", height: "300px" }}
+          containerStyle={{
+            borderRadius: "8px",
+            border: "8px solid white",
+            backgroundColor: "#000000",
+            width: "200px",
+            height: "200px",
+          }}
         />
       )}
+
+      {/* Card con le informazioni del contatto trovato */}
       {data && (
-        <div>
-          <p>{data}</p>
-        </div>
-      )}
-      {error && (
-        <div>
-          <p>Errore: {error}</p>
-        </div>
-      )}
-      {(error || data) && (
-        <button
-          onClick={() => {
-            setError(null);
-            setData(null);
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+            width: "100%",
           }}
         >
-          Riprova
-        </button>
+          <CheckCircleOutlineIcon sx={{ fontSize: "64px" }} />
+          <Box sx={{ height: "60px" }} />
+          <Typography fontSize="16px" fontWeight={600}>
+            Contatto Trovato!
+          </Typography>
+          <Box sx={{ height: "56px" }} />
+          <Box
+            sx={{
+              bgcolor: "#ffffff",
+              borderRadius: "8px",
+              padding: "16px",
+              display: "flex",
+              flexDirection: "column",
+              color: "#000000",
+              textAlign: "left",
+              maxWidth: "400px",
+              minWidth: "260px",
+            }}
+          >
+            <Stack direction={"row"} alignItems={"center"}>
+              <Box
+                sx={{
+                  width: "40px",
+                  height: "40px",
+                  bgcolor: "#FDEEEE",
+                  borderRadius: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PersonAddAlt1Icon
+                  sx={{ fontSize: "20px", color: "agesciRed.main" }}
+                />
+              </Box>
+              <Box sx={{ width: "16px" }} />
+              <Stack direction={"column"}>
+                <Typography fontSize="14px" fontWeight={600}>
+                  {data.nome} {data.cognome}
+                </Typography>
+                {data.telefono && (
+                  <Typography
+                    fontSize="12px"
+                    fontWeight={400}
+                    sx={{ color: "#6D5095" }}
+                  >
+                    {data.telefono}
+                  </Typography>
+                )}
+                {data.email && (
+                  <Typography
+                    fontSize="12px"
+                    fontWeight={400}
+                    sx={{ color: "#6D5095" }}
+                  >
+                    {data.email}
+                  </Typography>
+                )}
+              </Stack>
+            </Stack>
+            <Box sx={{ height: "16px" }} />
+            {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
+            <AccessButton
+              component="a"
+              href={`tel:${data.telefono}`}
+              sx={{ marginTop: "0px", width: "90%", height: "36px" }}
+            >
+              <Typography fontSize="16px" fontWeight={600}>
+                Salva contatto
+              </Typography>
+            </AccessButton>
+          </Box>
+        </Box>
       )}
-    </Box>
-    // </div>
+
+      {/* Errore nell'interpretazione del QR Code */}
+      {error && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <ErrorOutlineIcon sx={{ fontSize: "64px" }} />
+          <Box sx={{ height: "60px" }} />
+          <Typography fontSize="16px" fontWeight={600}>
+            Si è verificato un errore...
+          </Typography>
+          <AccessButton
+            onClick={() => {
+              setError(null);
+              setData(null);
+            }}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Riprova
+            </Typography>
+          </AccessButton>
+        </Box>
+      )}
+    </>
   );
 }
