@@ -3,7 +3,7 @@ const events = [
     uuid: "095be615-a8ad-4c33-8e9c-c7612fbf6c9f", // required
     created_at: "2019-08-24T14:15:22Z", // required
     name: "Essere felici oggi", // required
-    location: "15f20760-76a7-41ee-b509-705d3ffd8eb5", // required
+    location: "9c73e1ae-f8fb-4d06-a835-dfd7518cc8a4", // required
     is_registration_required: true,
     registration_limit: 2147483647,
     registration_limit_from_same_scout_group: 2147483647,
@@ -31,7 +31,7 @@ const events = [
     uuid: "bc0ae1a2-9c14-4b32-8b07-89ad62e90a76",
     created_at: "2024-04-19T11:15:00Z",
     name: "Esplorazione dei sentieri",
-    location: "72e2d64b-9fa5-4a3c-9c57-fb57a7d2e2b9",
+    location: "23afda6f-56ef-4c12-9612-7ee2a104a73a",
     is_registration_required: false,
     registration_limit: null,
     registration_limit_from_same_scout_group: null,
@@ -74,7 +74,7 @@ const events = [
     uuid: "cb94a8cc-9e4a-4a5a-8f4f-97b7e8c3fc52",
     created_at: "2024-04-19T15:00:00Z",
     name: "Caccia al tesoro notturna",
-    location: "b1d60dc1-55f8-4ef0-bff4-b49c55d589d8",
+    location: "cf13c07d-38c8-415b-b3ef-c786d8ec5ff5",
     is_registration_required: false,
     registration_limit: null,
     registration_limit_from_same_scout_group: null,
@@ -88,7 +88,7 @@ const events = [
     uuid: "84d46a1d-5ad8-4b2d-a2e7-0c6cbb0dcd09",
     created_at: "2024-04-19T16:15:00Z",
     name: "Concorso di abilità scout",
-    location: "9f0e9d52-5f19-4cf4-834f-85b8c2e9e65c",
+    location: "7e9141e2-3b91-4d0f-bcf7-2f6bb7319149",
     is_registration_required: true,
     registration_limit: 40,
     registration_limit_from_same_scout_group: 8,
@@ -102,7 +102,7 @@ const events = [
     uuid: "dab87521-4f76-4155-9a76-3542b1bf99a6",
     created_at: "2024-04-19T17:30:00Z",
     name: "Festa finale dell'estate",
-    location: "f894134b-5de3-4e47-8d24-1ac4e10285f5",
+    location: "9c73e1ae-f8fb-4d06-a835-dfd7518cc8a4",
     is_registration_required: false,
     registration_limit: null,
     registration_limit_from_same_scout_group: null,
@@ -150,6 +150,48 @@ const locations = [
   },
 
   {
+    uuid: "2aeb2a9d-4e8e-47d1-ba55-7a1de6368483",
+    created_at: "2024-04-19T16:15:00Z",
+    name: "Cascate Segrete",
+    coords: {
+      type: "Point",
+      coordinates: [47.0517, 15.4521],
+    },
+    polygon: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [47.051, 15.451],
+          [47.051, 15.453],
+          [47.053, 15.453],
+          [47.053, 15.451],
+          [47.051, 15.451],
+        ],
+      ],
+    },
+  },
+  {
+    uuid: "cf13c07d-38c8-415b-b3ef-c786d8ec5ff5",
+    created_at: "2024-04-19T17:30:00Z",
+    name: "Riserva Selvaggia",
+    coords: {
+      type: "Point",
+      coordinates: [51.1657, 10.4515],
+    },
+    polygon: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [51.165, 10.451],
+          [51.165, 10.453],
+          [51.167, 10.453],
+          [51.167, 10.451],
+          [51.165, 10.451],
+        ],
+      ],
+    },
+  },
+  {
     uuid: "7e9141e2-3b91-4d0f-bcf7-2f6bb7319149",
     created_at: "2024-04-19T10:00:00Z",
     name: "Bosco dell'Avventura",
@@ -192,43 +234,22 @@ const locations = [
     },
   },
   {
-    uuid: "2aeb2a9d-4e8e-47d1-ba55-7a1de6368483",
-    created_at: "2024-04-19T16:15:00Z",
-    name: "Cascate Segrete",
+    uuid: "9c73e1ae-f8fb-4d06-a835-dfd7518cc8a4",
+    created_at: "2024-04-19T08:00:00Z",
+    name: "Piano del Tramonto",
     coords: {
       type: "Point",
-      coordinates: [47.0517, 15.4521],
+      coordinates: [45.4467, 9.18],
     },
     polygon: {
       type: "Polygon",
       coordinates: [
         [
-          [47.051, 15.451],
-          [47.051, 15.453],
-          [47.053, 15.453],
-          [47.053, 15.451],
-          [47.051, 15.451],
-        ],
-      ],
-    },
-  },
-  {
-    uuid: "cf13c07d-38c8-415b-b3ef-c786d8ec5ff5",
-    created_at: "2024-04-19T17:30:00Z",
-    name: "Riserva Selvaggia",
-    coords: {
-      type: "Point",
-      coordinates: [51.1657, 10.4515],
-    },
-    polygon: {
-      type: "Polygon",
-      coordinates: [
-        [
-          [51.165, 10.451],
-          [51.165, 10.453],
-          [51.167, 10.453],
-          [51.167, 10.451],
-          [51.165, 10.451],
+          [45.446, 9.179],
+          [45.446, 9.181],
+          [45.448, 9.181],
+          [45.448, 9.179],
+          [45.446, 9.179],
         ],
       ],
     },

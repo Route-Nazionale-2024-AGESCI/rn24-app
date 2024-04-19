@@ -9,11 +9,32 @@ import {
 import EventSummaryCard from "../ui/EventSummaryCard";
 import ImageCard from "../ui/ImageCard";
 
+import { useUser } from "../lib/hooks/user";
+import { useEventList } from "../lib/hooks/events";
+import { useLocations } from "../lib/hooks/locations";
+
+const buildEventCards = (events, locations) => {
+  return events.map((ev) => (
+    <EventSummaryCard
+      title={ev.name}
+      standName={
+        locations.find((loc) => loc.uuid === ev.location)?.name ||
+        "Unnamed location"
+      }
+      startDateTime={new Date(ev.starts_at)}
+      endDateTime={new Date(ev.ends_at)}
+    />
+  ));
+};
+
 export default function Home() {
+  const user = useUser();
+  const events = useEventList();
+  const locations = useLocations();
   return (
     <Box sx={{ mx: "24px" }}>
       <Typography variant="h6" fontSize="20px" fontWeight={900}>
-        Ciao, Gianfilippo
+        Ciao, {user.first_name}
       </Typography>
       <Typography variant="body1" fontSize="14px" fontWeight={400}>
         Bentornato nell'App di RN24
@@ -32,30 +53,7 @@ export default function Home() {
           gap: "8px",
         }}
       >
-        <EventSummaryCard
-          title="Titolo dell’evento lorem ipsum simplit dolor elment"
-          standName="Nome stand"
-          startDateTime={new Date(2024, 7, 26, 10, 0, 0, 0)}
-          endDateTime={new Date(2024, 7, 26, 12, 0, 0, 0)}
-        />
-        <EventSummaryCard
-          title="Evento2"
-          standName="Villa Buri"
-          startDateTime={new Date(2024, 7, 26, 15, 0, 0, 0)}
-          endDateTime={new Date(2024, 7, 26, 16, 45, 0, 0)}
-        />
-        <EventSummaryCard
-          title="Evento con un titolo decisamente troppo lungo che dovrebbe essere troncato. Se dovessero essere inseriti eventi con titoli esageratamente lunghi, questo non deve forzare la UI verso comportamenti inaspettati"
-          standName="Verona piccola Gerusalemme"
-          startDateTime={new Date(2024, 7, 27, 9, 0, 0, 0)}
-          endDateTime={new Date(2024, 7, 27, 11, 0, 0, 0)}
-        />
-        <EventSummaryCard
-          title=""
-          standName="Evento senza titolo?"
-          startDateTime={new Date(2024, 7, 27, 14, 30, 0, 0)}
-          endDateTime={new Date(2024, 7, 27, 16, 30, 0, 0)}
-        />
+        {buildEventCards(events, locations)}
       </Box>
       <Box height="32px" />
       <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
