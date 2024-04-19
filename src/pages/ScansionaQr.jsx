@@ -41,17 +41,27 @@ export default function ScansionaQr() {
     <>
       {/* Canvas per la scansione del QR Code */}
       {!data && !error && (
-        <QrReader
-          delay={300}
-          onResult={handleScan}
-          containerStyle={{
-            borderRadius: "8px",
-            border: "8px solid white",
-            backgroundColor: "#000000",
-            width: "200px",
-            height: "200px",
-          }}
-        />
+        <>
+          <QrReader
+            delay={300}
+            onResult={handleScan}
+            containerStyle={{
+              borderRadius: "8px",
+              border: "8px solid white",
+              backgroundColor: "#000000",
+              width: "240px",
+              height: "240px",
+            }}
+          />
+          <Box sx={{ height: "24px" }} />
+          <Typography
+            sx={{ color: "#ffffff" }}
+            fontSize="16px"
+            fontWeight={600}
+          >
+            Scansiona il QR CODE della persona che vuoi aggiungere
+          </Typography>
+        </>
       )}
 
       {/* Card con le informazioni del contatto trovato */}
