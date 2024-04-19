@@ -18,8 +18,8 @@ export default function ScansionaQr() {
         const contactInfo = JSON.parse(data.text);
         // Informazioni di contatto mancanti
         if (
-          contactInfo.telefono === undefined ||
-          contactInfo.nome === undefined
+          contactInfo.phone === undefined ||
+          contactInfo.first_name === undefined
         ) {
           throw new Error(
             "Il QR Code scansionato non contiene le informazioni di contatto corrette."
@@ -104,15 +104,15 @@ export default function ScansionaQr() {
               <Box sx={{ width: "16px" }} />
               <Stack direction={"column"}>
                 <Typography fontSize="14px" fontWeight={600}>
-                  {data.nome} {data.cognome}
+                  {data.first_name} {data.last_name}
                 </Typography>
-                {data.telefono && (
+                {data.phone && (
                   <Typography
                     fontSize="12px"
                     fontWeight={400}
                     sx={{ color: "#6D5095" }}
                   >
-                    {data.telefono}
+                    {data.phone}
                   </Typography>
                 )}
                 {data.email && (
@@ -130,7 +130,7 @@ export default function ScansionaQr() {
             {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
             <AccessButton
               component="a"
-              href={`tel:${data.telefono}`}
+              href={`tel:${data.phone}`}
               sx={{ marginTop: "0px", width: "90%", height: "36px" }}
             >
               <Typography fontSize="16px" fontWeight={600}>
