@@ -62,11 +62,11 @@ export default function NavBar() {
           to="/"
         />
         <BottomNavigationAction
-          label={<Label text="Calendario" />}
-          value="/calendario"
+          label={<Label text="Programma" />}
+          value="/programma"
           icon={<CalendarMonthIcon />}
           component={Link}
-          to="/calendario"
+          to="/programma"
         />
         <BottomNavigationAction
           label={<Label text="Mappa" />}

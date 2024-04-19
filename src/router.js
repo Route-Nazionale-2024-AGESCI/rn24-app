@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Avvisi from "./pages/Avvisi";
 import Mappa from "./pages/Mappa";
-import Calendario from "./pages/Calendario";
+import Programma from "./pages/Programma";
 import Tracce from "./pages/Tracce";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
@@ -71,8 +71,8 @@ export const router = createBrowserRouter([
                     ],
                   },
                   {
-                    path: "calendario",
-                    element: <Calendario />,
+                    path: "programma",
+                    element: <Programma />,
                   },
                   {
                     path: "mappa",
