@@ -6,14 +6,17 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
 import { italianMonth } from "../lib/italianDate";
 
-export default function EventSummaryCard({
-  title,
-  startDateTime,
-  endDateTime,
-  standName,
-}) {
-  const startDT = new Date(startDateTime);
-  const endDT = new Date(endDateTime);
+import { useEvent } from "../lib/hooks/events";
+import { useLocation } from "../lib/hooks/locations";
+
+export default function EventSummaryCard({ eventId }) {
+  const event = useEvent(eventId);
+  const location = useLocation(event.location);
+
+  const startDT = new Date(event.starts_at);
+  const endDT = new Date(event.ends_at);
+  const title = event.name;
+  const standName = location?.name || "Luogo non definito";
   return (
     <Button
       sx={{

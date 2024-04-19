@@ -11,26 +11,14 @@ import ImageCard from "../ui/ImageCard";
 
 import { useUser } from "../lib/hooks/user";
 import { useEventList } from "../lib/hooks/events";
-import { useLocations } from "../lib/hooks/locations";
 
-const buildEventCards = (events, locations) => {
-  return events.map((ev) => (
-    <EventSummaryCard
-      title={ev.name}
-      standName={
-        locations.find((loc) => loc.uuid === ev.location)?.name ||
-        "Unnamed location"
-      }
-      startDateTime={new Date(ev.starts_at)}
-      endDateTime={new Date(ev.ends_at)}
-    />
-  ));
+const buildEventCards = (events) => {
+  return events.map((ev) => <EventSummaryCard eventId={ev.uuid} />);
 };
 
 export default function Home() {
   const user = useUser();
   const events = useEventList();
-  const locations = useLocations();
   return (
     <Box sx={{ mx: "24px" }}>
       <Typography variant="h6" fontSize="20px" fontWeight={900}>
@@ -53,7 +41,7 @@ export default function Home() {
           gap: "8px",
         }}
       >
-        {buildEventCards(events, locations)}
+        {buildEventCards(events)}
       </Box>
       <Box height="32px" />
       <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
