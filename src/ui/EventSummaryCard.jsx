@@ -6,13 +6,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
 import { italianMonth } from "../lib/italianDate";
 
-import { getEvent } from "../lib/dataManager/events";
-import { getLocation } from "../lib/dataManager/locations";
-
 export default function EventSummaryCard({ event, location }) {
-  // const event = useEvent(eventId);
-  // const location = useLocation(event.location);
-
   const startDT = new Date(event.starts_at);
   const endDT = new Date(event.ends_at);
   const title = event.name;
