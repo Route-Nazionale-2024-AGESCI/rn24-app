@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link as RouterLink } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup, {
   toggleButtonGroupClasses,
@@ -101,18 +102,29 @@ export default function Programma() {
     const endDT = new Date(event.ends_at);
     const inProgress = eventsInProgress.includes(event);
     return (
-      <Box
+      <Button
+        component={RouterLink}
+        to={`/eventi/${event.uuid}`}
         sx={{
           border: "1px solid #E2DCEA",
           borderRadius: "8px",
           padding: "12px",
           display: "flex",
           flexDirection: "column",
+          alignItems: "start",
           marginX: "24px",
           marginY: "12px",
+          textTransform: "none",
         }}
+        color={getEventColor(event.kind).main.split(".")[0]}
       >
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={{
+            width: "100%",
+          }}
+        >
           <Typography
             fontSize="14px"
             fontWeight={600}
@@ -201,7 +213,7 @@ export default function Programma() {
             {standName}
           </Typography>
         </Stack>
-      </Box>
+      </Button>
     );
   };
 
