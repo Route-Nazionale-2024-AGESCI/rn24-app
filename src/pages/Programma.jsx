@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -16,8 +17,10 @@ import { styled } from "@mui/material/styles";
 
 import WhitePaper from "../ui/WhitePaper";
 
-import { useEventList } from "../lib/hooks/events";
-import { useLocation } from "../lib/hooks/locations";
+import getEventColor from "../lib/eventColor";
+
+import { getEventList } from "../lib/dataManager/events";
+import { getLocationList } from "../lib/dataManager/locations";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.grouped}`]: {
@@ -39,6 +42,12 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 // TODO: implementare API per il numero di iscritti
 
+export async function loader() {
+  const events = await getEventList();
+  const locations = await getLocationList();
+  return { events, locations };
+}
+
 export default function Programma() {
   const getCurrentDate = () => {
     // const today = new Date(2024, 7, 25, 13);
@@ -57,8 +66,7 @@ export default function Programma() {
       ? currentDate
       : minDate;
   });
-  const events = useEventList();
-  //const locations = useLocations();
+  const { events, locations } = useLoaderData();
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {
@@ -86,38 +94,8 @@ export default function Programma() {
     }
   };
 
-  const getEventColor = (kind) => {
-    switch (kind) {
-      case "TRACCE":
-        return {
-          main: "agesciGreen.main",
-          bg: "#EBF6F0",
-        };
-      case "SGUARDI":
-        return {
-          main: "agesciYellow.main",
-          bg: "#F5E7D3",
-        };
-      case "INCONTRI":
-        return {
-          main: "agesciRed.main",
-          bg: "#FDEEEE",
-        };
-      case "CONFRONTI":
-        return {
-          main: "agesciPurple.main",
-          bg: "#E2DCEA",
-        };
-      default:
-        return {
-          main: "#000000",
-          bg: "#FFFFFF",
-        };
-    }
-  };
-
   const EventCard = ({ event }) => {
-    const location = useLocation(event.location);
+    const location = locations.find((loc) => loc.uuid === event.location);
     const standName = location?.name || "Luogo non definito";
     const startDT = new Date(event.starts_at);
     const endDT = new Date(event.ends_at);
@@ -187,6 +165,7 @@ export default function Programma() {
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
               WebkitLineClamp: 2,
+              color: "#2B2D2B",
             }}
           >
             {event.name}
@@ -232,7 +211,7 @@ export default function Programma() {
         <Typography
           fontSize="20px"
           fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px" }}
+          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
         >
           In Corso
           {eventsInProgress.length > 0 ? (
@@ -271,7 +250,7 @@ export default function Programma() {
         <Typography
           fontSize="20px"
           fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px" }}
+          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
         >
           Prossimi Eventi
           {filteredEvents
@@ -289,7 +268,7 @@ export default function Programma() {
         <Typography
           fontSize="20px"
           fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px" }}
+          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
         >
           {getCurrentDate() < selectedDay
             ? "Eventi in Programma"
@@ -308,7 +287,7 @@ export default function Programma() {
         variant="h1"
         fontSize="25px"
         fontWeight={900}
-        sx={{ margin: "16px" }}
+        sx={{ margin: "16px", color: "#2B2D2B" }}
       >
         Programma
       </Typography>

@@ -1,3 +1,4 @@
+import { useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -9,16 +10,28 @@ import {
 import EventSummaryCard from "../ui/EventSummaryCard";
 import ImageCard from "../ui/ImageCard";
 
-import { useUser } from "../lib/hooks/user";
-import { useEventList } from "../lib/hooks/events";
+import { getUser } from "../lib/dataManager/user";
+import { getEventList } from "../lib/dataManager/events";
+import { getLocationList } from "../lib/dataManager/locations";
 
-const buildEventCards = (events) => {
-  return events.map((ev) => <EventSummaryCard eventId={ev.uuid} />);
-};
+export async function loader() {
+  const user = await getUser();
+  const events = await getEventList();
+  const locations = await getLocationList();
+  return { user, events, locations };
+}
 
 export default function Home() {
-  const user = useUser();
-  const events = useEventList();
+  const { user, events, locations } = useLoaderData();
+
+  const buildEventCards = (events) => {
+    return events.map((ev) => (
+      <EventSummaryCard
+        event={ev}
+        location={locations.find((l) => l.uuid === ev.location)}
+      />
+    ));
+  };
   return (
     <Box sx={{ mx: "24px" }}>
       <Typography variant="h6" fontSize="20px" fontWeight={900}>

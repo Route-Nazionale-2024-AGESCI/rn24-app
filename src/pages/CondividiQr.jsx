@@ -1,10 +1,16 @@
+import { useLoaderData } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { QRCodeSVG } from "qrcode.react";
 
-import { useUser } from "../lib/hooks/user";
+import { getUser } from "../lib/dataManager/user";
+
+export async function loader() {
+  const user = await getUser();
+  return { user };
+}
 
 export default function CondividiQr() {
-  const user = useUser();
+  const { user } = useLoaderData();
   const { first_name, last_name, phone, email } = user;
   const sharableInfo = JSON.stringify({ first_name, last_name, phone, email });
   return (

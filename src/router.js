@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
+import Home, { loader as homeLoader } from "./pages/Home";
 import Avvisi from "./pages/Avvisi";
 import Mappa from "./pages/Mappa";
-import Programma from "./pages/Programma";
+import Programma, { loader as programmaLoader } from "./pages/Programma";
 import Tracce from "./pages/Tracce";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
@@ -22,8 +22,9 @@ import ScansionaQr from "./pages/ScansionaQr";
 import InserisciCodice from "./pages/InserisciCodice";
 import RicercaContatto from "./pages/RicercaContatto";
 import CondividiContatto from "./pages/CondividiContatto";
-import CondividiQr from "./pages/CondividiQr";
+import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 import CondividiNfc from "./pages/CondividiNfc";
+import Evento, { loader as eventoLoader } from "./pages/Evento";
 
 export const router = createBrowserRouter([
   {
@@ -67,12 +68,14 @@ export const router = createBrowserRouter([
                       {
                         index: true,
                         element: <Home />,
+                        loader: homeLoader,
                       },
                     ],
                   },
                   {
                     path: "programma",
                     element: <Programma />,
+                    loader: programmaLoader,
                   },
                   {
                     path: "mappa",
@@ -81,6 +84,11 @@ export const router = createBrowserRouter([
                   {
                     path: "avvisi",
                     element: <Avvisi />,
+                  },
+                  {
+                    path: "eventi/:eventId",
+                    element: <Evento />,
+                    loader: eventoLoader,
                   },
                   {
                     path: "aggiungiContatto",
@@ -145,6 +153,7 @@ export const router = createBrowserRouter([
                   {
                     index: true,
                     element: <CondividiQr />,
+                    loader: condividiQrLoader,
                   },
                 ],
               },
