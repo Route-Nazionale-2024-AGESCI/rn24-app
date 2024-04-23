@@ -11,6 +11,7 @@ import AccessButton from "../ui/AccessButton";
 export default function ScansionaQr() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [vCardUrl, setVCardUrl] = useState(null);
 
   const handleScan = (data, error) => {
     if (data) {
@@ -36,6 +37,24 @@ export default function ScansionaQr() {
       setError(error.message);
     }
   };
+
+  function generateAndPrepareVCard() {
+    const vcardData = `
+  BEGIN:VCARD
+  VERSION:3.0
+  FN:${data.first_name} ${data.last_name}
+  TEL:${data.phone}
+  ${data.email && `EMAIL:${data.email}`}
+  END:VCARD
+  `;
+
+    // Crea un nuovo Blob contenente i dati vCard
+    const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
+
+    // Genera un URL per il Blob
+    const url = window.URL.createObjectURL(blob);
+    setVCardUrl(url);
+  }
 
   return (
     <>
@@ -140,8 +159,10 @@ export default function ScansionaQr() {
             {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
             <AccessButton
               component="a"
-              href={`tel:${data.phone}`}
+              href={vCardUrl}
               sx={{ marginTop: "0px", width: "90%", height: "36px" }}
+              onClick={generateAndPrepareVCard}
+              download="contact.vcf"
             >
               <Typography fontSize="16px" fontWeight={600}>
                 Salva contatto
@@ -166,8 +187,8 @@ export default function ScansionaQr() {
           </Typography>
           <AccessButton
             onClick={() => {
-              setError(null);
               setData(null);
+              setError(null);
             }}
           >
             <Typography fontSize="16px" fontWeight={600}>
