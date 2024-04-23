@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,6 +13,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import WhitePaper from "../ui/WhitePaper";
 
 import getEventColor from "../lib/eventColor";
+import { italianMonth } from "../lib/italianDate";
 
 import { getLocation } from "../lib/dataManager/locations";
 import { getEvent } from "../lib/dataManager/events";
@@ -24,9 +26,13 @@ export async function loader({ params }) {
 
 export default function Evento() {
   const { event, location } = useLoaderData();
-  const standName = location?.name || "Luogo non definito";
-  const startDT = new Date(event?.starts_at) || undefined;
-  const endDT = new Date(event?.ends_at) || undefined;
+  const standName = location?.name ?? "Luogo non definito";
+  const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
+  const endDT = event?.ends_at ? new Date(event.ends_at) : undefined;
+  const registrationDT = event?.registrations_open_at
+    ? new Date(event.registrations_open_at)
+    : undefined;
+  console.log(event.registrations_open_at);
 
   return (
     <>
@@ -41,53 +47,157 @@ export default function Evento() {
       <WhitePaper>
         <Box
           sx={{
-            marginY: "24px",
+            marginX: "24px",
             marginTop: "40px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
           }}
         >
-          <Stack direction="row">
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Modulo:
-              </Typography>
-            </Stack>
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Numero Iscritti:
-              </Typography>
-            </Stack>
-          </Stack>
-          <Stack direction="row">
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Data:
-              </Typography>
-            </Stack>
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Orario:
-              </Typography>
-            </Stack>
-          </Stack>
-          <Stack direction="row">
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Apertura iscrizioni:
-              </Typography>
-            </Stack>
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Orario iscrizioni:
-              </Typography>
-            </Stack>
-          </Stack>
-          <Stack direction="column">
+          <Grid container rowSpacing={"24px"}>
+            <Grid item xs={6}>
+              <Stack direction="column">
+                <Typography fontSize="14px" fontWeight={600}>
+                  Modulo:
+                </Typography>
+                <Typography
+                  fontSize="16px"
+                  fontWeight={600}
+                  textTransform="capitalize"
+                  color={getEventColor(event.kind).main}
+                >
+                  {event.kind.toLowerCase()}
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={6}>
+              <Stack direction="column">
+                <Typography fontSize="14px" fontWeight={600}>
+                  Numero Iscritti:
+                </Typography>
+                <Stack direction={"row"} alignItems={"center"}>
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={600}
+                    color="agesciPurple.main"
+                  >
+                    10/25
+                  </Typography>
+                  <PersonIcon
+                    fontSize="14px"
+                    color="agesciPurple"
+                    sx={{
+                      translate: "0 -1px",
+                    }}
+                  />
+                </Stack>
+              </Stack>
+            </Grid>
+            <Grid item xs={6}>
+              <Stack direction="column">
+                <Typography fontSize="14px" fontWeight={600}>
+                  Data:
+                </Typography>
+                <Stack direction="row" spacing="8px" alignItems="center">
+                  <CalendarMonthIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                  <Typography
+                    variant="subtitle2"
+                    fontSize="12px"
+                    fontWeight={400}
+                    sx={{ color: "#666A66" }}
+                  >
+                    {startDT.getDate()} {italianMonth[startDT.getMonth()]}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Grid>
+            <Grid item xs={6}>
+              <Stack direction="column">
+                <Typography fontSize="14px" fontWeight={600}>
+                  Orario:
+                </Typography>
+
+                <Stack direction="row" spacing="8px" alignItems="center">
+                  <AccessTimeIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                  <Typography
+                    variant="subtitle2"
+                    fontSize="12px"
+                    fontWeight={400}
+                    sx={{ color: "#666A66" }}
+                  >
+                    {startDT.getHours().toString().padStart(2, "0")}:
+                    {startDT.getMinutes().toString().padStart(2, "0")} -{" "}
+                    {endDT.getHours().toString().padStart(2, "0")}:
+                    {endDT.getMinutes().toString().padStart(2, "0")}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Grid>
+            {registrationDT !== undefined ? (
+              <>
+                <Grid item xs={6}>
+                  <Stack direction="column">
+                    <Typography fontSize="14px" fontWeight={600}>
+                      Apertura iscrizioni:
+                    </Typography>
+                    <Stack direction="row" spacing="8px" alignItems="center">
+                      <CalendarMonthIcon
+                        sx={{ fontSize: 12, color: "#666A66" }}
+                      />
+                      <Typography
+                        variant="subtitle2"
+                        fontSize="12px"
+                        fontWeight={400}
+                        sx={{ color: "#666A66" }}
+                      >
+                        {registrationDT.getDate()}{" "}
+                        {italianMonth[registrationDT.getMonth()]}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Grid>
+                <Grid item xs={6}>
+                  <Stack direction="column">
+                    <Typography fontSize="14px" fontWeight={600}>
+                      Orario iscrizioni:
+                    </Typography>
+                    <Stack direction="row" spacing="8px" alignItems="center">
+                      <AccessTimeIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                      <Typography
+                        variant="subtitle2"
+                        fontSize="12px"
+                        fontWeight={400}
+                        sx={{ color: "#666A66" }}
+                      >
+                        {registrationDT.getHours().toString().padStart(2, "0")}:
+                        {registrationDT
+                          .getMinutes()
+                          .toString()
+                          .padStart(2, "0")}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Grid>
+              </>
+            ) : null}
+          </Grid>
+          <Stack direction="column" marginY={"24px"}>
             <Typography fontSize="14px" fontWeight={600}>
               Luogo:
             </Typography>
+            <Stack direction="row" spacing="8px" alignItems="center">
+              <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
+              <Typography
+                variant="subtitle2"
+                fontSize="12px"
+                fontWeight={400}
+                textAlign="left"
+                mb="4px"
+                sx={{ color: "#666A66" }}
+              >
+                {standName}
+              </Typography>
+            </Stack>
           </Stack>
           <Stack direction="column">
             <Typography fontSize="14px" fontWeight={600}>
