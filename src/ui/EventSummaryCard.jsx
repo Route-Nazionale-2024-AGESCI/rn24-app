@@ -1,10 +1,13 @@
+import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
+
 import { italianMonth } from "../lib/italianDate";
+import getEventColor from "../lib/eventColor";
 
 export default function EventSummaryCard({ event, location }) {
   const startDT = new Date(event.starts_at);
@@ -23,6 +26,8 @@ export default function EventSummaryCard({ event, location }) {
         justifyContent: "start",
         flex: "0 0 auto",
       }}
+      component={RouterLink}
+      to={`/eventi/${event.uuid}`}
       variant="contained"
       disableElevation
       color="white"
@@ -30,20 +35,23 @@ export default function EventSummaryCard({ event, location }) {
       <Stack direction="row" spacing="16px">
         <Box
           sx={{
-            bgcolor: "#E2DCEA",
+            bgcolor: getEventColor(event.kind).bg, //"#E2DCEA",
             width: "56px",
             height: "72px",
             borderRadius: "8px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            textAlign: "center",
           }}
         >
           <Typography
             variant="subtitle1"
             fontSize="20px"
             fontWeight={600}
-            sx={{ color: "#6D5095" }}
+            sx={{
+              color: getEventColor(event.kind).main, //"#6D5095"
+            }}
           >
             {startDT.getDate().toString().padStart(2, "0")}
           </Typography>
@@ -52,7 +60,10 @@ export default function EventSummaryCard({ event, location }) {
             fontSize="14px"
             fontWeight={600}
             textTransform="uppercase"
-            sx={{ color: "#6D5095" }}
+            sx={{
+              color: getEventColor(event.kind).main,
+              //"#6D5095"
+            }}
           >
             {italianMonth[startDT.getMonth()].substring(0, 3)}
           </Typography>
