@@ -4,62 +4,62 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { QrReader } from "react-qr-reader";
 import AccessButton from "../ui/AccessButton";
+import generateVCardBlob from "../lib/vCard";
+import decodeQr from "../lib/qrDecoder";
+import BoxButton from "../ui/BoxButton";
+
+// Struttura dei dati codificati nel QR Code:
+// {
+//   'contact': {
+//     "firstName":"Pierino",
+//     "lastName":"Rossi",
+//     "phone":"1231231231",
+//     "email":"pr@email.com"
+//   }
+// }
+
+// oppure
+// {
+//   'url': 'link/to/page/'
+// }
 
 export default function ScansionaQr() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [urlDetected, setUrlDetected] = useState(null);
   const [vCardUrl, setVCardUrl] = useState(null);
+  const [savedContact, setSavedContact] = useState(false);
 
-  const handleScan = (data, error) => {
-    if (data) {
-      try {
-        const contactInfo = JSON.parse(data.text);
-        // Informazioni di contatto mancanti
-        if (
-          contactInfo.phone === undefined ||
-          contactInfo.first_name === undefined
-        ) {
-          throw new Error(
-            "Il QR Code scansionato non contiene le informazioni di contatto corrette."
-          );
-        }
-        setData(contactInfo);
-      } catch (error) {
-        setError(error.message);
+  const handleScan = (scanData, error) => {
+    if (scanData) {
+      const decodedQr = decodeQr(scanData);
+      if (decodedQr.error) {
+        setError(decodedQr.errorMsg);
+        setData(null);
+        setUrlDetected(null);
+        console.error(decodedQr.errorMsg);
+      } else if (decodedQr.url) {
+        setError(null);
+        setData(null);
+        setUrlDetected(decodedQr.url);
+      } else {
+        setError(null);
+        setUrlDetected(null);
+        setData(decodedQr);
       }
     }
-
-    // Errore nella scansione del QR Code
-    if (error) {
-      setError(error.message);
-    }
+    //}
   };
-
-  function generateAndPrepareVCard() {
-    const vcardData = `
-  BEGIN:VCARD
-  VERSION:3.0
-  FN:${data.first_name} ${data.last_name}
-  TEL:${data.phone}
-  ${data.email && `EMAIL:${data.email}`}
-  END:VCARD
-  `;
-
-    // Crea un nuovo Blob contenente i dati vCard
-    const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
-
-    // Genera un URL per il Blob
-    const url = window.URL.createObjectURL(blob);
-    setVCardUrl(url);
-  }
 
   return (
     <>
       {/* Canvas per la scansione del QR Code */}
-      {!data && !error && (
+      {!data && !error && !urlDetected && (
         <>
           <QrReader
             delay={300}
@@ -75,7 +75,7 @@ export default function ScansionaQr() {
           />
           <Box sx={{ height: "24px" }} />
           <Typography
-            sx={{ color: "#ffffff" }}
+            sx={{ color: "#ffffff", marginX: "24px" }}
             fontSize="16px"
             fontWeight={600}
           >
@@ -134,7 +134,7 @@ export default function ScansionaQr() {
               <Box sx={{ width: "16px" }} />
               <Stack direction={"column"}>
                 <Typography fontSize="14px" fontWeight={600}>
-                  {data.first_name} {data.last_name}
+                  {data.firstName} {data.lastName}
                 </Typography>
                 {data.phone && (
                   <Typography
@@ -158,17 +158,50 @@ export default function ScansionaQr() {
             </Stack>
             <Box sx={{ height: "16px" }} />
             {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
-            <AccessButton
-              component="a"
-              href={vCardUrl}
-              sx={{ marginTop: "0px", width: "90%", height: "36px" }}
-              onClick={generateAndPrepareVCard}
-              download="contact.vcf"
-            >
-              <Typography fontSize="16px" fontWeight={600}>
-                Salva contatto
-              </Typography>
-            </AccessButton>
+            {!savedContact ? (
+              <AccessButton
+                component="a"
+                href={vCardUrl}
+                sx={{ marginTop: "0px", width: "90%", height: "36px" }}
+                onClick={() => {
+                  const vCardBlob = generateVCardBlob(
+                    data.firstName,
+                    data.lastName,
+                    data.phone,
+                    data.email
+                  );
+                  const url = window.URL.createObjectURL(vCardBlob);
+                  setVCardUrl(url);
+                }}
+                download={`${data.firstName}-${data.lastName}.vcf`}
+                onAnimationEnd={() => setSavedContact(true)}
+              >
+                <Typography fontSize="16px" fontWeight={600}>
+                  Salva contatto
+                </Typography>
+              </AccessButton>
+            ) : (
+              <Box
+                sx={{
+                  backgroundColor: "agesciRed.main",
+                  borderRadius: "8px",
+                  marginTop: "0px",
+                  width: "90%",
+                  height: "36px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  color: "#ffffff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography fontSize="16px" fontWeight={600}>
+                  Salvato con Successo
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Box>
       )}
@@ -179,21 +212,68 @@ export default function ScansionaQr() {
           sx={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+            justifyContent: "space-around",
+            height: "100%",
+            marginBottom: "80px",
+            overflow: "scroll",
           }}
         >
-          <ErrorOutlineIcon sx={{ fontSize: "64px" }} />
-          <Box sx={{ height: "60px" }} />
+          <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
           <Typography fontSize="16px" fontWeight={600}>
             Si è verificato un errore...
+          </Typography>
+          <Typography fontSize="14px" fontWeight={400} sx={{ marginX: "24px" }}>
+            {error}
           </Typography>
           <AccessButton
             onClick={() => {
               setData(null);
               setError(null);
+              setUrlDetected(null);
+            }}
+            sx={{ marginTop: 0 }}
+          >
+            <Typography fontSize="16px" fontWeight={600} color={"#000000"}>
+              Riprova
+            </Typography>
+          </AccessButton>
+          <Typography>Oppure</Typography>
+          <BoxButton
+            bgColor="white"
+            to="/aggiungiContatto/codice"
+            text="Inserisci Codice Manualmente"
+            icon={<KeyboardIcon />}
+            big
+          />
+        </Box>
+      )}
+      {urlDetected && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+          }}
+        >
+          <TipsAndUpdatesIcon sx={{ fontSize: "64px" }} />
+          <Box sx={{ height: "60px" }} />
+          <Typography fontSize="16px" fontWeight={600} sx={{ marginX: "24px" }}>
+            Sembra che si tratti di una pagina
+          </Typography>
+          <AccessButton
+            onClick={() => {
+              setData(null);
+              setError(null);
+              const url = urlDetected;
+              setUrlDetected(null);
+              //TODO: navigazione alla pagina del CMS...
             }}
           >
-            <Typography fontSize="16px" fontWeight={600}>
-              Riprova
+            <Typography fontSize="16px" fontWeight={600} color="#000000">
+              Vai!
             </Typography>
           </AccessButton>
         </Box>

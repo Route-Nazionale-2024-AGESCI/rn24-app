@@ -69,3 +69,18 @@ Perché questo accada è necessario che siano attivi i Service Worker, cosa che 
 
 Di conseguenza, se si esegue localmente l'ambiente di sviluppo e si visita l'URL tramite un dispositivo mobile, l'App non verrà rilevata come installabile, perché il server di sviluppo utilizza il protocollo HTTP.
 Per poter testare appieno le funzionalità legate all'installazione è stato predisposto un server web di sviluppo con protocollo HTTPS all'indirizzo [https://rn24-dev.fly.dev/](https://rn24-dev.fly.dev/)
+
+### Note
+
+#### Qr Code
+
+In ambiente di sviluppo React monta ogni componente 2 volte, per ragioni di debugging. Questo
+sembra generare problemi con la libreria react-qr-reader che fornisce il componente per la scansione dei QR Code: in ambiente di sviluppo la WebCam non viene mai rilasciata e, nel caso venga rilevato un errore, anche premendo il button "Riprova" l'errore viene visualizzato nuovamente dopo pochi decimi di secondo.
+Per testare appieno le funzionalità legate alla scansione dei QR Code in locale, eseguire una build e lanciare un server locale, disabilitando l'ambiente di sviluppo.
+Esempio:
+
+`yarn build`
+
+`serve -s build`
+
+(Per installare il package serve eseguire `npm i -g serve`)
