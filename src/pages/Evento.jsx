@@ -48,7 +48,6 @@ export default function Evento() {
         <Box
           sx={{
             marginX: "24px",
-            marginTop: "40px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
