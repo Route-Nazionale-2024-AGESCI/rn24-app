@@ -23,7 +23,7 @@ import InserisciCodice from "./pages/InserisciCodice";
 import RicercaContatto from "./pages/RicercaContatto";
 import CondividiContatto from "./pages/CondividiContatto";
 import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
-import CondividiNfc from "./pages/CondividiNfc";
+//import CondividiNfc from "./pages/CondividiNfc";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
 
 export const router = createBrowserRouter([

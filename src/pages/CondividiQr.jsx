@@ -12,7 +12,12 @@ export async function loader() {
 export default function CondividiQr() {
   const { user } = useLoaderData();
   const { first_name, last_name, phone, email } = user;
-  const sharableInfo = JSON.stringify({ first_name, last_name, phone, email });
+  const sharableInfo = JSON.stringify({
+    firstName: first_name,
+    lastName: last_name,
+    phone,
+    email,
+  });
   return (
     <Box
       sx={{
