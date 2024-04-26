@@ -57,6 +57,7 @@ export function QrCodeButton() {
     <CardButton
       text="Scansiona QR Code"
       bgColor="agesciRed"
+      to="/ricercaContenuto"
       icon={<QrCodeIcon sx={{ mr: "8px" }} />}
     />
   );

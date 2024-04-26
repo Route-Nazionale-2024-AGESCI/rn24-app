@@ -28,10 +28,10 @@ import BoxButton from "../ui/BoxButton";
 //   'url': 'link/to/page/'
 // }
 
-export default function ScansionaQr() {
+export default function ScansionaQrContenuto() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  const [urlDetected, setUrlDetected] = useState(null);
+  const [profileDetected, setProfileDetected] = useState(null);
   const [vCardUrl, setVCardUrl] = useState(null);
   const [savedContact, setSavedContact] = useState(false);
 
@@ -41,25 +41,24 @@ export default function ScansionaQr() {
       if (decodedQr.error) {
         setError(decodedQr.errorMsg);
         setData(null);
-        setUrlDetected(null);
+        setProfileDetected(null);
         console.error(decodedQr.errorMsg);
       } else if (decodedQr.url) {
         setError(null);
-        setData(null);
-        setUrlDetected(decodedQr.url);
+        setData(decodedQr);
+        setProfileDetected(null);
       } else {
         setError(null);
-        setUrlDetected(null);
-        setData(decodedQr);
+        setData(null);
+        setProfileDetected(decodedQr);
       }
     }
-    //}
   };
 
   return (
     <>
       {/* Canvas per la scansione del QR Code */}
-      {!data && !error && !urlDetected && (
+      {!data && !error && !profileDetected && (
         <>
           <QrReader
             delay={300}
@@ -79,12 +78,12 @@ export default function ScansionaQr() {
             fontSize="16px"
             fontWeight={600}
           >
-            Inquadra il QR CODE della persona che vuoi aggiungere
+            Inquadra il QR CODE della pagina che vuoi visualizzare
           </Typography>
         </>
       )}
 
-      {/* Card con le informazioni del contatto trovato */}
+      {/* Url trovato: Button per la navigazione */}
       {data && (
         <Box
           sx={{
@@ -98,9 +97,89 @@ export default function ScansionaQr() {
           <CheckCircleOutlineIcon sx={{ fontSize: "64px" }} />
           <Box sx={{ height: "60px" }} />
           <Typography fontSize="16px" fontWeight={600}>
-            Contatto Trovato!
+            Contenuto Trovato!
           </Typography>
           <Box sx={{ height: "56px" }} />
+
+          <AccessButton
+            component="a"
+            href={/* TODO: page link */ ""}
+            sx={{
+              marginTop: "0px",
+              width: "90%",
+              maxWidth: "400px",
+              height: "36px",
+              color: "#000000",
+            }}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Visualizza
+            </Typography>
+          </AccessButton>
+        </Box>
+      )}
+
+      {/* Errore nell'interpretazione del QR Code */}
+      {error && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+            justifyContent: "space-around",
+            height: "100%",
+            marginBottom: "80px",
+            overflow: "scroll",
+          }}
+        >
+          <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
+          <Typography fontSize="16px" fontWeight={600}>
+            Nessun contenuto Trovato
+          </Typography>
+          <Typography fontSize="14px" fontWeight={400} sx={{ marginX: "24px" }}>
+            {error}
+          </Typography>
+          <AccessButton
+            onClick={() => {
+              setData(null);
+              setError(null);
+              setProfileDetected(null);
+            }}
+            sx={{ marginTop: 0 }}
+          >
+            <Typography fontSize="16px" fontWeight={600} color={"#000000"}>
+              Riprova
+            </Typography>
+          </AccessButton>
+          <Typography>Oppure</Typography>
+          <BoxButton
+            bgColor="white"
+            to="/ricercaContenuto/codice"
+            text="Inserisci Codice Manualmente"
+            icon={<KeyboardIcon />}
+            big
+          />
+        </Box>
+      )}
+      {profileDetected && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+          }}
+        >
+          <TipsAndUpdatesIcon sx={{ fontSize: "64px" }} />
+          <Box sx={{ height: "60px" }} />
+          <Typography
+            fontSize="16px"
+            fontWeight={600}
+            sx={{ marginX: "24px", marginBottom: "24px" }}
+          >
+            Sembra che si tratti di un contatto
+          </Typography>
           <Box
             sx={{
               bgcolor: "#ffffff",
@@ -134,30 +213,29 @@ export default function ScansionaQr() {
               <Box sx={{ width: "16px" }} />
               <Stack direction={"column"}>
                 <Typography fontSize="14px" fontWeight={600}>
-                  {data.firstName} {data.lastName}
+                  {profileDetected.firstName} {profileDetected.lastName}
                 </Typography>
-                {data.phone && (
+                {profileDetected.phone && (
                   <Typography
                     fontSize="12px"
                     fontWeight={400}
                     sx={{ color: "#6D5095" }}
                   >
-                    {data.phone}
+                    {profileDetected.phone}
                   </Typography>
                 )}
-                {data.email && (
+                {profileDetected.email && (
                   <Typography
                     fontSize="12px"
                     fontWeight={400}
                     sx={{ color: "#6D5095" }}
                   >
-                    {data.email}
+                    {profileDetected.email}
                   </Typography>
                 )}
               </Stack>
             </Stack>
             <Box sx={{ height: "16px" }} />
-            {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
             {!savedContact ? (
               <AccessButton
                 component="a"
@@ -165,15 +243,15 @@ export default function ScansionaQr() {
                 sx={{ marginTop: "0px", width: "90%", height: "36px" }}
                 onClick={() => {
                   const vCardBlob = generateVCardBlob(
-                    data.firstName,
-                    data.lastName,
-                    data.phone,
-                    data.email
+                    profileDetected.firstName,
+                    profileDetected.lastName,
+                    profileDetected.phone,
+                    profileDetected.email
                   );
                   const url = window.URL.createObjectURL(vCardBlob);
                   setVCardUrl(url);
                 }}
-                download={`${data.firstName}-${data.lastName}.vcf`}
+                download={`${profileDetected.firstName}-${profileDetected.lastName}.vcf`}
                 onAnimationEnd={() => setSavedContact(true)}
               >
                 <Typography fontSize="16px" fontWeight={600}>
@@ -203,79 +281,6 @@ export default function ScansionaQr() {
               </Box>
             )}
           </Box>
-        </Box>
-      )}
-
-      {/* Errore nell'interpretazione del QR Code */}
-      {error && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#ffffff",
-            justifyContent: "space-around",
-            height: "100%",
-            marginBottom: "80px",
-            overflow: "scroll",
-          }}
-        >
-          <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
-          <Typography fontSize="16px" fontWeight={600}>
-            Si è verificato un errore...
-          </Typography>
-          <Typography fontSize="14px" fontWeight={400} sx={{ marginX: "24px" }}>
-            {error}
-          </Typography>
-          <AccessButton
-            onClick={() => {
-              setData(null);
-              setError(null);
-              setUrlDetected(null);
-            }}
-            sx={{ marginTop: 0 }}
-          >
-            <Typography fontSize="16px" fontWeight={600} color={"#000000"}>
-              Riprova
-            </Typography>
-          </AccessButton>
-          <Typography>Oppure</Typography>
-          <BoxButton
-            bgColor="white"
-            to="/aggiungiContatto/codice"
-            text="Inserisci Codice Manualmente"
-            icon={<KeyboardIcon />}
-            big
-          />
-        </Box>
-      )}
-      {urlDetected && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#ffffff",
-          }}
-        >
-          <TipsAndUpdatesIcon sx={{ fontSize: "64px" }} />
-          <Box sx={{ height: "60px" }} />
-          <Typography fontSize="16px" fontWeight={600} sx={{ marginX: "24px" }}>
-            Sembra che si tratti di una pagina
-          </Typography>
-          <AccessButton
-            onClick={() => {
-              setData(null);
-              setError(null);
-              const url = urlDetected;
-              setUrlDetected(null);
-              //TODO: navigazione alla pagina del CMS...
-            }}
-          >
-            <Typography fontSize="16px" fontWeight={600} color="#000000">
-              Vai!
-            </Typography>
-          </AccessButton>
         </Box>
       )}
     </>

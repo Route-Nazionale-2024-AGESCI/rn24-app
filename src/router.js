@@ -20,10 +20,12 @@ import CodiceLayout from "./pages/layout/CodiceLayout";
 //import RicercaNfc from "./pages/RicercaNfc";
 import ScansionaQr from "./pages/ScansionaQr";
 import InserisciCodice from "./pages/InserisciCodice";
-import RicercaContatto from "./pages/RicercaContatto";
+//import RicercaContatto from "./pages/RicercaContatto";
 import CondividiContatto from "./pages/CondividiContatto";
 import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 //import CondividiNfc from "./pages/CondividiNfc";
+import RicercaContenuto from "./pages/RicercaContenuto";
+import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
 
 export const router = createBrowserRouter([
@@ -102,6 +104,10 @@ export const router = createBrowserRouter([
                     path: "tracce",
                     element: <Tracce />,
                   },
+                  {
+                    path: "ricercaContenuto",
+                    element: <RicercaContenuto />,
+                  },
                 ],
               },
               // {
@@ -126,9 +132,20 @@ export const router = createBrowserRouter([
                     index: true,
                     element: <ScansionaQr />,
                   },
+                  // {
+                  //   path: "ricerca",
+                  //   element: <RicercaContatto />,
+                  // },
+                ],
+              },
+              {
+                element: <QrLayout back="/ricercaContenuto" />,
+                path: "ricercaContenuto/qr",
+                children: [
+                  //TODO: <ScansionaQrContenuto />
                   {
-                    path: "ricerca",
-                    element: <RicercaContatto />,
+                    index: true,
+                    element: <ScansionaQrContenuto />,
                   },
                 ],
               },
@@ -140,10 +157,17 @@ export const router = createBrowserRouter([
                     index: true,
                     element: <InserisciCodice />,
                   },
-                  {
-                    path: "ricerca",
-                    element: <RicercaContatto />,
-                  },
+                  // {
+                  //   path: "ricerca",
+                  //   element: <RicercaContatto />,
+                  // },
+                ],
+              },
+              {
+                element: <CodiceLayout back="/ricercaContenuto" />,
+                path: "ricercaContenuto/codice",
+                children: [
+                  //TODO: <InserisciCodiceContenuto />
                 ],
               },
               {
