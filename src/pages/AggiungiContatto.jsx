@@ -30,17 +30,18 @@ export default function AggiungiContatto() {
               width: "100%",
             }}
           >
-            <BoxButton
+            {/* <BoxButton
               bgColor="agesciGreen"
               icon={<ContactlessIcon />}
               text="Utilizza Sensore NFC"
               to="/aggiungiContatto/nfc"
-            />
+            /> */}
             <BoxButton
               bgColor="agesciRed"
               text="Scansiona QR Code"
               icon={<QrCodeIcon />}
               to="/aggiungiContatto/qr"
+              big
             />
           </Box>
           <Typography fontSize="14px" fontWeight={800} textAlign="center">

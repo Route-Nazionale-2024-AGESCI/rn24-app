@@ -15,9 +15,9 @@ import Login from "./pages/Login";
 // import RecuperoPwd from "./pages/RecuperoPwd";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import QrLayout from "./pages/layout/QrLayout";
-import NfcLayout from "./pages/layout/NfcLayout";
+//import NfcLayout from "./pages/layout/NfcLayout";
 import CodiceLayout from "./pages/layout/CodiceLayout";
-import RicercaNfc from "./pages/RicercaNfc";
+//import RicercaNfc from "./pages/RicercaNfc";
 import ScansionaQr from "./pages/ScansionaQr";
 import InserisciCodice from "./pages/InserisciCodice";
 import RicercaContatto from "./pages/RicercaContatto";
@@ -104,20 +104,20 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              {
-                element: <NfcLayout back="/aggiungiContatto" />,
-                path: "aggiungiContatto/nfc",
-                children: [
-                  {
-                    index: true,
-                    element: <RicercaNfc />,
-                  },
-                  {
-                    path: "ricerca",
-                    element: <RicercaContatto />,
-                  },
-                ],
-              },
+              // {
+              //   element: <NfcLayout back="/aggiungiContatto" />,
+              //   path: "aggiungiContatto/nfc",
+              //   children: [
+              //     {
+              //       index: true,
+              //       element: <RicercaNfc />,
+              //     },
+              //     {
+              //       path: "ricerca",
+              //       element: <RicercaContatto />,
+              //     },
+              //   ],
+              // },
               {
                 element: <QrLayout back="/aggiungiContatto" />,
                 path: "aggiungiContatto/qr",
@@ -157,16 +157,16 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              {
-                path: "condividiContatto/nfc",
-                element: <NfcLayout back="/condividiContatto" />,
-                children: [
-                  {
-                    index: true,
-                    element: <CondividiNfc />,
-                  },
-                ],
-              },
+              // {
+              //   path: "condividiContatto/nfc",
+              //   element: <NfcLayout back="/condividiContatto" />,
+              //   children: [
+              //     {
+              //       index: true,
+              //       element: <CondividiNfc />,
+              //     },
+              //   ],
+              // },
             ],
           },
         ],
