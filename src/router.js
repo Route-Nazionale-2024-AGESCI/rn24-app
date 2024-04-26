@@ -12,7 +12,7 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import AggiungiContatto from "./pages/AggiungiContatto";
 import Login from "./pages/Login";
-import RecuperoPwd from "./pages/RecuperoPwd";
+// import RecuperoPwd from "./pages/RecuperoPwd";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import QrLayout from "./pages/layout/QrLayout";
 import NfcLayout from "./pages/layout/NfcLayout";
@@ -42,11 +42,11 @@ export const router = createBrowserRouter([
                 element: <Login />,
                 errorElement: <SegmentedError />,
               },
-              {
-                path: "recuperoPassword",
-                element: <RecuperoPwd />,
-                errorElement: <SegmentedError />,
-              },
+              // {
+              //   path: "recuperoPassword",
+              //   element: <RecuperoPwd />,
+              //   errorElement: <SegmentedError />,
+              // },
               {
                 path: "recuperoCodice",
                 element: <RecuperoCodice />,
