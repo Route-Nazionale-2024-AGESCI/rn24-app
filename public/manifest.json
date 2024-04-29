@@ -4,18 +4,18 @@
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "38x40",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "Logo40.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "40x40"
     },
     {
-      "src": "logo512.png",
+      "src": "Logo160.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "160x160"
     }
   ],
   "start_url": ".",

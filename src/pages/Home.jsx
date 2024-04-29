@@ -25,10 +25,11 @@ export default function Home() {
   const { user, events, locations } = useLoaderData();
 
   const buildEventCards = (events) => {
-    return events.map((ev) => (
+    return events.map((ev, index) => (
       <EventSummaryCard
         event={ev}
         location={locations.find((l) => l.uuid === ev.location)}
+        key={index}
       />
     ));
   };

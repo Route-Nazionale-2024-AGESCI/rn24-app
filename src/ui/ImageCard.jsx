@@ -16,7 +16,6 @@ export default function ImageCard({ imgSrc, imgAlt, title, subtitle }) {
     >
       <CardActionArea component={RouterLink} to="/tracce">
         <CardMedia
-          component="image"
           image={imgSrc}
           title={imgAlt}
           sx={{

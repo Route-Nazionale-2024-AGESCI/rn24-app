@@ -2,7 +2,7 @@ import { events, invitations, registrations } from "../sample_data";
 
 /*
     --- EVENTS ---
-    kind: 'SGUARDI', 'INCONTRI', 'TRACCE', 'CONFRONTI'
+    kind: 'SGUARDI', 'INCONTRI', 'TRACCE', 'CONFRONTI', 'ALTRO'
 */
 // /api/v1/events/
 export function getEventList() {
