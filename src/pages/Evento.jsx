@@ -17,15 +17,17 @@ import { italianMonth } from "../lib/italianDate";
 
 import { getLocation } from "../lib/dataManager/locations";
 import { getEvent } from "../lib/dataManager/events";
+import { getPage } from "../lib/dataManager/pages";
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const location = await getLocation(event.location);
-  return { event, location };
+  const description = await getPage(event.page);
+  return { event, location, description };
 }
 
 export default function Evento() {
-  const { event, location } = useLoaderData();
+  const { event, location, description } = useLoaderData();
   const standName = location?.name ?? "Luogo non definito";
   const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
   const endDT = event?.ends_at ? new Date(event.ends_at) : undefined;
@@ -197,11 +199,16 @@ export default function Evento() {
               </Typography>
             </Stack>
           </Stack>
-          <Stack direction="column">
-            <Typography fontSize="14px" fontWeight={600}>
-              Descrizione:
-            </Typography>
-          </Stack>
+          {description && (
+            <Stack direction="column">
+              <Typography fontSize="14px" fontWeight={600}>
+                Descrizione:
+              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{ __html: description.body }}
+              />
+            </Stack>
+          )}
         </Box>
       </WhitePaper>
     </>

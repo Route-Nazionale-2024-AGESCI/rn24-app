@@ -92,7 +92,7 @@ export default function Programma() {
     });
   };
   const regUuid = registrations.map((reg) => reg.event);
-  const invUuid = invitations.map((inv) => inv.event);
+  const invUuid = invitations.map((inv) => inv.uuid);
   const visibleEvents = events.filter(
     (ev) => regUuid.includes(ev.uuid) || invUuid.includes(ev.uuid)
   );

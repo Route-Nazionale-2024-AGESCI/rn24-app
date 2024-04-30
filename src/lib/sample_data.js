@@ -112,12 +112,45 @@ const events = [
     registrations_close_at: null,
     kind: "CONFRONTI",
   },
+  {
+    uuid: "5eff8281-80c6-46aa-b6bd-713a543f18a1",
+    created_at: "2024-04-07T00:02:47.072080+02:00",
+    name: "Tavola rotonda",
+    page: "3198cbd2-9c65-4365-b157-6e89cdf5c0ae",
+    location: "7f5ed58b-872c-4c46-95eb-e4dbe2d9188e",
+    is_registration_required: true,
+    registration_limit: 125,
+    registration_limit_from_same_scout_group: null,
+    starts_at: "2024-08-24T00:02:16+02:00",
+    ends_at: "2024-08-24T00:02:17+02:00",
+    registrations_open_at: "2024-04-07T00:02:19+02:00",
+    registrations_close_at: "2024-04-07T00:02:20+02:00",
+    kind: "TRACCE",
+  },
+  {
+    uuid: "06006157-ae4a-41fb-8136-f577323c2640",
+    created_at: "2024-04-22T18:59:56.186648+02:00",
+    name: "workshop sui nodi",
+    page: "d351b4b5-732d-4cc7-aaa7-dd54413f5e0a",
+    location: "7fb888eb-9e47-4106-828b-07f5a33268e4",
+    is_registration_required: true,
+    registration_limit: 20,
+    registration_limit_from_same_scout_group: 2,
+    starts_at: "2024-08-23T18:59:11+02:00",
+    ends_at: "2024-08-23T18:59:13+02:00",
+    registrations_open_at: null,
+    registrations_close_at: null,
+    kind: "ALTRO",
+  },
 ];
 
 const invitations = [
-  { event: events[0].uuid },
-  { event: events[3].uuid },
-  { event: events[4].uuid },
+  { uuid: events[0].uuid },
+  { uuid: events[3].uuid },
+  { uuid: events[4].uuid },
+  {
+    uuid: "5eff8281-80c6-46aa-b6bd-713a543f18a1",
+  },
 ];
 
 const registrations = [

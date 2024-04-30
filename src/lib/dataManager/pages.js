@@ -21,7 +21,35 @@ export async function getPages() {
 }
 
 // /api/v1/pages/{uuid}/
-// Da valutare: usare find piuttosto che call asincrona
+// Da valutare: usare find ricorsiva piuttosto che call asincrona
+
+function findPage(uuid) {
+  function searchPage(node, uuid) {
+    if (!node) {
+      return null;
+    }
+    if (node.uuid === uuid) {
+      return node;
+    }
+    for (let child of node.children) {
+      let result = searchPage(child, uuid);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
+  }
+  for (let page of pages) {
+    let result = searchPage(page, uuid);
+    if (result) {
+      // console.log(result);
+      return result;
+    }
+  }
+  return null;
+}
+
 export function getPage(uuid) {
-  return pages.find((loc) => loc.uuid === uuid);
+  // return pages.find((loc) => loc.uuid === uuid);
+  return findPage(uuid);
 }
