@@ -11,27 +11,33 @@ import EventSummaryCard from "../ui/EventSummaryCard";
 import ImageCard from "../ui/ImageCard";
 
 import { getUser } from "../lib/dataManager/user";
-import { getEventList } from "../lib/dataManager/events";
+import { getEventList, getEventRegistrations } from "../lib/dataManager/events";
 import { getLocationList } from "../lib/dataManager/locations";
 
 export async function loader() {
   const user = await getUser();
   const events = await getEventList();
+  const registrations = await getEventRegistrations();
   const locations = await getLocationList();
-  return { user, events, locations };
+  return { user, events, locations, registrations };
 }
 
 export default function Home() {
-  const { user, events, locations } = useLoaderData();
+  const { user, events, locations, registrations } = useLoaderData();
+  console.log(registrations);
 
   const buildEventCards = (events) => {
-    return events.map((ev, index) => (
-      <EventSummaryCard
-        event={ev}
-        location={locations.find((l) => l.uuid === ev.location)}
-        key={index}
-      />
-    ));
+    const regUuid = registrations.map((reg) => reg.event);
+    console.log(regUuid);
+    return events
+      .filter((ev) => regUuid.includes(ev.uuid))
+      .map((ev, index) => (
+        <EventSummaryCard
+          event={ev}
+          location={locations.find((l) => l.uuid === ev.location)}
+          key={index}
+        />
+      ));
   };
   return (
     <Box sx={{ mx: "24px" }}>

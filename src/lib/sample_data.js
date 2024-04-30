@@ -115,15 +115,15 @@ const events = [
 ];
 
 const invitations = [
-  { uuid: events[0].uuid },
-  { uuid: events[3].uuid },
-  { uuid: events[4].uuid },
+  { event: events[0].uuid },
+  { event: events[3].uuid },
+  { event: events[4].uuid },
 ];
 
 const registrations = [
-  { uuid: events[1].uuid, is_personal: true },
-  { uuid: events[2].uuid, is_personal: false },
-  { uuid: events[4].uuid, is_personal: true },
+  { event: events[1].uuid, is_personal: true },
+  { event: events[2].uuid, is_personal: false },
+  { event: events[4].uuid, is_personal: true },
 ];
 
 const locations = [
