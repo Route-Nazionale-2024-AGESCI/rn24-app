@@ -32,7 +32,6 @@ export default function Evento() {
   const registrationDT = event?.registrations_open_at
     ? new Date(event.registrations_open_at)
     : undefined;
-  console.log(event.registrations_open_at);
 
   return (
     <>

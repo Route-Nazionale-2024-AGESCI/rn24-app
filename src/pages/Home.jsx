@@ -24,11 +24,9 @@ export async function loader() {
 
 export default function Home() {
   const { user, events, locations, registrations } = useLoaderData();
-  console.log(registrations);
 
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
-    console.log(regUuid);
     return events
       .filter((ev) => regUuid.includes(ev.uuid))
       .map((ev, index) => (

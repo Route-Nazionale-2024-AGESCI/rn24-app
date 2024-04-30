@@ -20,7 +20,11 @@ import WhitePaper from "../ui/WhitePaper";
 
 import getEventColor from "../lib/eventColor";
 
-import { getEventList } from "../lib/dataManager/events";
+import {
+  getEventList,
+  getEventInvitations,
+  getEventRegistrations,
+} from "../lib/dataManager/events";
 import { getLocationList } from "../lib/dataManager/locations";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -46,7 +50,9 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 export async function loader() {
   const events = await getEventList();
   const locations = await getLocationList();
-  return { events, locations };
+  const registrations = await getEventRegistrations();
+  const invitations = await getEventInvitations();
+  return { events, locations, registrations, invitations };
 }
 
 export default function Programma() {
@@ -67,7 +73,7 @@ export default function Programma() {
       ? currentDate
       : minDate;
   });
-  const { events, locations } = useLoaderData();
+  const { events, locations, registrations, invitations } = useLoaderData();
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {
@@ -85,8 +91,12 @@ export default function Programma() {
       return startsAt <= currentDate && endsAt > currentDate;
     });
   };
-
-  const filteredEvents = filterEventsByDate(events, selectedDay);
+  const regUuid = registrations.map((reg) => reg.event);
+  const invUuid = invitations.map((inv) => inv.event);
+  const visibleEvents = events.filter(
+    (ev) => regUuid.includes(ev.uuid) || invUuid.includes(ev.uuid)
+  );
+  const filteredEvents = filterEventsByDate(visibleEvents, selectedDay);
   const eventsInProgress = findEventsInProgress(filteredEvents);
 
   const handleChangeDay = (event, newDay) => {
@@ -227,7 +237,7 @@ export default function Programma() {
         >
           In Corso
           {eventsInProgress.length > 0 ? (
-            eventsInProgress.map((ev) => <EventCard event={ev} />)
+            eventsInProgress.map((ev) => <EventCard event={ev} key={ev.uuid} />)
           ) : (
             <Stack direction={"row"} gap={"16px"} mt="12px">
               <Box
@@ -287,7 +297,7 @@ export default function Programma() {
             : "Eventi Passati"}
         </Typography>
         {filteredEvents.map((ev) => (
-          <EventCard event={ev} />
+          <EventCard event={ev} key={ev.uuid} />
         ))}
       </>
     );
