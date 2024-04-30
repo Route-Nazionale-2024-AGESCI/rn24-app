@@ -53,6 +53,7 @@ export async function getEventRegistrations() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
 export async function registerToEvent(eventUuid) {
+  // Send POST then GET registrations
   return;
 }
 
@@ -60,5 +61,6 @@ export async function registerToEvent(eventUuid) {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
 export async function deleteRegistrationToEvent(eventUuid) {
+  // Send DELETE then GET registrations
   return;
 }
