@@ -12,26 +12,21 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import AggiungiContatto from "./pages/AggiungiContatto";
 import Login from "./pages/Login";
-// import RecuperoPwd from "./pages/RecuperoPwd";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import QrLayout from "./pages/layout/QrLayout";
-//import NfcLayout from "./pages/layout/NfcLayout";
 import CodiceLayout from "./pages/layout/CodiceLayout";
-//import RicercaNfc from "./pages/RicercaNfc";
 import ScansionaQr from "./pages/ScansionaQr";
 import InserisciCodice from "./pages/InserisciCodice";
-//import RicercaContatto from "./pages/RicercaContatto";
 import CondividiContatto from "./pages/CondividiContatto";
 import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
-//import CondividiNfc from "./pages/CondividiNfc";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
+import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    //element: <Root />,
     errorElement: <RootError />,
     children: [
       {
@@ -44,11 +39,6 @@ export const router = createBrowserRouter([
                 element: <Login />,
                 errorElement: <SegmentedError />,
               },
-              // {
-              //   path: "recuperoPassword",
-              //   element: <RecuperoPwd />,
-              //   errorElement: <SegmentedError />,
-              // },
               {
                 path: "recuperoCodice",
                 element: <RecuperoCodice />,
@@ -93,6 +83,11 @@ export const router = createBrowserRouter([
                     loader: eventoLoader,
                   },
                   {
+                    path: "pagine/:pageId",
+                    element: <Pagina />,
+                    loader: paginaLoader,
+                  },
+                  {
                     path: "aggiungiContatto",
                     element: <AggiungiContatto />,
                   },
@@ -110,20 +105,6 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              // {
-              //   element: <NfcLayout back="/aggiungiContatto" />,
-              //   path: "aggiungiContatto/nfc",
-              //   children: [
-              //     {
-              //       index: true,
-              //       element: <RicercaNfc />,
-              //     },
-              //     {
-              //       path: "ricerca",
-              //       element: <RicercaContatto />,
-              //     },
-              //   ],
-              // },
               {
                 element: <QrLayout back="/aggiungiContatto" />,
                 path: "aggiungiContatto/qr",
@@ -132,17 +113,12 @@ export const router = createBrowserRouter([
                     index: true,
                     element: <ScansionaQr />,
                   },
-                  // {
-                  //   path: "ricerca",
-                  //   element: <RicercaContatto />,
-                  // },
                 ],
               },
               {
                 element: <QrLayout back="/ricercaContenuto" />,
                 path: "ricercaContenuto/qr",
                 children: [
-                  //TODO: <ScansionaQrContenuto />
                   {
                     index: true,
                     element: <ScansionaQrContenuto />,
@@ -181,16 +157,6 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              // {
-              //   path: "condividiContatto/nfc",
-              //   element: <NfcLayout back="/condividiContatto" />,
-              //   children: [
-              //     {
-              //       index: true,
-              //       element: <CondividiNfc />,
-              //     },
-              //   ],
-              // },
             ],
           },
         ],
