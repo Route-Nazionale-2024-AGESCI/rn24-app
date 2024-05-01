@@ -3,7 +3,7 @@ import Home, { loader as homeLoader } from "./pages/Home";
 import Avvisi from "./pages/Avvisi";
 import Mappa, { loader as mappaLoader } from "./pages/Mappa";
 import Programma, { loader as programmaLoader } from "./pages/Programma";
-import Tracce from "./pages/Tracce";
+import Tracce, { loader as tracceLoader } from "./pages/Tracce";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
 import FabLayout from "./pages/layout/FabLayout";
@@ -99,6 +99,7 @@ export const router = createBrowserRouter([
                   {
                     path: "tracce",
                     element: <Tracce />,
+                    loader: tracceLoader,
                   },
                   {
                     path: "ricercaContenuto",

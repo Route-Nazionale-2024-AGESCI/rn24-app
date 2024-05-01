@@ -39,7 +39,7 @@ const events = [
     ends_at: "2024-08-24T16:00:00Z",
     registrations_open_at: null,
     registrations_close_at: null,
-    kind: "TRACCE",
+    kind: "SGUARDI",
   },
   {
     uuid: "10a33e45-2b7f-4d4a-8ee0-5c2f1fe2a49b",
@@ -96,7 +96,7 @@ const events = [
     ends_at: "2024-08-25T12:00:00Z",
     registrations_open_at: "2024-07-25T08:00:00Z",
     registrations_close_at: "2024-08-22T23:59:59Z",
-    kind: "TRACCE",
+    kind: "CONFRONTI",
   },
   {
     uuid: "dab87521-4f76-4155-9a76-3542b1bf99a6",
@@ -164,6 +164,27 @@ const locations = [
     uuid: "095be615-a8ad-4c33-8e9c-c7612fbf6c9f",
     created_at: "2019-08-24T14:15:22Z",
     name: "string",
+    coords: {
+      type: "Point",
+      coordinates: [12.9721, 77.5933],
+    },
+    polygon: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [0, 0],
+          [0, 50],
+          [50, 50],
+          [50, 0],
+          [0, 0],
+        ],
+      ],
+    },
+  },
+  {
+    uuid: "7f5ed58b-872c-4c46-95eb-e4dbe2d9188e",
+    created_at: "2019-08-24T14:15:22Z",
+    name: "Isola di Avalon",
     coords: {
       type: "Point",
       coordinates: [12.9721, 77.5933],

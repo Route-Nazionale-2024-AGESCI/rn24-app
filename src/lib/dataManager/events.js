@@ -35,6 +35,10 @@ export function getEvent(uuid) {
   return events.find((event) => event.uuid === uuid);
 }
 
+export function getTraccia() {
+  return events.find((event) => event.kind === "TRACCE");
+}
+
 //  API endpoint: /api/v1/events/invitations/
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_invitations_list
