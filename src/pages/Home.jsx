@@ -25,6 +25,7 @@ export async function loader() {
 export default function Home() {
   const { user, events, locations, registrations } = useLoaderData();
 
+  // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
     return events

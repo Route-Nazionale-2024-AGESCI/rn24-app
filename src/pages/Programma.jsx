@@ -45,7 +45,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   },
 }));
 
-// TODO: implementare API per il numero di iscritti
+// TODO: implementare API per il numero di iscritti ??
 
 export async function loader() {
   const events = await getEventList();
@@ -91,10 +91,10 @@ export default function Programma() {
       return startsAt <= currentDate && endsAt > currentDate;
     });
   };
-  const regUuid = registrations.map((reg) => reg.event);
+  //const regUuid = registrations.map((reg) => reg.event);
   const invUuid = invitations.map((inv) => inv.uuid);
-  const visibleEvents = events.filter(
-    (ev) => regUuid.includes(ev.uuid) || invUuid.includes(ev.uuid)
+  const visibleEvents = events.filter((ev) =>
+    /*regUuid.includes(ev.uuid) || */ invUuid.includes(ev.uuid)
   );
   const filteredEvents = filterEventsByDate(visibleEvents, selectedDay);
   const eventsInProgress = findEventsInProgress(filteredEvents);
