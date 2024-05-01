@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home, { loader as homeLoader } from "./pages/Home";
 import Avvisi from "./pages/Avvisi";
-import Mappa from "./pages/Mappa";
+import Mappa, { loader as mappaLoader } from "./pages/Mappa";
 import Programma, { loader as programmaLoader } from "./pages/Programma";
 import Tracce from "./pages/Tracce";
 import NavBarLayout from "./pages/layout/NavBarLayout";
@@ -72,6 +72,7 @@ export const router = createBrowserRouter([
                   {
                     path: "mappa",
                     element: <Mappa />,
+                    loader: mappaLoader,
                   },
                   {
                     path: "avvisi",
