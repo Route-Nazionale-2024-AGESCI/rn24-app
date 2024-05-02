@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
@@ -16,24 +17,44 @@ import getEventColor from "../lib/eventColor";
 import { italianMonth } from "../lib/italianDate";
 
 import { getLocation } from "../lib/dataManager/locations";
-import { getEvent } from "../lib/dataManager/events";
+import {
+  getEvent,
+  getEventInvitations,
+  getEventRegistrations,
+} from "../lib/dataManager/events";
 import { getPage } from "../lib/dataManager/pages";
+import AccessButton from "../ui/AccessButton";
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const location = await getLocation(event.location);
   const description = await getPage(event.page);
-  return { event, location, description };
+  const invitations = await getEventInvitations();
+  const registrations = await getEventRegistrations();
+  return { event, location, description, invitations, registrations };
 }
 
 export default function Evento() {
-  const { event, location, description } = useLoaderData();
+  const [registrationsRequestStatus, setRegistrationsRequestStatus] =
+    useState();
+  // pending, {response.status}, not-started
+  const { event, location, description, invitations, registrations } =
+    useLoaderData();
+
   const standName = location?.name ?? "Luogo non definito";
   const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
   const endDT = event?.ends_at ? new Date(event.ends_at) : undefined;
   const registrationDT = event?.registrations_open_at
     ? new Date(event.registrations_open_at)
     : undefined;
+  const regUuid = registrations.map((r) => r.event);
+  const invUuid = invitations.map((i) => i.uuid);
+
+  // TODO: introdurre isOnline
+  const canUserRegister =
+    event.is_registration_required === true && invUuid.includes(event.uuid);
+  const userAlreadyRegistered =
+    canUserRegister && registrations.includes(event.uuid);
 
   return (
     <>
@@ -45,7 +66,13 @@ export default function Evento() {
       >
         {event.name}
       </Typography>
-      <WhitePaper>
+      <WhitePaper
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
         <Box
           sx={{
             marginX: "24px",
@@ -210,6 +237,24 @@ export default function Evento() {
             </Stack>
           )}
         </Box>
+        {canUserRegister && !userAlreadyRegistered && (
+          <AccessButton
+            sx={{ opacity: "50%" }}
+            onClick={() => {
+              // set req status on 'pending'
+              // POST req
+              // optimistic UI: if POST succeeded, show green box
+              // optimistic UI: if posti-esauriti, show red box
+              // if POST succeeded, GET registrations (will automatically rerender component, on useLoaderData change?)
+              // if posti-esauriti ... how to track registrations number?
+            }}
+            disabled={registrationsRequestStatus === "pending"}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Registrati a questo evento
+            </Typography>
+          </AccessButton>
+        )}
       </WhitePaper>
     </>
   );
