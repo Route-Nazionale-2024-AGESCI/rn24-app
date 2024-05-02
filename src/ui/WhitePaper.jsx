@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 
-export default function WhitePaper({ children }) {
+export default function WhitePaper({ children, sx = {} }) {
   return (
     <Box
       sx={{
@@ -11,7 +11,8 @@ export default function WhitePaper({ children }) {
         mb: "-20px",
         pt: "40px",
         pb: "80px",
-        minHeight: `calc(100vh - 228px)`,
+        minHeight: `calc(100vh - 348px)`,
+        ...sx,
       }}
     >
       {children}
