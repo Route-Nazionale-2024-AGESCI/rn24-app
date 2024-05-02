@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Form } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -25,11 +25,43 @@ import {
 import { getPage } from "../lib/dataManager/pages";
 import AccessButton from "../ui/AccessButton";
 
+/*
+  Responses:
+    201 - {"event":"event-uuid","is_personal":bool}
+    400 - ["error message"]
+    403 - {"detail":"non sono state immesse le credenziali di autenticazione"}
+    404 - {"detail": "No Event matches the given query"}
+    415 - {"detail":"tipo di media text/plain... non supportato"}
+*/
+
+export async function action({ params }) {
+  const eventUuid = params.eventId;
+  console.log("TOKEN ", process.env.REACT_APP_API_TOKEN);
+  const res = await fetch(
+    "https://rn24-dev.fly.dev/api/v1/events/registrations/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        // event: eventUuid,
+        event: "5eff8281-80c6-46aa-b6bd-713a543f18a1",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${process.env.REACT_APP_API_TOKEN}`,
+      },
+    }
+  ).then((res) => res.json());
+  console.log(res);
+  return res;
+}
+
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const location = await getLocation(event.location);
   const description = await getPage(event.page);
   const invitations = await getEventInvitations();
+
+  // unique real Req, won't be retrieved by cache if we're online
   const registrations = await getEventRegistrations();
   return { event, location, description, invitations, registrations };
 }
@@ -238,22 +270,25 @@ export default function Evento() {
           )}
         </Box>
         {canUserRegister && !userAlreadyRegistered && (
-          <AccessButton
-            sx={{ opacity: "50%" }}
-            onClick={() => {
+          <Form method="post">
+            <AccessButton
+              sx={{ opacity: "50%" }}
+              type="submit"
+              //onClick={() => {
               // set req status on 'pending'
               // POST req
               // optimistic UI: if POST succeeded, show green box
               // optimistic UI: if posti-esauriti, show red box
               // if POST succeeded, GET registrations (will automatically rerender component, on useLoaderData change?)
               // if posti-esauriti ... how to track registrations number?
-            }}
-            disabled={registrationsRequestStatus === "pending"}
-          >
-            <Typography fontSize="16px" fontWeight={600}>
-              Registrati a questo evento
-            </Typography>
-          </AccessButton>
+              //}}
+              disabled={registrationsRequestStatus === "pending"}
+            >
+              <Typography fontSize="16px" fontWeight={600}>
+                Registrati a questo evento
+              </Typography>
+            </AccessButton>
+          </Form>
         )}
       </WhitePaper>
     </>
