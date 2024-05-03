@@ -323,7 +323,9 @@ const pages = [
     parent: null,
     body: '<div class="page-body"></div>\n',
     parent_link: "",
-    children_link: ['<Link to="pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">'],
+    children_link: [
+      '<Link to="/pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">Eventi</Link>',
+    ],
     children: [
       {
         uuid: "7854e9fe-fa67-4b9a-b494-54cc955e5caf",
@@ -333,12 +335,13 @@ const pages = [
         show_in_menus: false,
         parent: "1dd5d7b5-7daa-44a4-a54c-e49560e6153c",
         body: '<div class="page-body">eventi</div>\n',
-        parent_link: '<Link to="pages/1dd5d7b5-7daa-44a4-a54c-e49560e6153c">',
+        parent_link:
+          '<Link to="/pages/1dd5d7b5-7daa-44a4-a54c-e49560e6153c">RN24</Link>',
         children_link: [
-          '<Link to="pages/3198cbd2-9c65-4365-b157-6e89cdf5c0ae">',
-          '<Link to="pages/d351b4b5-732d-4cc7-aaa7-dd54413f5e0a">',
-          '<Link to="pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">',
-          '<Link to="pages/5b2820b6-3eaf-4283-a7ae-bd06b568c2d0">',
+          '<Link to="/pages/3198cbd2-9c65-4365-b157-6e89cdf5c0ae">Tavola rotonda</Link>',
+          '<Link to="/pages/d351b4b5-732d-4cc7-aaa7-dd54413f5e0a">workshop sui nodi</Link>',
+          '<Link to="/pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</Link>',
+          '<Link to="/pages/5b2820b6-3eaf-4283-a7ae-bd06b568c2d0">Avvertenze nodi</Link>',
         ],
         children: [
           {
@@ -348,9 +351,9 @@ const pages = [
             slug: "tavola-rotonda",
             show_in_menus: false,
             parent: "7854e9fe-fa67-4b9a-b494-54cc955e5caf",
-            body: '<div class="page-body">Ecco la descrizione. <h1>Titolo</h1><h3>sottotitolo</h3><p>Hello world!</p></div>\n',
+            body: '<div class="page-body"></div>\n',
             parent_link:
-              '<Link to="pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">',
+              '<Link to="/pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">Eventi</Link>',
             children_link: [],
             children: [],
           },
@@ -361,9 +364,9 @@ const pages = [
             slug: "workshop-sui-nodi",
             show_in_menus: false,
             parent: "7854e9fe-fa67-4b9a-b494-54cc955e5caf",
-            body: '<div class="page-body"><h3 data-block-key="m4o0d">asdlakjsdlkajsd</h3><ol><li data-block-key="dl545">123</li></ol><p data-block-key="194ca"></p><p data-block-key="apkso"></p><p data-block-key="cfgpu"><Link to="pages/3198cbd2-9c65-4365-b157-6e89cdf5c0ae">Tavola rotonda</a></p><hr/><p data-block-key="3iapa"></p></div>\n',
+            body: '<div class="page-body"><h3 data-block-key="m4o0d">asdlakjsdlkajsd</h3><ol><li data-block-key="dl545">123</li></ol><p data-block-key="194ca"></p><p data-block-key="apkso"></p><p data-block-key="cfgpu"><a href="/pages/3198cbd2-9c65-4365-b157-6e89cdf5c0ae">Tavola rotonda</a></p><hr/><p data-block-key="3iapa"></p></div>\n',
             parent_link:
-              '<Link to="pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">',
+              '<Link to="/pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">Eventi</Link>',
             children_link: [],
             children: [],
           },
@@ -374,11 +377,11 @@ const pages = [
             slug: "piero-il-marinaio",
             show_in_menus: false,
             parent: "7854e9fe-fa67-4b9a-b494-54cc955e5caf",
-            body: '<div class="page-body"><h2 data-block-key="ua8u9">Come fare una gassa perfetta</h2><p data-block-key="34c9k">Piero il marinaio è un grande maestro nella conduzione di barche a vela e ci insegnerà tutti i segreti per maneggiare una cima. Parteciperà all\'evento <Link to="pages/d351b4b5-732d-4cc7-aaa7-dd54413f5e0a">workshop sui nodi</a>.</p><p data-block-key="36cj0"></p><hr/><h3 data-block-key="1m9n5">Contenuto</h3><p data-block-key="iidt">Piero ci insegnerà:</p><ol><li data-block-key="deuk5">gassa d\'amante</li><li data-block-key="9p7g8">nodo piano</li><li data-block-key="36csk">nodo scorsoio</li></ol><hr/><h4 data-block-key="f23qc">Materiale necessario</h4><p data-block-key="c34c3">A tutti i partecipanti è richiesto di portare</p><ul><li data-block-key="dssld">un cordino</li><li data-block-key="82da7">un altro cordino</li></ul><hr/><p data-block-key="857ha">Si prega di leggere prima le avvertenze.</p><p data-block-key="9ghf8">A presto!</p></div>\n',
+            body: '<div class="page-body"><h2 data-block-key="ua8u9">Come fare una gassa perfetta</h2><p data-block-key="34c9k">Piero il marinaio è un grande maestro nella conduzione di barche a vela e ci insegnerà tutti i segreti per maneggiare una cima. Parteciperà all\'evento <a href="/pages/d351b4b5-732d-4cc7-aaa7-dd54413f5e0a">workshop sui nodi</a>.</p><p data-block-key="36cj0"></p><hr/><h3 data-block-key="1m9n5">Contenuto</h3><p data-block-key="iidt">Piero ci insegnerà:</p><ol><li data-block-key="deuk5">gassa d\'amante</li><li data-block-key="9p7g8">nodo piano</li><li data-block-key="36csk">nodo scorsoio</li></ol><hr/><h4 data-block-key="f23qc">Materiale necessario</h4><p data-block-key="c34c3">A tutti i partecipanti è richiesto di portare</p><ul><li data-block-key="dssld">un cordino</li><li data-block-key="82da7">un altro cordino</li></ul><hr/><p data-block-key="857ha">Si prega di leggere prima le avvertenze.</p><p data-block-key="9ghf8">A presto!</p></div>\n',
             parent_link:
-              '<Link to="pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">',
+              '<Link to="/pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">Eventi</Link>',
             children_link: [
-              '<Link to="pages/bbd4d2b7-f481-44ca-9419-86f3d8820c3d">',
+              '<Link to="/pages/bbd4d2b7-f481-44ca-9419-86f3d8820c3d">La biografia di Piero</Link>',
             ],
             children: [
               {
@@ -388,9 +391,9 @@ const pages = [
                 slug: "la-biografia-di-piero",
                 show_in_menus: false,
                 parent: "42cdfec7-1ede-4223-ad8c-51924cbee23a",
-                body: '<div class="page-body"><h2 data-block-key="qrlir">Perché questa pagina</h2><p data-block-key="940qr">Vorremmo capire bene come vengono strutturate le pagine fornite dalle API.</p><p data-block-key="8vfhv">In particolare questa pagina dovrebbe essere figlia di <Link to="pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</a></p></div>\n',
+                body: '<div class="page-body"><h2 data-block-key="qrlir">Perché questa pagina</h2><p data-block-key="940qr">Vorremmo capire bene come vengono strutturate le pagine fornite dalle API.</p><p data-block-key="8vfhv">In particolare questa pagina dovrebbe essere figlia di <a href="/pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</a></p></div>\n',
                 parent_link:
-                  '<Link to="pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">',
+                  '<Link to="/pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</Link>',
                 children_link: [],
                 children: [],
               },
@@ -403,9 +406,9 @@ const pages = [
             slug: "avvertenze-nodi",
             show_in_menus: false,
             parent: "7854e9fe-fa67-4b9a-b494-54cc955e5caf",
-            body: '<div class="page-body"><h2 data-block-key="v5m8i">Workshop nodi da marinaio</h2><p data-block-key="bacag">Prima di partecipare all\'evento di <Link to="pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</a> è necessario imparare ad allacciarsi le scarpe.</p><p data-block-key="booov"></p><p data-block-key="a9r03"><i>Un sentito ringraziamento.</i><br/><b>lo Staff</b></p></div>\n',
+            body: '<div class="page-body"><h2 data-block-key="v5m8i">Workshop nodi da marinaio</h2><p data-block-key="bacag">Prima di partecipare all\'evento di <a href="/pages/42cdfec7-1ede-4223-ad8c-51924cbee23a">Piero il marinaio</a> è necessario imparare ad allacciarsi le scarpe.</p><p data-block-key="booov"></p><p data-block-key="a9r03"><i>Un sentito ringraziamento.</i><br/><b>lo Staff</b></p></div>\n',
             parent_link:
-              '<Link to="pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">',
+              '<Link to="/pages/7854e9fe-fa67-4b9a-b494-54cc955e5caf">Eventi</Link>',
             children_link: [],
             children: [],
           },
