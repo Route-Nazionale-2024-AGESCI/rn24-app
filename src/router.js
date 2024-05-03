@@ -21,10 +21,11 @@ import CondividiContatto from "./pages/CondividiContatto";
 import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
-import Evento, {
-  loader as eventoLoader,
-  action as eventoAction,
-} from "./pages/Evento";
+import Evento, { loader as eventoLoader } from "./pages/Evento";
+import RegistrazioneEvento, {
+  loader as registrazioneEventoLoader,
+  action as registrazioneEventoAction,
+} from "./pages/RegistrazioneEvento";
 import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 
 export const router = createBrowserRouter([
@@ -85,10 +86,23 @@ export const router = createBrowserRouter([
                     path: "eventi/:eventId",
                     element: <Evento />,
                     loader: eventoLoader,
-                    action: eventoAction,
+                    children: [
+                      {
+                        index: true,
+                        element: <RegistrazioneEvento />,
+                        loader: registrazioneEventoLoader,
+                        action: registrazioneEventoAction,
+                      },
+                    ],
                   },
                   {
                     path: "pagine/:pageId",
+                    element: <Pagina />,
+                    loader: paginaLoader,
+                  },
+                  {
+                    // Alias
+                    path: "pages/:pageId",
                     element: <Pagina />,
                     loader: paginaLoader,
                   },
