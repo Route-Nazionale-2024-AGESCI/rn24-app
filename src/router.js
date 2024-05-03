@@ -28,159 +28,195 @@ import RegistrazioneEvento, {
 } from "./pages/RegistrazioneEvento";
 import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    errorElement: <RootError />,
-    children: [
-      {
-        children: [
-          {
-            element: <AccessLayout />,
-            children: [
-              {
-                path: "login",
-                element: <Login />,
-                errorElement: <SegmentedError />,
-              },
-              {
-                path: "recuperoCodice",
-                element: <RecuperoCodice />,
-                errorElement: <SegmentedError />,
-              },
-            ],
-          },
+export const getNotLoggedInRouter = () => {
+  return createBrowserRouter([
+    {
+      path: "/",
+      errorElement: <RootError />,
+      children: [
+        {
+          children: [
+            {
+              element: <AccessLayout />,
+              children: [
+                {
+                  path: "login",
+                  element: <Login />,
+                  errorElement: <SegmentedError />,
+                },
+                {
+                  path: "recuperoCodice",
+                  element: <RecuperoCodice />,
+                  errorElement: <SegmentedError />,
+                },
+              ],
+            },
+  
+            {
+              element: <NavBarLayout />,
+              errorElement: <SegmentedError />,
+              children: [
+                {
+                  element: <AppBarLayout />,
+                  children: [
+                    {
+                      element: <FabLayout />,
+                      children: [
+                        {
+                          index: true,
+                        },
+                      ],
+                    },
+                  ]
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]);
+};
 
-          {
-            element: <NavBarLayout />,
-            errorElement: <SegmentedError />,
-            children: [
-              {
-                element: <AppBarLayout />,
-                children: [
-                  {
-                    element: <FabLayout />,
-                    children: [
-                      {
-                        index: true,
-                        element: <Home />,
-                        loader: homeLoader,
-                      },
-                    ],
-                  },
-                  {
-                    path: "programma",
-                    element: <Programma />,
-                    loader: programmaLoader,
-                  },
-                  {
-                    path: "mappa",
-                    element: <Mappa />,
-                    loader: mappaLoader,
-                  },
-                  {
-                    path: "avvisi",
-                    element: <Avvisi />,
-                  },
-                  {
-                    path: "eventi/:eventId",
-                    element: <Evento />,
-                    loader: eventoLoader,
-                    children: [
-                      {
-                        index: true,
-                        element: <RegistrazioneEvento />,
-                        loader: registrazioneEventoLoader,
-                        action: registrazioneEventoAction,
-                      },
-                    ],
-                  },
-                  {
-                    path: "pagine/:pageId",
-                    element: <Pagina />,
-                    loader: paginaLoader,
-                  },
-                  {
-                    // Alias
-                    path: "pages/:pageId",
-                    element: <Pagina />,
-                    loader: paginaLoader,
-                  },
-                  {
-                    path: "aggiungiContatto",
-                    element: <AggiungiContatto />,
-                  },
-                  {
-                    path: "condividiContatto",
-                    element: <CondividiContatto />,
-                  },
-                  {
-                    path: "tracce",
-                    element: <Tracce />,
-                    loader: tracceLoader,
-                  },
-                  {
-                    path: "ricercaContenuto",
-                    element: <RicercaContenuto />,
-                  },
-                ],
-              },
-              {
-                element: <QrLayout back="/aggiungiContatto" />,
-                path: "aggiungiContatto/qr",
-                children: [
-                  {
-                    index: true,
-                    element: <ScansionaQr />,
-                  },
-                ],
-              },
-              {
-                element: <QrLayout back="/ricercaContenuto" />,
-                path: "ricercaContenuto/qr",
-                children: [
-                  {
-                    index: true,
-                    element: <ScansionaQrContenuto />,
-                  },
-                ],
-              },
-              {
-                element: <CodiceLayout back="/aggiungiContatto" />,
-                path: "aggiungiContatto/codice",
-                children: [
-                  {
-                    index: true,
-                    element: <InserisciCodice />,
-                  },
-                  // {
-                  //   path: "ricerca",
-                  //   element: <RicercaContatto />,
-                  // },
-                ],
-              },
-              {
-                element: <CodiceLayout back="/ricercaContenuto" />,
-                path: "ricercaContenuto/codice",
-                children: [
-                  //TODO: <InserisciCodiceContenuto />
-                ],
-              },
-              {
-                path: "condividiContatto/qr",
-                element: <QrLayout back="/condividiContatto" />,
-                children: [
-                  {
-                    index: true,
-                    element: <CondividiQr />,
-                    loader: condividiQrLoader,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-]);
+export const getLoggedInRouter = () => {
+  return createBrowserRouter([
+    {
+      path: "/",
+      errorElement: <RootError />,
+      children: [
+        {
+          children: [
+            {
+              element: <NavBarLayout />,
+              errorElement: <SegmentedError />,
+              children: [
+                {
+                  element: <AppBarLayout />,
+                  children: [
+                    {
+                      element: <FabLayout />,
+                      children: [
+                        {
+                          index: true,
+                          element: <Home />,
+                          loader: homeLoader,
+                        },
+                      ],
+                    },
+                    {
+                      path: "programma",
+                      element: <Programma />,
+                      loader: programmaLoader,
+                    },
+                    {
+                      path: "mappa",
+                      element: <Mappa />,
+                      loader: mappaLoader,
+                    },
+                    {
+                      path: "avvisi",
+                      element: <Avvisi />,
+                    },
+                    {
+                      path: "eventi/:eventId",
+                      element: <Evento />,
+                      loader: eventoLoader,
+                      children: [
+                        {
+                          index: true,
+                          element: <RegistrazioneEvento />,
+                          loader: registrazioneEventoLoader,
+                          action: registrazioneEventoAction,
+                        },
+                      ],
+                    },
+                    {
+                      path: "pagine/:pageId",
+                      element: <Pagina />,
+                      loader: paginaLoader,
+                    },
+                    {
+                      // Alias
+                      path: "pages/:pageId",
+                      element: <Pagina />,
+                      loader: paginaLoader,
+                    },
+                    {
+                      path: "aggiungiContatto",
+                      element: <AggiungiContatto />,
+                    },
+                    {
+                      path: "condividiContatto",
+                      element: <CondividiContatto />,
+                    },
+                    {
+                      path: "tracce",
+                      element: <Tracce />,
+                      loader: tracceLoader,
+                    },
+                    {
+                      path: "ricercaContenuto",
+                      element: <RicercaContenuto />,
+                    },
+                  ],
+                },
+                {
+                  element: <QrLayout back="/aggiungiContatto" />,
+                  path: "aggiungiContatto/qr",
+                  children: [
+                    {
+                      index: true,
+                      element: <ScansionaQr />,
+                    },
+                  ],
+                },
+                {
+                  element: <QrLayout back="/ricercaContenuto" />,
+                  path: "ricercaContenuto/qr",
+                  children: [
+                    {
+                      index: true,
+                      element: <ScansionaQrContenuto />,
+                    },
+                  ],
+                },
+                {
+                  element: <CodiceLayout back="/aggiungiContatto" />,
+                  path: "aggiungiContatto/codice",
+                  children: [
+                    {
+                      index: true,
+                      element: <InserisciCodice />,
+                    },
+                    // {
+                    //   path: "ricerca",
+                    //   element: <RicercaContatto />,
+                    // },
+                  ],
+                },
+                {
+                  element: <CodiceLayout back="/ricercaContenuto" />,
+                  path: "ricercaContenuto/codice",
+                  children: [
+                    //TODO: <InserisciCodiceContenuto />
+                  ],
+                },
+                {
+                  path: "condividiContatto/qr",
+                  element: <QrLayout back="/condividiContatto" />,
+                  children: [
+                    {
+                      index: true,
+                      element: <CondividiQr />,
+                      loader: condividiQrLoader,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]);
+};

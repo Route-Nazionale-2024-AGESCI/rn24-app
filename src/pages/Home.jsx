@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -10,20 +11,20 @@ import {
 import EventSummaryCard from "../ui/EventSummaryCard";
 import ImageCard from "../ui/ImageCard";
 
-import { getUser } from "../lib/dataManager/user";
-import { getEventList, getEventRegistrations } from "../lib/dataManager/events";
-import { getLocationList } from "../lib/dataManager/locations";
+import * as eventsAPI from "../api/events";
+import * as locationsAPI from "../api/locations";
+import { AuthContext } from "../contexts/auth";
 
 export async function loader() {
-  const user = await getUser();
-  const events = await getEventList();
-  const registrations = await getEventRegistrations();
-  const locations = await getLocationList();
-  return { user, events, locations, registrations };
+  const events = await eventsAPI.list();
+  const registrations = await eventsAPI.registrationList();
+  const locations = await locationsAPI.list();
+  return { events, registrations, locations };
 }
 
 export default function Home() {
-  const { user, events, locations, registrations } = useLoaderData();
+  const { user } = useContext(AuthContext);
+  const { events, registrations, locations } = useLoaderData();
 
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
