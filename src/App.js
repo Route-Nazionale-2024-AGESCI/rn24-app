@@ -7,6 +7,8 @@ import {
   responsiveFontSizes,
 } from "@mui/material/styles";
 
+import "./App.css";
+
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
   greenBase = "#38A368",

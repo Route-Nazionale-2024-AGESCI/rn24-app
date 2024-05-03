@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 } */
+.page-container p {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.description-container p {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
