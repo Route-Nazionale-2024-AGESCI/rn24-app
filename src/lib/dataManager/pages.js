@@ -29,3 +29,28 @@ export async function getPage(uuid) {
 
   return response.data;
 }
+
+function findPage(uuid) {
+  function searchPage(node, uuid) {
+    if (!node) {
+      return null;
+    }
+    if (node.uuid === uuid) {
+      return node;
+    }
+    for (let child of node.children) {
+      let result = searchPage(child, uuid);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
+  }
+  for (let page of pages) {
+    let result = searchPage(page, uuid);
+    if (result) {
+      return result;
+    }
+  }
+  return null;
+}
