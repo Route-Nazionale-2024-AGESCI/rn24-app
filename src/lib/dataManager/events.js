@@ -1,5 +1,4 @@
-import { events, invitations, registrations } from "../sample_data";
-
+import axios from "../api";
 /*
   API endpoint: /api/v1/events/
   Recuperare l'elenco completo degli eventi
@@ -25,17 +24,22 @@ import { events, invitations, registrations } from "../sample_data";
 
 //   Doc:
 //   https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
-export function getEventList() {
-  return events;
+export async function getEventList() {
+  const response = await axios.get('events/');
+
+  return response.data?.data || [];
 }
 
 // /api/v1/events/{uuid}/
 // Da valutare: usare find piuttosto che call asincrona
-export function getEvent(uuid) {
-  return events.find((event) => event.uuid === uuid);
+export async function getEvent(uuid) {
+  const response = await axios.get(`events/${uuid}/`);
+
+  return response.data;
 }
 
-export function getTraccia() {
+export async function getTraccia() {
+  const events = await getEventList();
   return events.find((event) => event.kind === "TRACCE");
 }
 
@@ -43,14 +47,18 @@ export function getTraccia() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_invitations_list
 export async function getEventInvitations() {
-  return invitations;
+  const response = await axios.get('events/invitations/');
+
+  return response.data || [];
 }
 
 //  API endpoint: /api/v1/events/registrations/
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_list
 export async function getEventRegistrations() {
-  return registrations;
+  const response = await axios.get('events/registrations/');
+
+  return response.data;
 }
 
 //  API endpoint: POST /api/v1/events/registrations/
@@ -58,7 +66,14 @@ export async function getEventRegistrations() {
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
 export async function registerToEvent(eventUuid) {
   // Send POST then GET registrations
-  return;
+  const response = await axios.post(
+    'events/registrations/',
+    {
+      event: eventUuid
+    }
+  );
+
+  return response.data;
 }
 
 //  API endpoint: DELETE /api/v1/events/registrations/{uuid}
@@ -66,5 +81,7 @@ export async function registerToEvent(eventUuid) {
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
 export async function deleteRegistrationToEvent(eventUuid) {
   // Send DELETE then GET registrations
-  return;
+  const response = await axios.delete(`events/registrations/${eventUuid}/`);
+
+  return response.data;
 }

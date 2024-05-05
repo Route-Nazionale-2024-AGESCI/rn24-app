@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import axios from "../api";
-import * as usersAPI from "../api/auth";
+import axios from "../lib/api";
+import { getUser } from "../lib/dataManager/user";
+
+import * as authAPI from "../lib/api/auth";
 
 const LOCAL_STORAGE_TOKEN_KEY = 'atoken';
 
@@ -57,7 +59,7 @@ const AuthProvider = ({ children }) => {
 
             localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
-            usersAPI.profile().then(res => {
+            getUser().then(res => {
                 setUser(res);
                 setStatus(AuthStatus.LoggedIn);
             });
@@ -71,7 +73,7 @@ const AuthProvider = ({ children }) => {
     
     const loginAction = async ({username, password}) => {
       try {
-        const res = await usersAPI.login({username, password});
+        const res = await authAPI.login({username, password});
 
         if (res) {
             setToken(res.token);

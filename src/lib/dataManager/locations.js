@@ -1,5 +1,4 @@
-import { locations } from "../sample_data";
-
+import axios from "../api";
 /* 
   API endpoint: /api/v1/locations/ 
   Recuperare l'elenco completo delle location
@@ -41,12 +40,16 @@ import { locations } from "../sample_data";
 ]
 */
 export async function getLocationList() {
-  return locations;
+  const response = await axios.get('locations/');
+
+  return response.data?.data || [];
 }
 
 // /api/v1/locations/{uuid}/
 // Da valutare: usare find piuttosto che call asincrona
 
-export function getLocation(uuid) {
-  return locations.find((loc) => loc.uuid === uuid);
+export async function getLocation(uuid) {
+  const response = await axios.get(`locations/${uuid}/`);
+
+  return response.data
 }
