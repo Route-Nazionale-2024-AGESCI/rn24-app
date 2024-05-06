@@ -38,6 +38,9 @@ export async function getEvent(uuid) {
   return response.data;
 }
 
+//export function findEvent(uuid) {
+//  return events.find((event) => event.uuid === uuid);
+//}
 export async function getTraccia() {
   const events = await getEventList();
   return events.find((event) => event.kind === "TRACCE");
@@ -65,7 +68,6 @@ export async function getEventRegistrations() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
 export async function registerToEvent(eventUuid) {
-  // Send POST then GET registrations
   const response = await axios.post(
     'events/registrations/',
     {
@@ -80,7 +82,6 @@ export async function registerToEvent(eventUuid) {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
 export async function deleteRegistrationToEvent(eventUuid) {
-  // Send DELETE then GET registrations
   const response = await axios.delete(`events/registrations/${eventUuid}/`);
 
   return response.data;
