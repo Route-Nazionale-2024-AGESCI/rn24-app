@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 
+import { useNetworkState } from "@uidotdev/usehooks";
+
 import AccessButton from "../ui/AccessButton";
 
 import {
@@ -85,6 +87,7 @@ export async function loader({ params }) {
 export default function RegistrazioneEvento() {
   const { event, invitations, registrations } = useLoaderData();
   const fetcher = useFetcher();
+  const networkState = useNetworkState();
 
   console.log("Response status: ", fetcher.data?.status);
   console.log("Response body: ", fetcher.data?.body);
@@ -120,37 +123,39 @@ export default function RegistrazioneEvento() {
             </Typography>
           </GreenBox>
           <Box height="16px" />
-          <fetcher.Form
-            method="DELETE"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              variant="text"
-              sx={{
-                textTransform: "none",
-                color: "#000000",
-                opacity: fetcher.state === "submitting" ? "50%" : "100%",
+          {networkState.online && (
+            <fetcher.Form
+              method="DELETE"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
-              type="submit"
             >
-              <Typography fontSize="16px" fontWeight={600}>
-                Annulla Iscrizione
-              </Typography>
-              {fetcher.state !== "idle" && (
-                <CircularProgress
-                  size="20px"
-                  sx={{ marginLeft: "12px", color: "#000000" }}
-                />
-              )}
-            </Button>
-          </fetcher.Form>
+              <Button
+                variant="text"
+                sx={{
+                  textTransform: "none",
+                  color: "#000000",
+                  opacity: fetcher.state === "submitting" ? "50%" : "100%",
+                }}
+                type="submit"
+              >
+                <Typography fontSize="16px" fontWeight={600}>
+                  Annulla Iscrizione
+                </Typography>
+                {fetcher.state !== "idle" && (
+                  <CircularProgress
+                    size="20px"
+                    sx={{ marginLeft: "12px", color: "#000000" }}
+                  />
+                )}
+              </Button>
+            </fetcher.Form>
+          )}
         </>
       );
-    } else {
+    } else if (networkState.online) {
       // event.is_registration_required === true, regUuid doesn't include event
       return (
         <fetcher.Form
@@ -179,6 +184,7 @@ export default function RegistrazioneEvento() {
         </fetcher.Form>
       );
     }
+    return null;
   }
 
   // TODO: introdurre isOnline
