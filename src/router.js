@@ -51,32 +51,13 @@ export const getNotLoggedInRouter = () => {
                 },
               ],
             },
-  
-            {
-              element: <NavBarLayout />,
-              errorElement: <SegmentedError />,
-              children: [
-                {
-                  element: <AppBarLayout />,
-                  children: [
-                    {
-                      element: <FabLayout />,
-                      children: [
-                        {
-                          index: true,
-                        },
-                      ],
-                    },
-                  ]
-                },
-              ],
-            },
           ],
         },
       ],
-    },
-  ]);
-};
+    }]);
+}
+  
+            
 
 export const getLoggedInRouter = () => {
   return createBrowserRouter([
