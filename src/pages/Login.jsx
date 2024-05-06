@@ -15,7 +15,7 @@ import AccessButton from "../ui/AccessButton";
 import { AuthContext } from "../contexts/auth";
 
 export default function Login() {
-  const { loginAction, } = useContext(AuthContext);
+  const { loginAction } = useContext(AuthContext);
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const tosRef = useRef(null);
@@ -26,24 +26,22 @@ export default function Login() {
     const password = passwordRef.current.value;
 
     // TODO: migliorare visualizzazione errori
-    if (username === '' || password === '' || !tosRef.current?.checked) {
-      alert('Campi obbligatori!');
+    if (username === "" || password === "" || !tosRef.current?.checked) {
+      alert("Campi obbligatori!");
       return;
     }
     setLoading(true);
     try {
-      await loginAction({username, password});
-    } 
-    catch (error) {
-      alert('ERRORE!');
+      await loginAction({ username, password });
+    } catch (error) {
+      alert("ERRORE!");
       console.error(error);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
-  
-  if(loading)
+
+  if (loading)
     // TODO: to improve
     return <h4>Loading...</h4>;
 
@@ -124,8 +122,8 @@ export default function Login() {
               }
             />
           </FormGroup>
-          <AccessButton>
-            <Typography fontSize="16px" fontWeight={600} onClick={handleSubmit}>
+          <AccessButton onClick={handleSubmit}>
+            <Typography fontSize="16px" fontWeight={600}>
               Accedi
             </Typography>
           </AccessButton>
