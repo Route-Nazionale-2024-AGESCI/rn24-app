@@ -24,8 +24,8 @@ import {
   getEventList,
   getEventInvitations,
   getEventRegistrations,
-} from "../lib/dataManager/events";
-import { getLocationList } from "../lib/dataManager/locations";
+} from "../lib/cacheManager/events";
+import { getLocationList } from "../lib/cacheManager/locations";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.grouped}`]: {

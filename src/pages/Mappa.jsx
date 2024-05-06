@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
-import { getLocationList, getLocation } from "../lib/dataManager/locations";
+import { getLocationList, getLocation } from "../lib/cacheManager/locations";
 
 /* 
   

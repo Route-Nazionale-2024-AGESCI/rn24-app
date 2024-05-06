@@ -25,22 +25,18 @@ import axios from "../api";
 //   Doc:
 //   https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
 export async function getEventList() {
-  const response = await axios.get('events/');
+  const response = await axios.get("events/");
 
   return response.data?.data || [];
 }
 
 // /api/v1/events/{uuid}/
-// Da valutare: usare find piuttosto che call asincrona
 export async function getEvent(uuid) {
   const response = await axios.get(`events/${uuid}/`);
 
   return response.data;
 }
 
-//export function findEvent(uuid) {
-//  return events.find((event) => event.uuid === uuid);
-//}
 export async function getTraccia() {
   const events = await getEventList();
   return events.find((event) => event.kind === "TRACCE");
@@ -50,7 +46,7 @@ export async function getTraccia() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_invitations_list
 export async function getEventInvitations() {
-  const response = await axios.get('events/invitations/');
+  const response = await axios.get("events/invitations/");
 
   return response.data || [];
 }
@@ -59,7 +55,7 @@ export async function getEventInvitations() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_list
 export async function getEventRegistrations() {
-  const response = await axios.get('events/registrations/');
+  const response = await axios.get("events/registrations/");
 
   return response.data;
 }
@@ -68,12 +64,9 @@ export async function getEventRegistrations() {
 //  Doc:
 //  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
 export async function registerToEvent(eventUuid) {
-  const response = await axios.post(
-    'events/registrations/',
-    {
-      event: eventUuid
-    }
-  );
+  const response = await axios.post("events/registrations/", {
+    event: eventUuid,
+  });
 
   return response.data;
 }

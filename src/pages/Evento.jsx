@@ -15,9 +15,9 @@ import WhitePaper from "../ui/WhitePaper";
 import getEventColor from "../lib/eventColor";
 import { italianMonth } from "../lib/italianDate";
 
-import { getLocation } from "../lib/dataManager/locations";
-import { getEvent } from "../lib/dataManager/events";
-import { getPage } from "../lib/dataManager/pages";
+import { getLocation } from "../lib/cacheManager/locations";
+import { getEvent } from "../lib/cacheManager/events";
+import { getPage } from "../lib/cacheManager/pages";
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);

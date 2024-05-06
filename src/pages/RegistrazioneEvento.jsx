@@ -9,7 +9,7 @@ import {
   getEvent,
   getEventInvitations,
   getEventRegistrations,
-} from "../lib/dataManager/events";
+} from "../lib/cacheManager/events";
 
 /*
   Responses:

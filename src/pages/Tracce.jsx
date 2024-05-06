@@ -9,9 +9,9 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import WhitePaper from "../ui/WhitePaper";
 
-import { getTraccia } from "../lib/dataManager/events";
-import { getPage } from "../lib/dataManager/pages";
-import { getLocation } from "../lib/dataManager/locations";
+import { getTraccia } from "../lib/cacheManager/events";
+import { getPage } from "../lib/cacheManager/pages";
+import { getLocation } from "../lib/cacheManager/locations";
 
 export async function loader() {
   const traccia = await getTraccia();

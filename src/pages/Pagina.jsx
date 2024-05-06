@@ -1,5 +1,5 @@
 import WhitePaper from "../ui/WhitePaper";
-import { getPage } from "../lib/dataManager/pages";
+import { getPage } from "../lib/cacheManager/pages";
 import { useLoaderData, Link as RouterLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";

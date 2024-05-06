@@ -11,8 +11,11 @@ import {
 import EventSummaryCard from "../ui/EventSummaryCard";
 import ImageCard from "../ui/ImageCard";
 
-import { getEventList, getEventRegistrations } from "../lib/dataManager/events"; 
-import { getLocationList } from "../lib/dataManager/locations"; 
+import {
+  getEventList,
+  getEventRegistrations,
+} from "../lib/cacheManager/events";
+import { getLocationList } from "../lib/cacheManager/locations";
 
 import { AuthContext } from "../contexts/auth";
 
@@ -26,7 +29,6 @@ export async function loader() {
 export default function Home() {
   const { user } = useContext(AuthContext);
   const { events, registrations, locations } = useLoaderData();
-  console.log(events)
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
