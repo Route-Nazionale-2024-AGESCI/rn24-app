@@ -54,6 +54,6 @@ export async function getLocation(uuid) {
   return response.data
 }
 
-export function findLocation(uuid) {
-  return locations.find((loc) => loc.uuid === uuid);
-}
+//export function findLocation(uuid) {
+//  return locations.find((loc) => loc.uuid === uuid);
+//}
