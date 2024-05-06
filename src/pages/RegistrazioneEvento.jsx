@@ -1,7 +1,10 @@
 import { useFetcher, useLoaderData } from "react-router-dom";
 
+import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 import AccessButton from "../ui/AccessButton";
 
@@ -10,6 +13,23 @@ import {
   getEventInvitations,
   getEventRegistrations,
 } from "../lib/cacheManager/events";
+
+import {
+  registerToEvent,
+  deleteRegistrationToEvent,
+} from "../lib/dataManager/events";
+
+const GreenBox = styled(Box)({
+  backgroundColor: "#EBF6F0",
+  border: "2px solid #38A368",
+  padding: "12px 24px",
+  borderRadius: "8px",
+  color: "#38A368",
+  textAlign: "center",
+  maxWidth: "400px",
+  marginRight: "auto",
+  marginLeft: "auto",
+});
 
 /*
   Responses:
@@ -37,25 +57,19 @@ import {
 
 */
 
-export async function action({ params }) {
+export async function action({ params, request }) {
   const eventUuid = params.eventId;
-  const res = await fetch(
-    "https://rn24-dev.fly.dev/api/v1/events/registrations/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        // event: eventUuid,
-        event: "5eff8281-80c6-46aa-b6bd-713a543f18a1",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${process.env.REACT_APP_API_TOKEN}`,
-      },
-    }
-  ).then((res) =>
-    res.json().then((data) => ({ status: res.status, body: data }))
-  );
-  return res;
+  let res;
+  switch (request.method) {
+    case "POST":
+      res = await registerToEvent(eventUuid);
+      return res;
+    case "DELETE":
+      res = await deleteRegistrationToEvent(eventUuid);
+      return res;
+    default:
+      return null;
+  }
 }
 
 export async function loader({ params }) {
@@ -77,52 +91,95 @@ export default function RegistrazioneEvento() {
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
 
-  if (!event.is_registration_required) return null;
+  /*
+    Clausola di sicurezza: l'utente non dovrebbe poter vedere gli eventi a cui non è
+    invitato.
+  */
+  if (!invUuid.includes(event.uuid)) return null;
 
-  // TODO: introdurre isOnline
-  // TODO: rimuovere canUserRegister? is_registration_required viene testata sopra...
-  const canUserRegister =
-    event.is_registration_required === true && invUuid.includes(event.uuid);
-  const userAlreadyRegistered = canUserRegister && regUuid.includes(event.uuid);
-
-  if (canUserRegister && !userAlreadyRegistered)
-    return (
-      <fetcher.Form
-        method="post"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <AccessButton
-          sx={{ opacity: fetcher.state === "submitting" ? "50%" : "100%" }}
-          type="submit"
-          disabled={fetcher.state !== "idle"}
-        >
-          <Typography fontSize="16px" fontWeight={600}>
-            Registrati a questo evento
+  // Evento senza registrazione personale: aperto a tutti i capi, oppure con registrazione di Co.Ca. o simili
+  if (!event.is_registration_required) {
+    if (regUuid.includes(event.uuid)) {
+      return (
+        <GreenBox>
+          <Typography fontWeight={600} fontSize="16px">
+            Sei registrato a questo evento
           </Typography>
-          {fetcher.state !== "idle" && (
-            <CircularProgress
-              size="20px"
-              sx={{ marginLeft: "12px", color: "#000000" }}
-            />
-          )}
-        </AccessButton>
-      </fetcher.Form>
-    );
-
-  // Capo iscritto, possibilita di ritirare l'iscrizione
-  if (canUserRegister && userAlreadyRegistered) return <></>;
-
-  // Caso offline...
-
-  // POST precedente ha dato una error response
-  // Generare forse un componente tipo Toast Notify che viene renderizzato su tutte le view?
-  // Usare useEffect con le giuste dipendenze, per non generarne infiniti
-  if (fetcher.data?.status !== undefined && fetcher.data.status === 201) {
+        </GreenBox>
+      );
+    }
+    return null;
+  } else {
+    // event.is_registration_required === true
+    if (regUuid.includes(event.uuid)) {
+      return (
+        <>
+          <GreenBox>
+            <Typography fontWeight={600} fontSize="16px">
+              Sei registrato a questo evento
+            </Typography>
+          </GreenBox>
+          <Box height="16px" />
+          <fetcher.Form
+            method="DELETE"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              variant="text"
+              sx={{
+                textTransform: "none",
+                color: "#000000",
+                opacity: fetcher.state === "submitting" ? "50%" : "100%",
+              }}
+              type="submit"
+            >
+              <Typography fontSize="16px" fontWeight={600}>
+                Annulla Iscrizione
+              </Typography>
+              {fetcher.state !== "idle" && (
+                <CircularProgress
+                  size="20px"
+                  sx={{ marginLeft: "12px", color: "#000000" }}
+                />
+              )}
+            </Button>
+          </fetcher.Form>
+        </>
+      );
+    } else {
+      // event.is_registration_required === true, regUuid doesn't include event
+      return (
+        <fetcher.Form
+          method="POST"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <AccessButton
+            sx={{ opacity: fetcher.state === "submitting" ? "50%" : "100%" }}
+            type="submit"
+            disabled={fetcher.state !== "idle"}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Registrati a questo evento
+            </Typography>
+            {fetcher.state !== "idle" && (
+              <CircularProgress
+                size="20px"
+                sx={{ marginLeft: "12px", color: "#000000" }}
+              />
+            )}
+          </AccessButton>
+        </fetcher.Form>
+      );
+    }
   }
 
-  return <></>;
+  // TODO: introdurre isOnline
 }
