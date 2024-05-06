@@ -1,6 +1,8 @@
 import { useRouteError } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import HomeIcon from "@mui/icons-material/Home";
+import CardButton from "./CardButton";
 
 export default function SegmentError() {
   const error = useRouteError();
@@ -19,7 +21,7 @@ export default function SegmentError() {
         fontWeight={600}
         sx={{ mb: "30px", mt: "40px" }}
       >
-        Ops! Seg error
+        Ops!
       </Typography>
       <Typography
         variant="h6"
@@ -37,6 +39,12 @@ export default function SegmentError() {
       >
         {error.statusText || error.message}
       </Typography>
+      <CardButton
+        icon={<HomeIcon />}
+        text="Torna alla Home"
+        bgColor="agesciPurple"
+        to="/"
+      />
     </Container>
   );
 }
