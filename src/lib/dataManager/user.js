@@ -1,4 +1,4 @@
-import { profile } from "../sample_data";
+import axios from "../api";
 
 /*
   API endpoint: /api/v1/profile/
@@ -40,5 +40,7 @@ import { profile } from "../sample_data";
 
 */
 export async function getUser() {
-  return profile;
+  const response = await axios.get('profile/');
+
+  return response.data
 }

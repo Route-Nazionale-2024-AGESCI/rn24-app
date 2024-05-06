@@ -1,5 +1,4 @@
-import { pages } from "../sample_data";
-
+import axios from "../api";
 /* 
   API endpoint: /api/v1/pages/ 
   Recuperare l'elenco completo della Pagine di contenuto.
@@ -17,12 +16,20 @@ import { pages } from "../sample_data";
 
 */
 export async function getPages() {
-  return pages;
+  const response = await axios.get('pages/');
+
+  return response.data?.data || [];
 }
 
 // /api/v1/pages/{uuid}/
 // Da valutare: usare find ricorsiva piuttosto che call asincrona
 
+export async function getPage(uuid) {
+  const response = await axios.get(`pages/${uuid}/`);
+
+  return response.data;
+}
+/*
 function findPage(uuid) {
   function searchPage(node, uuid) {
     if (!node) {
@@ -42,14 +49,9 @@ function findPage(uuid) {
   for (let page of pages) {
     let result = searchPage(page, uuid);
     if (result) {
-      // console.log(result);
       return result;
     }
   }
   return null;
 }
-
-export function getPage(uuid) {
-  // return pages.find((loc) => loc.uuid === uuid);
-  return findPage(uuid);
-}
+*/

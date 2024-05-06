@@ -1,6 +1,5 @@
 import React from "react";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router";
 import {
   ThemeProvider,
   createTheme,
@@ -8,6 +7,8 @@ import {
 } from "@mui/material/styles";
 
 import "./App.css";
+import { getLoggedInRouter, getNotLoggedInRouter } from "./router";
+import AuthProvider, {AuthContext, AuthIsLoggedIn, AuthIsNotLoggedIn} from "./contexts/auth";
 
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
@@ -55,11 +56,39 @@ theme = createTheme(theme, {
 });
 theme = responsiveFontSizes(theme);
 
+
+const Router = () => {
+  const {isLoaded, user, token, status} = React.useContext(AuthContext);
+
+  const notLoggedInRouter = React.useMemo(() => {
+    if(isLoaded && user === null)
+      return getNotLoggedInRouter();
+  }, [isLoaded]);
+
+  const loggedInRouter = React.useMemo(() => {
+    if(isLoaded && user)
+      return getLoggedInRouter();
+  }, [isLoaded]);
+
+  if(!isLoaded)
+    return 'Caricamento....';
+
+  if(user)
+    return <RouterProvider router={loggedInRouter} />;
+
+  
+  return <RouterProvider router={notLoggedInRouter} />;
+
+};
+
 function App() {
+  
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Router />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

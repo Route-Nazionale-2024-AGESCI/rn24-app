@@ -1,3 +1,4 @@
+import { useContext, useRef, useState } from "react";
 import { Form, Link as RouterLink } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
@@ -11,7 +12,41 @@ import Link from "@mui/material/Link";
 import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
 
+import { AuthContext } from "../contexts/auth";
+
 export default function Login() {
+  const { loginAction, } = useContext(AuthContext);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const tosRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+
+    // TODO: migliorare visualizzazione errori
+    if (username === '' || password === '' || !tosRef.current?.checked) {
+      alert('Campi obbligatori!');
+      return;
+    }
+    setLoading(true);
+    try {
+      await loginAction({username, password});
+    } 
+    catch (error) {
+      alert('ERRORE!');
+      console.error(error);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+  
+  if(loading)
+    // TODO: to improve
+    return <h4>Loading...</h4>;
+
   return (
     <Box
       sx={{
@@ -49,6 +84,7 @@ export default function Login() {
                 mt: "8px",
                 mb: "24px",
               }}
+              inputRef={usernameRef}
             />
           </FormControl>
           <FormControl color="agesciPurple">
@@ -63,6 +99,7 @@ export default function Login() {
               sx={{
                 mt: "8px",
               }}
+              inputRef={passwordRef}
             />
           </FormControl>
 
@@ -77,7 +114,7 @@ export default function Login() {
           </Link>
           <FormGroup sx={{ mt: "40px" }}>
             <FormControlLabel
-              control={<CheckBox />}
+              control={<CheckBox inputRef={tosRef} />}
               //required
               label={
                 <Typography fontSize="12px">
@@ -88,7 +125,7 @@ export default function Login() {
             />
           </FormGroup>
           <AccessButton>
-            <Typography fontSize="16px" fontWeight={600}>
+            <Typography fontSize="16px" fontWeight={600} onClick={handleSubmit}>
               Accedi
             </Typography>
           </AccessButton>
