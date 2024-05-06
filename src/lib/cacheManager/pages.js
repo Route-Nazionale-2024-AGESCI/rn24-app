@@ -37,4 +37,11 @@ async function getPage(uuid) {
   return null;
 }
 
-export { getPages, getPage };
+async function getSicurezza() {
+  const pages = await getPages();
+  const sicurezzaPage = pages.find((p) => p.slug === "sicurezza");
+  if (sicurezzaPage === undefined) return null;
+  return sicurezzaPage;
+}
+
+export { getPages, getPage, getSicurezza };
