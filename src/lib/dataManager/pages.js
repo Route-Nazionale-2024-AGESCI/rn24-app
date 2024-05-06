@@ -29,7 +29,7 @@ export async function getPage(uuid) {
 
   return response.data;
 }
-
+/*
 function findPage(uuid) {
   function searchPage(node, uuid) {
     if (!node) {
@@ -54,3 +54,4 @@ function findPage(uuid) {
   }
   return null;
 }
+*/
