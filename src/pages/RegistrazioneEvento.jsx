@@ -1,4 +1,5 @@
-import { useFetcher, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -12,8 +13,8 @@ import AccessButton from "../ui/AccessButton";
 
 import {
   getEvent,
-  getEventInvitations,
-  getEventRegistrations,
+  useEventInvitations,
+  useEventRegistrations,
 } from "../lib/cacheManager/events";
 
 import {
@@ -60,37 +61,22 @@ const GreenBox = styled(Box)({
 */
 
 export async function action({ params, request }) {
-  const eventUuid = params.eventId;
-  let res;
-  switch (request.method) {
-    case "POST":
-      res = await registerToEvent(eventUuid);
-      return res;
-    case "DELETE":
-      res = await deleteRegistrationToEvent(eventUuid);
-      return res;
-    default:
-      return null;
-  }
+  // TODO: remove action from router
+  return null;
 }
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
-  const invitations = await getEventInvitations();
-
-  // unique real Req, won't be retrieved by cache if we're online
-  const registrations = await getEventRegistrations();
-
-  return { event, invitations, registrations };
+  return { event };
 }
 
 export default function RegistrazioneEvento() {
-  const { event, invitations, registrations } = useLoaderData();
-  const fetcher = useFetcher();
+  const [loading, setLoading] = useState(false);
+  const { event } = useLoaderData();
+  const { invitations } = useEventInvitations();
+  const { registrations, mutate } = useEventRegistrations();
   const networkState = useNetworkState();
 
-  console.log("Response status: ", fetcher.data?.status);
-  console.log("Response body: ", fetcher.data?.body);
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
 
@@ -124,8 +110,7 @@ export default function RegistrazioneEvento() {
           </GreenBox>
           <Box height="16px" />
           {networkState.online && (
-            <fetcher.Form
-              method="DELETE"
+            <Box
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -137,29 +122,34 @@ export default function RegistrazioneEvento() {
                 sx={{
                   textTransform: "none",
                   color: "#000000",
-                  opacity: fetcher.state === "submitting" ? "50%" : "100%",
+                  opacity: loading ? "50%" : "100%",
                 }}
-                type="submit"
+                onClick={async () => {
+                  setLoading(true);
+                  await deleteRegistrationToEvent(event.uuid);
+                  setLoading(false);
+                  mutate(
+                    registrations.filter((reg) => reg.event !== event.uuid)
+                  );
+                }}
               >
                 <Typography fontSize="16px" fontWeight={600}>
                   Annulla Iscrizione
                 </Typography>
-                {fetcher.state !== "idle" && (
+                {loading && (
                   <CircularProgress
                     size="20px"
                     sx={{ marginLeft: "12px", color: "#000000" }}
                   />
                 )}
               </Button>
-            </fetcher.Form>
+            </Box>
           )}
         </>
       );
     } else if (networkState.online) {
-      // event.is_registration_required === true, regUuid doesn't include event
       return (
-        <fetcher.Form
-          method="POST"
+        <Box
           style={{
             display: "flex",
             flexDirection: "column",
@@ -167,25 +157,29 @@ export default function RegistrazioneEvento() {
           }}
         >
           <AccessButton
-            sx={{ opacity: fetcher.state === "submitting" ? "50%" : "100%" }}
-            type="submit"
-            disabled={fetcher.state !== "idle"}
+            sx={{ opacity: loading ? "50%" : "100%" }}
+            disabled={loading}
+            onClick={async () => {
+              setLoading(true);
+              const res = await registerToEvent(event.uuid);
+              console.log(res);
+              setLoading(false);
+              mutate([...registrations, { event: res.event }]);
+            }}
           >
             <Typography fontSize="16px" fontWeight={600}>
               Registrati a questo evento
             </Typography>
-            {fetcher.state !== "idle" && (
+            {loading && (
               <CircularProgress
                 size="20px"
                 sx={{ marginLeft: "12px", color: "#000000" }}
               />
             )}
           </AccessButton>
-        </fetcher.Form>
+        </Box>
       );
     }
     return null;
   }
-
-  // TODO: introdurre isOnline
 }

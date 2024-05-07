@@ -18,6 +18,7 @@ import { italianMonth } from "../lib/italianDate";
 import { getLocation } from "../lib/cacheManager/locations";
 import { getEvent } from "../lib/cacheManager/events";
 import { getPage } from "../lib/cacheManager/pages";
+import HtmlWithRouterLinks from "../lib/htmlParser";
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
@@ -251,9 +252,7 @@ export default function Evento() {
               <Typography fontSize="14px" fontWeight={600}>
                 Descrizione:
               </Typography>
-              <Typography
-                dangerouslySetInnerHTML={{ __html: description.body }}
-              />
+              <HtmlWithRouterLinks htmlString={description.body} />
             </Stack>
           )}
         </Box>
