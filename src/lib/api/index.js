@@ -11,12 +11,22 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-      if (error.response?.status === 401) {
-      // TODO: potremmo mettere un messaggio di sessione scaduta?
-      window.location.href = '/';
-      }
+    (response) => response,
+    (error) => {
+        const status = error.response?.status
+        if (
+            status === 401
+            || (
+                status === 403
+                && error.response.data.detail === "Non sono state immesse le credenziali di autenticazione."
+            )
+        ) {
+            // TODO: potremmo mettere un messaggio di sessione scaduta?
+            window.location.href = '/login';
+            return;
+        }
+        return Promise.reject(error);
+        
   }
 );
 

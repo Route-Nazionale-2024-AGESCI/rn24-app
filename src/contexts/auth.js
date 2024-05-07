@@ -24,6 +24,10 @@ const defaultState = {
 
 export const AuthContext = React.createContext(defaultState);
 
+export const useAuth = () => {
+    return useContext(AuthContext);
+}
+
 export const AuthIsLoggedIn = ({ children }) => {
     const { isLoaded, status } = useContext(AuthContext);
     return <>{isLoaded && status === AuthStatus.LoggedIn ? children : null}</>;
@@ -33,7 +37,6 @@ export const AuthIsNotLoggedIn = ({ children }) => {
     const { status, isLoaded } = useContext(AuthContext);
     return <>{isLoaded && status === AuthStatus.LoggedOut ? children : null}</>;
 };
-
 
 const AuthProvider = ({ children }) => {
     const localToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
@@ -49,7 +52,7 @@ const AuthProvider = ({ children }) => {
         if(token) {
             const interceptor = axios.interceptors.request.use(
                 config => {
-                    config.headers['Authorization'] = `Token ${token}`;
+                        config.headers['Authorization'] = `Token ${token}`;
                         return config;
                     },
                     error => {
@@ -77,7 +80,6 @@ const AuthProvider = ({ children }) => {
 
         if (res) {
             setToken(res.token);
-            window.location.href = "/";
             return;
         }
       } catch (error) {
@@ -94,7 +96,6 @@ const AuthProvider = ({ children }) => {
     };
     
     const isLoaded = AuthStatus.Loading !== status;
-    
     if(!isLoaded)
         return 'Caricamento...';
 
@@ -103,7 +104,6 @@ const AuthProvider = ({ children }) => {
         {children}
       </AuthContext.Provider>
     );
-  
 };
 
 export default AuthProvider;

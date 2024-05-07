@@ -1,5 +1,5 @@
-import { useContext, useRef, useState } from "react";
-import { Form, Link as RouterLink } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Form, Link as RouterLink, Navigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -12,15 +12,15 @@ import Link from "@mui/material/Link";
 import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
 
-import { AuthContext } from "../contexts/auth";
+import { useAuth } from "../contexts/auth";
 
 export default function Login() {
-  const { loginAction } = useContext(AuthContext);
+  const { loginAction, user } = useAuth();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const tosRef = useRef(null);
   const [loading, setLoading] = useState(false);
-
+  
   const handleSubmit = async () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
@@ -44,6 +44,11 @@ export default function Login() {
   if (loading)
     // TODO: to improve
     return <h4>Loading...</h4>;
+
+  if(user) {
+    console.log('non dovresti essere qui');
+    return <Navigate to="/" />;
+  }
 
   return (
     <Box

@@ -1,4 +1,4 @@
-import { Form } from "react-router-dom";
+import { Form, Navigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -8,7 +8,16 @@ import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
 import BackToLogin from "../ui/BackToLogin";
 
+import { useAuth } from "../contexts/auth";
+
 export default function RecuperoCodice() {
+  const { user } = useAuth();
+  
+  if(user) {
+    console.log('non dovresti essere qui');
+    return <Navigate to="/" />;
+  }
+
   return (
     <Box
       sx={{
