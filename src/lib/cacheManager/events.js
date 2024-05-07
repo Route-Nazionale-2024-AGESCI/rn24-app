@@ -1,3 +1,4 @@
+import useSWR from "swr";
 import {
   getEventList as APIgetEventList,
   getEventRegistrations as APIgetEventRegistrations,
@@ -49,10 +50,48 @@ async function getEventRegistrations() {
   return registrations ?? [];
 }
 
+function useEventRegistrations() {
+  const { data, error, mutate } = useSWR(
+    "events/registrations/",
+    APIgetEventRegistrations
+  );
+  // TODO: manage errors
+  error !== undefined && console.error(error);
+
+  if (data) {
+    localStorage.setItem("registrations", JSON.stringify(data));
+    return { registrations: data, mutate };
+  }
+  return {
+    registrations: JSON.parse(localStorage.getItem("registrations")) ?? [],
+    mutate,
+  };
+}
+
+function useEventInvitations() {
+  const { data, error, mutate } = useSWR(
+    "events/invitations",
+    APIgetEventInvitations
+  );
+  // TODO: manage errors
+  error !== undefined && console.error(error);
+
+  if (data) {
+    localStorage.setItem("invitations", JSON.stringify(data));
+    return { invitations: data, mutate };
+  }
+  return {
+    invitations: JSON.parse(localStorage.getItem("invitations")) ?? [],
+    mutate,
+  };
+}
+
 export {
   getEventList,
   getEvent,
   getTraccia,
   getEventInvitations,
   getEventRegistrations,
+  useEventInvitations,
+  useEventRegistrations,
 };

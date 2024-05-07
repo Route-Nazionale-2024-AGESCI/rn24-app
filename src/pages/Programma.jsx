@@ -22,8 +22,8 @@ import getEventColor from "../lib/eventColor";
 
 import {
   getEventList,
-  getEventInvitations,
-  getEventRegistrations,
+  useEventInvitations,
+  useEventRegistrations,
 } from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
 
@@ -50,9 +50,9 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 export async function loader() {
   const events = await getEventList();
   const locations = await getLocationList();
-  const registrations = await getEventRegistrations();
-  const invitations = await getEventInvitations();
-  return { events, locations, registrations, invitations };
+  //const registrations = await getEventRegistrations();
+  //const invitations = await getEventInvitations();
+  return { events, locations }; //, registrations, invitations };
 }
 
 export default function Programma() {
@@ -73,7 +73,10 @@ export default function Programma() {
       ? currentDate
       : minDate;
   });
-  const { events, locations, registrations, invitations } = useLoaderData();
+  const { events, locations /*, registrations, invitations*/ } =
+    useLoaderData();
+  const { registrations } = useEventRegistrations();
+  const { invitations } = useEventInvitations();
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {

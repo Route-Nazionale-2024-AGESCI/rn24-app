@@ -13,7 +13,7 @@ import ImageCard from "../ui/ImageCard";
 
 import {
   getEventList,
-  getEventRegistrations,
+  useEventRegistrations,
 } from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
 
@@ -21,14 +21,15 @@ import { AuthContext } from "../contexts/auth";
 
 export async function loader() {
   const events = await getEventList();
-  const registrations = await getEventRegistrations();
   const locations = await getLocationList();
-  return { events, registrations, locations };
+  return { events, locations };
 }
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  const { events, registrations, locations } = useLoaderData();
+  const { events, locations } = useLoaderData();
+  const { registrations } = useEventRegistrations();
+
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
