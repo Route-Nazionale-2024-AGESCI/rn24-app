@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   useLoaderData,
   Link as RouterLink,
@@ -24,11 +23,7 @@ import WhitePaper from "../ui/WhitePaper";
 
 import getEventColor from "../lib/eventColor";
 
-import {
-  getEventList,
-  useEventInvitations,
-  //useEventRegistrations,
-} from "../lib/cacheManager/events";
+import { getEventList, useEventInvitations } from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -77,9 +72,7 @@ export default function Programma() {
   const minDate = "2024-08-22";
   const maxDate = "2024-08-25";
 
-  // TODO: selectedDay: if params exists, take from it, elsewhere keep as now
   const { events, locations, day } = useLoaderData();
-  //const { registrations } = useEventRegistrations();
   const { invitations } = useEventInvitations();
   const navigate = useNavigate();
   const currentDate = getCurrentDate();
@@ -113,8 +106,6 @@ export default function Programma() {
 
   const handleChangeDay = (event, newDay) => {
     if (newDay !== null) {
-      //setSelectedDay(newDay);
-      // TODO: update url
       navigate(`/programma/?day=${newDay}`, { replace: true });
     }
   };
@@ -340,7 +331,6 @@ export default function Programma() {
             onChange={handleChangeDay}
             aria-label="Giorno"
             sx={{
-              //border: "1px solid blue",
               marginX: "auto",
             }}
           >
