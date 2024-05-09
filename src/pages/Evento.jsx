@@ -252,7 +252,9 @@ export default function Evento() {
               <Typography fontSize="14px" fontWeight={600}>
                 Descrizione:
               </Typography>
-              <HtmlWithRouterLinks htmlString={description.body} />
+              <div className="description-container">
+                <HtmlWithRouterLinks htmlString={description.body} />
+              </div>
             </Stack>
           )}
         </Box>

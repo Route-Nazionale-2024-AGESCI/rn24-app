@@ -9,11 +9,9 @@ const renderLink = (linkElement) => {
   if (attribs && attribs.href && attribs.href.startsWith("/pages/")) {
     const { href: to, ...otherProps } = attribs;
     const returnElement = (
-      <Typography sx={{ textDecoration: "none" }} component="span">
-        <Link to={to} {...otherProps} style={{ textDecoration: "none" }}>
-          {domToReact(children)}
-        </Link>
-      </Typography>
+      <Link to={to} {...otherProps}>
+        {domToReact(children)}
+      </Link>
     );
     return returnElement;
   }
