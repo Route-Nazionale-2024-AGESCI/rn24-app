@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 
 import RnLogo from "./RnLogo";
 import NotifyButton from "./NotifyButton";
-import UserAvatar from "./UserAvatar";
+import Menu from "./Menu";
 
 export default function AppBar() {
   return (
@@ -29,7 +29,7 @@ export default function AppBar() {
         <RnLogo />
         <Stack direction="row" spacing="16px">
           <NotifyButton />
-          <UserAvatar />
+          <Menu />
         </Stack>
       </Box>
     </Container>
