@@ -7,6 +7,7 @@ import { getUser } from "../lib/dataManager/user";
 import * as authAPI from "../lib/api/auth";
 
 const LOCAL_STORAGE_TOKEN_KEY = "atoken";
+const LOCAL_STORAGE_CSRF_TOKEN_KEY = "csrftoken";
 
 const AuthStatus = Object.freeze({
   LoggedIn: Symbol("logged_in"),
@@ -17,6 +18,7 @@ const AuthStatus = Object.freeze({
 const defaultState = {
   status: AuthStatus.LoggedOut,
   token: null,
+  csrftoken: null,
   loginAction: async ({ username, password }) => {},
   logOut: () => {},
   user: null,
@@ -41,17 +43,20 @@ export const AuthIsNotLoggedIn = ({ children }) => {
 
 const AuthProvider = ({ children }) => {
   const localToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+  const localCsrfToken = localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
   const [status, setStatus] = useState(
-    localToken ? AuthStatus.Loading : AuthStatus.LoggedOut
+    localToken && localCsrfToken ? AuthStatus.Loading : AuthStatus.LoggedOut
   );
   const [token, setToken] = useState(localToken);
+  const [csrfToken, setCsrfToken] = useState(localCsrfToken);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (token) {
+    if (token && csrfToken) {
       const interceptor = axios.interceptors.request.use(
         (config) => {
           config.headers["Authorization"] = `Token ${token}`;
+          config.headers["X-CSRFToken"] = `csrftoken=${csrfToken}`;
           return config;
         },
         (error) => {
@@ -60,6 +65,7 @@ const AuthProvider = ({ children }) => {
       );
 
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+      localStorage.setItem(LOCAL_STORAGE_CSRF_TOKEN_KEY, csrfToken);
 
       getUser().then((res) => {
         setUser(res);
@@ -70,7 +76,7 @@ const AuthProvider = ({ children }) => {
       };
     }
     // removeAuthenticationHeader();
-  }, [token]);
+  }, [token, csrfToken]);
 
   const loginAction = async ({ username, password }) => {
     try {
@@ -78,6 +84,7 @@ const AuthProvider = ({ children }) => {
 
       if (res) {
         setToken(res.token);
+        setCsrfToken(res.csrftoken);
         return;
       }
     } catch (error) {
@@ -87,7 +94,9 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setToken(null);
+    setCsrfToken(null);
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
     setStatus(AuthStatus.LoggedOut);
     //   removeAuthenticationHeader();
     //window.location.href = "/login";
@@ -99,7 +108,15 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ status, token, loginAction, logOut, user, isLoaded }}
+      value={{
+        status,
+        token,
+        csrftoken: csrfToken,
+        loginAction,
+        logOut,
+        user,
+        isLoaded,
+      }}
     >
       {children}
     </AuthContext.Provider>
