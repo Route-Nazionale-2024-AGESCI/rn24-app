@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useLoaderData, Link as RouterLink } from "react-router-dom";
+import {
+  useLoaderData,
+  Link as RouterLink,
+  useNavigate,
+} from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -23,13 +27,13 @@ import getEventColor from "../lib/eventColor";
 import {
   getEventList,
   useEventInvitations,
-  useEventRegistrations,
+  //useEventRegistrations,
 } from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.grouped}`]: {
-    margin: "6px", //theme.spacing(0.5),
+    margin: "6px",
     padding: "8px 20px",
     border: 0,
     borderRadius: "8px",
@@ -47,36 +51,44 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 // TODO: implementare API per il numero di iscritti ??
 
-export async function loader() {
+// /programma/?day=2024-08-23
+export async function loader({ request }) {
   const events = await getEventList();
   const locations = await getLocationList();
-  //const registrations = await getEventRegistrations();
-  //const invitations = await getEventInvitations();
-  return { events, locations }; //, registrations, invitations };
+  const url = new URL(request.url);
+  const day = url.searchParams.get("day");
+  return { events, locations, day };
 }
 
+const getCurrentDate = () => {
+  // const today = new Date(2024, 7, 25, 13);
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+function testDateFormat(dateString) {
+  const regex =
+    /^(?:19|20)\d\d-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)$/;
+  return regex.test(dateString);
+}
 export default function Programma() {
-  const getCurrentDate = () => {
-    // const today = new Date(2024, 7, 25, 13);
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
   const minDate = "2024-08-22";
   const maxDate = "2024-08-25";
 
-  const [selectedDay, setSelectedDay] = useState(() => {
-    const currentDate = getCurrentDate();
-    return currentDate >= minDate && currentDate <= maxDate
-      ? currentDate
-      : minDate;
-  });
-  const { events, locations /*, registrations, invitations*/ } =
-    useLoaderData();
-  const { registrations } = useEventRegistrations();
+  // TODO: selectedDay: if params exists, take from it, elsewhere keep as now
+  const { events, locations, day } = useLoaderData();
+  //const { registrations } = useEventRegistrations();
   const { invitations } = useEventInvitations();
+  const navigate = useNavigate();
+  const currentDate = getCurrentDate();
+
+  let selectedDay;
+  if (day !== null && testDateFormat(day)) selectedDay = day;
+  else
+    selectedDay =
+      currentDate >= minDate && currentDate <= maxDate ? currentDate : minDate;
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {
@@ -94,17 +106,16 @@ export default function Programma() {
       return startsAt <= currentDate && endsAt > currentDate;
     });
   };
-  //const regUuid = registrations.map((reg) => reg.event);
   const invUuid = invitations.map((inv) => inv.uuid);
-  const visibleEvents = events.filter((ev) =>
-    /*regUuid.includes(ev.uuid) || */ invUuid.includes(ev.uuid)
-  );
+  const visibleEvents = events.filter((ev) => invUuid.includes(ev.uuid));
   const filteredEvents = filterEventsByDate(visibleEvents, selectedDay);
   const eventsInProgress = findEventsInProgress(filteredEvents);
 
   const handleChangeDay = (event, newDay) => {
     if (newDay !== null) {
-      setSelectedDay(newDay);
+      //setSelectedDay(newDay);
+      // TODO: update url
+      navigate(`/programma/?day=${newDay}`, { replace: true });
     }
   };
 
