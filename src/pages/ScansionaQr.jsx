@@ -63,7 +63,9 @@ export default function ScansionaQr() {
         <>
           <QrReader
             delay={300}
-            facingMode="environment"
+            constraints={{
+              facingMode: { exact: "environment" },
+            }}
             onResult={handleScan}
             containerStyle={{
               borderRadius: "8px",
