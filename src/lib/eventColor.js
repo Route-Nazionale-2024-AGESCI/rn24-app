@@ -20,6 +20,11 @@ export default function getEventColor(kind) {
         main: "agesciPurple.main",
         bg: "#E2DCEA",
       };
+    case "ALTRO":
+      return {
+        main: "#0077b6",
+        bg: "#caf0f8",
+      };
     default:
       return {
         main: "#000000",
