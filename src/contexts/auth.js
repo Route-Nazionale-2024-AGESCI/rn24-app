@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
       const interceptor = axios.interceptors.request.use(
         (config) => {
           config.headers["Authorization"] = `Token ${token}`;
-          config.headers["X-CSRFToken"] = `csrftoken=${csrfToken}`;
+          config.headers["X-CSRFToken"] = `${csrfToken}`;
           return config;
         },
         (error) => {
