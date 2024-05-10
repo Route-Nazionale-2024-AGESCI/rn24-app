@@ -75,7 +75,6 @@ const AuthProvider = ({ children }) => {
         axios.interceptors.request.eject(interceptor);
       };
     }
-    // removeAuthenticationHeader();
   }, [token, csrfToken]);
 
   const loginAction = async ({ username, password }) => {
@@ -98,8 +97,6 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     localStorage.removeItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
     setStatus(AuthStatus.LoggedOut);
-    //   removeAuthenticationHeader();
-    //window.location.href = "/login";
     return redirect("/login");
   };
 
