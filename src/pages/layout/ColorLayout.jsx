@@ -6,7 +6,7 @@ import BackToOtherMethods from "../../ui/BackToOtherMethods";
 const ColorLayout = ({ back, color }) => (
   <Box
     sx={{
-      height: "100vh",
+      minHeight: "100vh",
       mb: "-80px",
       display: "flex",
       flexDirection: "column",

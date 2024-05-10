@@ -18,6 +18,8 @@ import { getLocationList } from "../lib/cacheManager/locations";
 
 import { useAuth } from "../contexts/auth";
 
+import { getLocalStorageFirstName } from "../lib/shareContactInfo";
+
 export async function loader() {
   const events = await getEventList();
   const locations = await getLocationList();
@@ -28,6 +30,7 @@ export default function Home() {
   const { user } = useAuth();
   const { events, locations } = useLoaderData();
   const { registrations } = useEventRegistrations();
+  const name = getLocalStorageFirstName() ?? user.first_name;
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
@@ -44,7 +47,7 @@ export default function Home() {
   return (
     <Box sx={{ mx: "24px" }}>
       <Typography variant="h6" fontSize="20px" fontWeight={900}>
-        Ciao, {user.first_name}
+        Ciao, {name}
       </Typography>
       <Typography variant="body1" fontSize="14px" fontWeight={400}>
         Bentornato nell'App di RN24

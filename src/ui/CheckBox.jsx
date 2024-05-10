@@ -31,7 +31,7 @@ const BpIcon = styled("span")(({ theme }) => ({
 }));
 
 const BpCheckedIcon = styled(BpIcon)({
-  backgroundColor: "#137cbd",
+  backgroundColor: "#6D5095",
   backgroundImage:
     "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
   "&::before": {
@@ -45,7 +45,7 @@ const BpCheckedIcon = styled(BpIcon)({
     content: '""',
   },
   "input:hover ~ &": {
-    backgroundColor: "#106ba3",
+    backgroundColor: "#6D5095",
   },
 });
 

@@ -10,7 +10,7 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { QrReader } from "react-qr-reader";
 import AccessButton from "../ui/AccessButton";
 import generateVCardBlob from "../lib/vCard";
-import decodeQr from "../lib/qrDecoder";
+import { decodeQr } from "../lib/qr";
 import BoxButton from "../ui/BoxButton";
 
 // Struttura dei dati codificati nel QR Code:

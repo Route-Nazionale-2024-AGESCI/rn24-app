@@ -8,7 +8,7 @@ import {
 
 import "./App.css";
 import { router } from "./router";
-import AuthProvider, {useAuth} from "./contexts/auth";
+import AuthProvider, { useAuth } from "./contexts/auth";
 
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
@@ -59,14 +59,12 @@ theme = responsiveFontSizes(theme);
 function Router() {
   const { isLoaded } = useAuth();
 
-  if(!isLoaded)
-    return <h1>caricamento....</h1>;
+  if (!isLoaded) return <h1>caricamento....</h1>;
 
   return <RouterProvider router={createBrowserRouter(router)} />;
 }
 
 function App() {
-  
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
