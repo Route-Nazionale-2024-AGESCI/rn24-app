@@ -11,14 +11,11 @@ import FabLayout from "./pages/layout/FabLayout";
 import AccessLayout from "./pages/layout/AccessLayout";
 import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
-import AggiungiContatto from "./pages/AggiungiContatto";
+import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
 import RecuperoCodice from "./pages/RecuperoCodice";
-import QrLayout from "./pages/layout/QrLayout";
-import CodiceLayout from "./pages/layout/CodiceLayout";
+import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
-import InserisciCodice from "./pages/InserisciCodice";
-import CondividiContatto from "./pages/CondividiContatto";
 import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
@@ -32,14 +29,12 @@ import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 import { useAuth } from "./contexts/auth";
 
 const AuthMiddleware = () => {
-	const { isLoaded, user } = useAuth();
+  const { isLoaded, user } = useAuth();
 
-  if(!isLoaded)
-    return <p>caricamento...</p>;
- 
-	return user ? <Outlet /> : <Navigate to="/login"  replace />;
+  if (!isLoaded) return <p>caricamento...</p>;
+
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
-
 
 export const router = [
   {
@@ -123,13 +118,10 @@ export const router = [
                         loader: paginaLoader,
                       },
                       {
-                        path: "aggiungiContatto",
-                        element: <AggiungiContatto />,
+                        path: "contatti",
+                        element: <Contatti />,
                       },
-                      {
-                        path: "condividiContatto",
-                        element: <CondividiContatto />,
-                      },
+
                       {
                         path: "tracce",
                         element: <Tracce />,
@@ -142,7 +134,7 @@ export const router = [
                     ],
                   },
                   {
-                    element: <QrLayout back="/aggiungiContatto" />,
+                    element: <GreenLayout back="/contatti" />,
                     path: "aggiungiContatto/qr",
                     children: [
                       {
@@ -152,7 +144,7 @@ export const router = [
                     ],
                   },
                   {
-                    element: <QrLayout back="/ricercaContenuto" />,
+                    element: <GreenLayout back="/ricercaContenuto" />,
                     path: "ricercaContenuto/qr",
                     children: [
                       {
@@ -161,30 +153,26 @@ export const router = [
                       },
                     ],
                   },
+                  // {
+                  //   element: <CodiceLayout back="/aggiungiContatto" />,
+                  //   path: "aggiungiContatto/codice",
+                  //   children: [
+                  //     {
+                  //       index: true,
+                  //       element: <InserisciCodice />,
+                  //     },
+                  //   ],
+                  // },
                   {
-                    element: <CodiceLayout back="/aggiungiContatto" />,
-                    path: "aggiungiContatto/codice",
-                    children: [
-                      {
-                        index: true,
-                        element: <InserisciCodice />,
-                      },
-                      // {
-                      //   path: "ricerca",
-                      //   element: <RicercaContatto />,
-                      // },
-                    ],
-                  },
-                  {
-                    element: <CodiceLayout back="/ricercaContenuto" />,
+                    element: <PurpleLayout back="/ricercaContenuto" />,
                     path: "ricercaContenuto/codice",
                     children: [
                       //TODO: <InserisciCodiceContenuto />
                     ],
                   },
                   {
-                    path: "condividiContatto/qr",
-                    element: <QrLayout back="/condividiContatto" />,
+                    path: "/condividiContatto",
+                    element: <PurpleLayout back="/contatti" />,
                     children: [
                       {
                         index: true,
@@ -194,8 +182,8 @@ export const router = [
                     ],
                   },
                 ],
-              }
-            ]
+              },
+            ],
           },
         ],
       },

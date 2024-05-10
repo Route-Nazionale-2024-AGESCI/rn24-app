@@ -209,7 +209,7 @@ export default function ScansionaQrContenuto() {
                 }}
               >
                 <PersonAddAlt1Icon
-                  sx={{ fontSize: "20px", color: "agesciRed.main" }}
+                  sx={{ fontSize: "20px", color: "agesciGreen.main" }}
                 />
               </Box>
               <Box sx={{ width: "16px" }} />
@@ -263,7 +263,7 @@ export default function ScansionaQrContenuto() {
             ) : (
               <Box
                 sx={{
-                  backgroundColor: "agesciRed.main",
+                  backgroundColor: "agesciGreen.main",
                   borderRadius: "8px",
                   marginTop: "0px",
                   width: "90%",

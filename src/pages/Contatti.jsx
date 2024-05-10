@@ -4,12 +4,11 @@ import Stack from "@mui/material/Stack";
 
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
-//mui/icons-material/Contactless";
 
 import WhitePaper from "../ui/WhitePaper";
 import BoxButton from "../ui/BoxButton";
 
-export default function AggiungiContatto() {
+export default function Contatti() {
   return (
     <>
       <Typography
@@ -17,7 +16,7 @@ export default function AggiungiContatto() {
         fontWeight={900}
         sx={{ ml: "24px", height: "40px" }}
       >
-        Aggiungi Contatto
+        Contatti
       </Typography>
       <WhitePaper>
         <Stack spacing="32px" alignItems="center">
@@ -30,14 +29,8 @@ export default function AggiungiContatto() {
               width: "100%",
             }}
           >
-            {/* <BoxButton
-              bgColor="agesciGreen"
-              icon={<ContactlessIcon />}
-              text="Utilizza Sensore NFC"
-              to="/aggiungiContatto/nfc"
-            /> */}
             <BoxButton
-              bgColor="agesciRed"
+              bgColor="agesciGreen"
               text="Scansiona QR Code"
               icon={<QrCodeIcon />}
               to="/aggiungiContatto/qr"
@@ -49,8 +42,8 @@ export default function AggiungiContatto() {
           </Typography>
           <BoxButton
             bgColor="agesciPurple"
-            to="/aggiungiContatto/codice"
-            text="Inserisci Codice Manualmente"
+            to="/condividiContatto"
+            text="Condividi il tuo QR Code"
             icon={<KeyboardIcon />}
             big
           />

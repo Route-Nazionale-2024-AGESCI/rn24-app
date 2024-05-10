@@ -36,7 +36,7 @@ export default function RicercaContenuto() {
               to="/aggiungiContatto/nfc"
             /> */}
             <BoxButton
-              bgColor="agesciRed"
+              bgColor="agesciGreen"
               text="Scansiona QR Code"
               icon={<QrCodeIcon />}
               to="/ricercaContenuto/qr"

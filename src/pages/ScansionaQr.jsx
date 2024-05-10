@@ -130,7 +130,7 @@ export default function ScansionaQr() {
                 }}
               >
                 <PersonAddAlt1Icon
-                  sx={{ fontSize: "20px", color: "agesciRed.main" }}
+                  sx={{ fontSize: "20px", color: "agesciGreen.main" }}
                 />
               </Box>
               <Box sx={{ width: "16px" }} />
@@ -185,7 +185,7 @@ export default function ScansionaQr() {
             ) : (
               <Box
                 sx={{
-                  backgroundColor: "agesciRed.main",
+                  backgroundColor: "agesciGreen.main",
                   borderRadius: "8px",
                   marginTop: "0px",
                   width: "90%",
@@ -241,14 +241,14 @@ export default function ScansionaQr() {
               Riprova
             </Typography>
           </AccessButton>
-          <Typography>Oppure</Typography>
+          {/* <Typography>Oppure</Typography>
           <BoxButton
             bgColor="white"
             to="/aggiungiContatto/codice"
             text="Inserisci Codice Manualmente"
             icon={<KeyboardIcon />}
             big
-          />
+          /> */}
         </Box>
       )}
       {urlDetected && (

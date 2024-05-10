@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 
 import BackToOtherMethods from "../../ui/BackToOtherMethods";
 
-export default function CodiceLayout({ back }) {
+export default function RedLayout({ back }) {
   return (
     <Box
       sx={{
@@ -11,7 +11,7 @@ export default function CodiceLayout({ back }) {
         mb: "-80px",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "agesciPurple.main",
+        bgcolor: "agesciGreen.main",
       }}
     >
       <BackToOtherMethods back={back} />
