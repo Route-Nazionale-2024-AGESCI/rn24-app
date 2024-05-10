@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export default function Menu() {
+export default function Menu({ ...props }) {
   return (
     <Button
       disableElevation
@@ -15,6 +15,7 @@ export default function Menu() {
       }}
       color="white"
       variant="contained"
+      {...props}
     >
       <MenuIcon color="agesciPurple" />
     </Button>
