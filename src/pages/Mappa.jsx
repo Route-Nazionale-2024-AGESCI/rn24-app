@@ -12,7 +12,7 @@ import { getLocationList, getLocation } from "../lib/cacheManager/locations";
 */
 
 export async function loader({ request }) {
-  const locations = await getLocationList();
+  const { locations } = await getLocationList();
   const url = new URL(request.url);
   let location, lat, lon;
 

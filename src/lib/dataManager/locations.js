@@ -40,9 +40,12 @@ import axios from "../api";
 ]
 */
 export async function getLocationList() {
-  const response = await axios.get('locations/');
+  const response = await axios.get("locations/");
 
-  return response.data?.data || [];
+  return {
+    locations: response.data?.data || [],
+    version: response.data?.version || null,
+  };
 }
 
 // /api/v1/locations/{uuid}/
@@ -51,7 +54,7 @@ export async function getLocationList() {
 export async function getLocation(uuid) {
   const response = await axios.get(`locations/${uuid}/`);
 
-  return response.data
+  return response.data;
 }
 
 //export function findLocation(uuid) {

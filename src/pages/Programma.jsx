@@ -48,8 +48,8 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 // /programma/?day=2024-08-23
 export async function loader({ request }) {
-  const events = await getEventList();
-  const locations = await getLocationList();
+  const {events} = await getEventList();
+  const {locations} = await getLocationList();
   const url = new URL(request.url);
   const day = url.searchParams.get("day");
   return { events, locations, day };

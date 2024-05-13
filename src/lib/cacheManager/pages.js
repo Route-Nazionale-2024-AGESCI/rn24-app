@@ -1,18 +1,24 @@
 import { getPages as APIgetPages } from "../dataManager/pages";
 
 async function getPages() {
-  let pages;
-  if (localStorage.getItem("pages") !== null) {
+  let pages, version;
+  if (
+    localStorage.getItem("pages") !== null &&
+    localStorage.getItem("pagesVersion") !== null
+  ) {
     pages = JSON.parse(localStorage.getItem("pages"));
+    version = JSON.parse(localStorage.getItem("pagesVersion"));
   } else {
-    pages = await APIgetPages();
+    ({ pages, version } = await APIgetPages());
     pages.length > 0 && localStorage.setItem("pages", JSON.stringify(pages));
+    version !== null &&
+      localStorage.setItem("pagesVersion", JSON.stringify(version));
   }
-  return pages;
+  return { pages, version };
 }
 
 async function getPage(uuid) {
-  const pages = await getPages();
+  const { pages } = await getPages();
   function searchPage(node, uuid) {
     if (!node) {
       return null;
@@ -38,7 +44,7 @@ async function getPage(uuid) {
 }
 
 async function getSicurezza() {
-  const pages = await getPages();
+  const { pages } = await getPages();
   const sicurezzaPage = pages.find((p) => p.slug === "sicurezza");
   if (sicurezzaPage === undefined) return null;
   return sicurezzaPage;

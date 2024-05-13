@@ -9,7 +9,6 @@ const SHARE_PHONE_LOCAL_STORAGE_KEY = "sharePhone";
 const SHARE_EMAIL_LOCAL_STORAGE_KEY = "shareEmail";
 
 export function initLocalSharableInfo(userInfo) {
-  console.log("User info from function: ", userInfo);
   if (localStorage.getItem(SHARE_FIRST_NAME_LOCAL_STORAGE_KEY) === null) {
     localStorage.setItem(SHARE_FIRST_NAME_LOCAL_STORAGE_KEY, "true");
   }
@@ -22,7 +21,6 @@ export function initLocalSharableInfo(userInfo) {
   if (localStorage.getItem(SHARE_EMAIL_LOCAL_STORAGE_KEY) === null) {
     localStorage.setItem(SHARE_EMAIL_LOCAL_STORAGE_KEY, "false");
   }
-  console.log(localStorage.getItem("sta cippa"));
   if (localStorage.getItem(FIRST_NAME_LOCAL_STORAGE_KEY) === null) {
     localStorage.setItem(FIRST_NAME_LOCAL_STORAGE_KEY, userInfo.firstName);
   }

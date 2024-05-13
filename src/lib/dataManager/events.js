@@ -26,8 +26,10 @@ import axios from "../api";
 //   https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
 export async function getEventList() {
   const response = await axios.get("events/");
-
-  return response.data?.data || [];
+  return {
+    events: response.data?.data || [],
+    version: response.data?.version || null,
+  };
 }
 
 // /api/v1/events/{uuid}/
@@ -38,7 +40,7 @@ export async function getEvent(uuid) {
 }
 
 export async function getTraccia() {
-  const events = await getEventList();
+  const { events } = await getEventList();
   return events.find((event) => event.kind === "TRACCE");
 }
 

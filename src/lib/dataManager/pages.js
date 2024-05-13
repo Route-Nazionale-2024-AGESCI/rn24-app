@@ -18,7 +18,10 @@ import axios from "../api";
 export async function getPages() {
   const response = await axios.get("pages/");
 
-  return response.data?.data || [];
+  return {
+    pages: response.data?.data || [],
+    version: response.data?.version || null,
+  };
 }
 
 // /api/v1/pages/{uuid}/

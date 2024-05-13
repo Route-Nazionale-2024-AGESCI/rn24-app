@@ -6,23 +6,29 @@ import {
 } from "../dataManager/events";
 
 async function getEventList() {
-  let events;
-  if (localStorage.getItem("events") !== null) {
+  let events, version;
+  if (
+    localStorage.getItem("events") !== null &&
+    localStorage.getItem("eventsVersion") !== null
+  ) {
     events = JSON.parse(localStorage.getItem("events"));
+    version = JSON.parse(localStorage.getItem("eventsVersion"));
   } else {
-    events = await APIgetEventList();
+    ({ events, version } = await APIgetEventList());
     events.length > 0 && localStorage.setItem("events", JSON.stringify(events));
+    version !== null &&
+      localStorage.setItem("eventsVersion", JSON.stringify(version));
   }
-  return events;
+  return { events, version };
 }
 
 async function getEvent(uuid) {
-  const events = await getEventList();
+  const { events } = await getEventList();
   return events.find((event) => event.uuid === uuid);
 }
 
 async function getTraccia() {
-  const events = await getEventList();
+  const { events } = await getEventList();
   return events.find((event) => event.kind === "TRACCE");
 }
 

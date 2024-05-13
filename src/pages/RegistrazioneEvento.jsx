@@ -162,7 +162,6 @@ export default function RegistrazioneEvento() {
             onClick={async () => {
               setLoading(true);
               const res = await registerToEvent(event.uuid);
-              console.log(res);
               setLoading(false);
               mutate([...registrations, { event: res.event }]);
             }}

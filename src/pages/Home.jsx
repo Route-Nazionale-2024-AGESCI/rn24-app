@@ -21,8 +21,8 @@ import { useAuth } from "../contexts/auth";
 import { getLocalStorageFirstName } from "../lib/shareContactInfo";
 
 export async function loader() {
-  const events = await getEventList();
-  const locations = await getLocationList();
+  const { events } = await getEventList();
+  const { locations } = await getLocationList();
   return { events, locations };
 }
 
