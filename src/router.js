@@ -16,7 +16,7 @@ import Login from "./pages/Login";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
-import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
+import CondividiQr from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
@@ -177,7 +177,6 @@ export const router = [
                       {
                         index: true,
                         element: <CondividiQr />,
-                        loader: condividiQrLoader,
                       },
                     ],
                   },

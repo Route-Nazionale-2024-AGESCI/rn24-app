@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -29,7 +28,7 @@ import {
 
 import { encodeContact } from "../lib/qr";
 
-import { getUser } from "../lib/dataManager/user";
+import { useAuth } from "../contexts/auth";
 
 const InfoBox = ({ children }) => (
   <Grid
@@ -45,17 +44,14 @@ const InfoBox = ({ children }) => (
   </Grid>
 );
 
-export async function loader() {
-  const user = await getUser();
-  const { first_name, last_name, phone, email } = user;
-
-  return {
-    userInfo: { firstName: first_name, lastName: last_name, phone, email },
-  };
-}
-
 export default function CondividiQr() {
-  const { userInfo } = useLoaderData();
+  const { user } = useAuth();
+  const userInfo = {
+    firstName: user.first_name,
+    lastName: user.last_name,
+    phone: user.phone,
+    email: user.email,
+  };
   initLocalSharableInfo(userInfo);
   const [firstName, setFirstName] = useState(getLocalStorageFirstName());
   const [shareFirstName, setShareFirstName] = useState(
@@ -91,6 +87,7 @@ export default function CondividiQr() {
         sx={{
           backgroundColor: "#ffffff",
           padding: "8px",
+          marginTop: " 20px",
           borderRadius: "8px",
         }}
       >
