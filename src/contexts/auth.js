@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { redirect } from "react-router-dom";
 
 import axios from "../lib/api";
 import { getUser } from "../lib/dataManager/user";
@@ -9,7 +8,7 @@ import * as authAPI from "../lib/api/auth";
 const LOCAL_STORAGE_TOKEN_KEY = "atoken";
 const LOCAL_STORAGE_CSRF_TOKEN_KEY = "csrftoken";
 
-const AuthStatus = Object.freeze({
+export const AuthStatus = Object.freeze({
   LoggedIn: Symbol("logged_in"),
   LoggedOut: Symbol("logged_out"),
   Loading: Symbol("loading"),
@@ -75,6 +74,12 @@ const AuthProvider = ({ children }) => {
         axios.interceptors.request.eject(interceptor);
       };
     }
+    // else{
+    //   setUser(null);
+    //   setStatus(AuthStatus.LoggedOut);
+    //   setToken(null);
+    //   setCsrfToken(null);
+    // }
   }, [token, csrfToken]);
 
   const loginAction = async ({ username, password }) => {
@@ -97,7 +102,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     localStorage.removeItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
     setStatus(AuthStatus.LoggedOut);
-    return redirect("/login");
+    setUser(null);
   };
 
   const isLoaded = AuthStatus.Loading !== status;

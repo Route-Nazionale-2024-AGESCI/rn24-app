@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Form, Link as RouterLink, Navigate } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { Form, Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -12,15 +12,22 @@ import Link from "@mui/material/Link";
 import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
 
-import { useAuth } from "../contexts/auth";
+import { useAuth, AuthStatus } from "../contexts/auth";
 
 export default function Login() {
-  const { loginAction, user } = useAuth();
+  const { loginAction, status } = useAuth();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const tosRef = useRef(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  
+
+  useEffect(() => {
+    if (status !== AuthStatus.LoggedOut) {
+      navigate("/");
+    }
+  }, [status, navigate]);
+
   const handleSubmit = async () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
@@ -41,14 +48,9 @@ export default function Login() {
     }
   };
 
-  if (loading)
+  if (loading || status !== AuthStatus.LoggedOut)
     // TODO: to improve
     return <h4>Loading...</h4>;
-
-  if(user) {
-    console.log('non dovresti essere qui');
-    return <Navigate to="/" />;
-  }
 
   return (
     <Box
@@ -118,7 +120,6 @@ export default function Login() {
           <FormGroup sx={{ mt: "40px" }}>
             <FormControlLabel
               control={<CheckBox inputRef={tosRef} />}
-              //required
               label={
                 <Typography fontSize="12px">
                   Dichiaro di accettare le condizioni di utilizzo dell'app ed

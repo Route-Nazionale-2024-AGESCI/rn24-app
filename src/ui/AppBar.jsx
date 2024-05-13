@@ -17,8 +17,11 @@ import RnLogo from "./RnLogo";
 import NotifyButton from "./NotifyButton";
 import Menu from "./Menu";
 
+import { useAuth } from "../contexts/auth";
+
 export default function AppBar() {
   const [open, setOpen] = useState(false);
+  const { logOut } = useAuth();
   return (
     <Container
       sx={{
@@ -65,7 +68,7 @@ export default function AppBar() {
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={logOut}>
               <ListItemIcon>
                 <LogoutIcon color="agesciRed" />
               </ListItemIcon>
