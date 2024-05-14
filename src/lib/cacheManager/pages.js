@@ -17,6 +17,14 @@ async function getPages() {
   return { pages, version };
 }
 
+async function refreshPages() {
+  const { pages, version } = await APIgetPages();
+  pages.length > 0 && localStorage.setItem("pages", JSON.stringify(pages));
+  version !== null &&
+    localStorage.setItem("pagesVersion", JSON.stringify(version));
+  return { pages, version };
+}
+
 async function getPage(uuid) {
   const { pages } = await getPages();
   function searchPage(node, uuid) {
@@ -50,4 +58,4 @@ async function getSicurezza() {
   return sicurezzaPage;
 }
 
-export { getPages, getPage, getSicurezza };
+export { getPages, getPage, getSicurezza, refreshPages };

@@ -18,9 +18,18 @@ async function getLocationList() {
   return { locations, version };
 }
 
+async function refreshLocationList() {
+  const { locations, version } = await APIgetLocationList();
+  locations.length > 0 &&
+    localStorage.setItem("locations", JSON.stringify(locations));
+  version !== null &&
+    localStorage.setItem("locationsVersion", JSON.stringify(version));
+  return { locations, version };
+}
+
 async function getLocation(uuid) {
   const { locations } = await getLocationList();
   return locations.find((loc) => loc.uuid === uuid);
 }
 
-export { getLocationList, getLocation };
+export { getLocationList, getLocation, refreshLocationList };

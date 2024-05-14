@@ -25,7 +25,7 @@ instance.interceptors.response.use(
       //return;
       return redirect("/login");
     }
-    return Promise.reject(error);
+    return Promise.reject(new Error(error));
   }
 );
 

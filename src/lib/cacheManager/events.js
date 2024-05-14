@@ -22,6 +22,14 @@ async function getEventList() {
   return { events, version };
 }
 
+async function refreshEventList() {
+  const { events, version } = await APIgetEventList();
+  events.length > 0 && localStorage.setItem("events", JSON.stringify(events));
+  version !== null &&
+    localStorage.setItem("eventsVersion", JSON.stringify(version));
+  return { events, version };
+}
+
 async function getEvent(uuid) {
   const { events } = await getEventList();
   return events.find((event) => event.uuid === uuid);
@@ -100,4 +108,5 @@ export {
   getEventRegistrations,
   useEventInvitations,
   useEventRegistrations,
+  refreshEventList,
 };
