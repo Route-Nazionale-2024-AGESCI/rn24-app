@@ -10,7 +10,6 @@ export async function loader() {
 export default function Avvisi() {
   const paginaSicurezza = useLoaderData();
   const children = paginaSicurezza?.children ?? [];
-  console.log(paginaSicurezza);
   if (paginaSicurezza !== null && paginaSicurezza !== undefined)
     return (
       <WhitePaper sx={{ paddingX: "24px", paddingTop: "20px" }}>
