@@ -231,15 +231,16 @@ export default function Evento() {
               ) : (
                 <Link
                   to={`/mappa/?location=${location.uuid}`}
-                  style={{ textDecoration: "none" }}
+                  //style={{ textDecoration: "none" }}
                 >
                   <Typography
                     variant="subtitle2"
                     fontSize="12px"
-                    fontWeight={400}
+                    fontWeight={600}
                     textAlign="left"
                     mb="4px"
-                    sx={{ color: "#666A66" }}
+                    //sx={{ color: "#666A66" }}
+                    sx={{ color: "agesciPurple.main" }}
                   >
                     {standName}
                   </Typography>
