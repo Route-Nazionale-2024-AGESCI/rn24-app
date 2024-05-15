@@ -68,12 +68,21 @@ export async function loader({ params }) {
 export default function RegistrazioneEvento() {
   const [loading, setLoading] = useState(false);
   const { event } = useLoaderData();
+  const regStartDT = event.registrations_open_at ?? null;
+  const regEndDT = event.registrations_close_at ?? null;
   const { invitations } = useEventInvitations();
   const { registrations, mutate } = useEventRegistrations();
   const networkState = useNetworkState();
 
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
+
+  const checkRegistrationPeriod = () => {
+    const now = new Date();
+    if (regStartDT !== null && new Date(regStartDT) > now) return false;
+    if (regEndDT !== null && new Date(regEndDT) < now) return false;
+    return true;
+  };
 
   /*
     Clausola di sicurezza: l'utente non dovrebbe poter vedere gli eventi a cui non è
@@ -104,7 +113,7 @@ export default function RegistrazioneEvento() {
             </Typography>
           </GreenBox>
           <Box height="16px" />
-          {networkState.online && (
+          {networkState.online && checkRegistrationPeriod() && (
             <Box
               style={{
                 display: "flex",
@@ -142,7 +151,7 @@ export default function RegistrazioneEvento() {
           )}
         </>
       );
-    } else if (networkState.online) {
+    } else if (networkState.online && checkRegistrationPeriod()) {
       return (
         <Box
           style={{
