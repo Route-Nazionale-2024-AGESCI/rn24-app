@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import { useNetworkState } from "@uidotdev/usehooks";
 
 import AccessButton from "../ui/AccessButton";
+import UnsubscribeModal from "../ui/UnsubscribeModal";
 
 import {
   getEvent,
@@ -67,6 +68,7 @@ export async function loader({ params }) {
 
 export default function RegistrazioneEvento() {
   const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const { event } = useLoaderData();
   const regStartDT = event.registrations_open_at ?? null;
   const regEndDT = event.registrations_close_at ?? null;
@@ -114,21 +116,51 @@ export default function RegistrazioneEvento() {
           </GreenBox>
           <Box height="16px" />
           {networkState.online && checkRegistrationPeriod() && (
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                variant="text"
-                sx={{
-                  textTransform: "none",
-                  color: "#000000",
-                  opacity: loading ? "50%" : "100%",
+            <>
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-                onClick={async () => {
+              >
+                <Button
+                  variant="text"
+                  sx={{
+                    textTransform: "none",
+                    color: "#000000",
+                    opacity: loading ? "50%" : "100%",
+                    maxWidth: "400px",
+                  }}
+                  onClick={
+                    //   async () => {
+                    //   setLoading(true);
+                    //   await deleteRegistrationToEvent(event.uuid);
+                    //   setLoading(false);
+                    //   mutate(
+                    //     registrations.filter((reg) => reg.event !== event.uuid)
+                    //   );
+                    // }
+                    () => setOpenModal(true)
+                  }
+                >
+                  <Typography fontSize="16px" fontWeight={600}>
+                    Annulla Iscrizione
+                  </Typography>
+                  {loading && (
+                    <CircularProgress
+                      size="20px"
+                      sx={{ marginLeft: "12px", color: "#000000" }}
+                    />
+                  )}
+                </Button>
+              </Box>
+              <UnsubscribeModal
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                unsubscribe={async () => {
+                  setOpenModal(false);
                   setLoading(true);
                   await deleteRegistrationToEvent(event.uuid);
                   setLoading(false);
@@ -136,18 +168,8 @@ export default function RegistrazioneEvento() {
                     registrations.filter((reg) => reg.event !== event.uuid)
                   );
                 }}
-              >
-                <Typography fontSize="16px" fontWeight={600}>
-                  Annulla Iscrizione
-                </Typography>
-                {loading && (
-                  <CircularProgress
-                    size="20px"
-                    sx={{ marginLeft: "12px", color: "#000000" }}
-                  />
-                )}
-              </Button>
-            </Box>
+              />
+            </>
           )}
         </>
       );
