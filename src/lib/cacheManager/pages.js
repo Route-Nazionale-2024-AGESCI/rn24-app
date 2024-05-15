@@ -1,4 +1,5 @@
 import { getPages as APIgetPages } from "../dataManager/pages";
+import { useEffect, useState } from "react";
 
 async function getPages() {
   let pages, version;
@@ -77,10 +78,35 @@ async function searchBySlug(slug) {
   return null;
 }
 
+function usePages() {
+  const [pages, setPages] = useState([]);
+  useEffect(() => {
+    const loadPages = async () => {
+      const { pages: p } = await getPages();
+      setPages(p);
+    };
+    loadPages();
+  }, []);
+  return pages;
+}
+
+// async function getMenu() {
+//   const { pages } = await getPages();
+
+//   return filterPages(pages);
+// }
+
 async function getSicurezza() {
   const sicurezzaPage = await searchBySlug("sicurezza");
   if (sicurezzaPage === null) return null;
   return sicurezzaPage;
 }
 
-export { getPages, getPage, getSicurezza, refreshPages, searchBySlug };
+export {
+  getPages,
+  getPage,
+  getSicurezza,
+  refreshPages,
+  searchBySlug,
+  usePages,
+}; //, getMenu };
