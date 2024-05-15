@@ -22,7 +22,6 @@ import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
 import RegistrazioneEvento, {
   loader as registrazioneEventoLoader,
-  action as registrazioneEventoAction,
 } from "./pages/RegistrazioneEvento";
 import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 
@@ -102,7 +101,6 @@ export const router = [
                             index: true,
                             element: <RegistrazioneEvento />,
                             loader: registrazioneEventoLoader,
-                            action: registrazioneEventoAction,
                           },
                         ],
                       },

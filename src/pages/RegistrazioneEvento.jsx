@@ -60,11 +60,6 @@ const GreenBox = styled(Box)({
 
 */
 
-export async function action({ params, request }) {
-  // TODO: remove action from router
-  return null;
-}
-
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   return { event };
