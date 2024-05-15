@@ -19,6 +19,7 @@ import ScansionaQr from "./pages/ScansionaQr";
 import CondividiQr from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
+import InserisciCodiceContenuto from "./pages/InserisciCodiceContenuto";
 import Evento, { loader as eventoLoader } from "./pages/Evento";
 import RegistrazioneEvento, {
   loader as registrazioneEventoLoader,
@@ -165,7 +166,7 @@ export const router = [
                     element: <PurpleLayout back="/ricercaContenuto" />,
                     path: "ricercaContenuto/codice",
                     children: [
-                      //TODO: <InserisciCodiceContenuto />
+                      { element: <InserisciCodiceContenuto />, index: true },
                     ],
                   },
                   {

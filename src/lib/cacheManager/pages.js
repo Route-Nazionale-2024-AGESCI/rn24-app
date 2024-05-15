@@ -51,11 +51,36 @@ async function getPage(uuid) {
   return null;
 }
 
-async function getSicurezza() {
+async function searchBySlug(slug) {
   const { pages } = await getPages();
-  const sicurezzaPage = pages.find((p) => p.slug === "sicurezza");
-  if (sicurezzaPage === undefined) return null;
+  function searchPage(node, slug) {
+    if (!node) {
+      return null;
+    }
+    if (node.slug.toLowerCase() === slug) {
+      return node;
+    }
+    for (let child of node.children) {
+      let result = searchPage(child, slug);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
+  }
+  for (let page of pages) {
+    let result = searchPage(page, slug.toLowerCase());
+    if (result) {
+      return result;
+    }
+  }
+  return null;
+}
+
+async function getSicurezza() {
+  const sicurezzaPage = await searchBySlug("sicurezza");
+  if (sicurezzaPage === null) return null;
   return sicurezzaPage;
 }
 
-export { getPages, getPage, getSicurezza, refreshPages };
+export { getPages, getPage, getSicurezza, refreshPages, searchBySlug };
