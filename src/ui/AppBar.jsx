@@ -7,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -21,7 +22,7 @@ import { useAuth } from "../contexts/auth";
 
 export default function AppBar() {
   const [open, setOpen] = useState(false);
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
   return (
     <Container
       sx={{
@@ -67,6 +68,22 @@ export default function AppBar() {
               />
             </ListItemButton>
           </ListItem>
+          {user.is_staff && (
+            <ListItem>
+              <ListItemButton href="/admin">
+                <ListItemIcon>
+                  <SettingsApplicationsIcon color="white" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Amministratore"
+                  primaryTypographyProps={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          )}
           <ListItem>
             <ListItemButton onClick={logOut}>
               <ListItemIcon>
