@@ -29,12 +29,6 @@ export default function RicercaContenuto() {
               width: "100%",
             }}
           >
-            {/* <BoxButton
-              bgColor="agesciGreen"
-              icon={<ContactlessIcon />}
-              text="Utilizza Sensore NFC"
-              to="/aggiungiContatto/nfc"
-            /> */}
             <BoxButton
               bgColor="agesciGreen"
               text="Scansiona QR Code"
