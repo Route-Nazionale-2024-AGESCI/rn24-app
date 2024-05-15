@@ -1,17 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import KeyboardIcon from "@mui/icons-material/Keyboard";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { QrReader } from "react-qr-reader";
 import AccessButton from "../ui/AccessButton";
 import generateVCardBlob from "../lib/vCard";
 import { decodeQr } from "../lib/qr";
-import BoxButton from "../ui/BoxButton";
 
 // Struttura dei dati codificati nel QR Code:
 // {
@@ -34,6 +33,7 @@ export default function ScansionaQr() {
   const [urlDetected, setUrlDetected] = useState(null);
   const [vCardUrl, setVCardUrl] = useState(null);
   const [savedContact, setSavedContact] = useState(false);
+  const navigate = useNavigate();
 
   const handleScan = (scanData) => {
     if (scanData) {
@@ -46,7 +46,7 @@ export default function ScansionaQr() {
       } else if (decodedQr.url) {
         setError(null);
         setData(null);
-        setUrlDetected(decodedQr.url);
+        setUrlDetected({ url: decodedQr.url, type: decodedQr.type });
       } else {
         setError(null);
         setUrlDetected(null);
@@ -241,14 +241,6 @@ export default function ScansionaQr() {
               Riprova
             </Typography>
           </AccessButton>
-          {/* <Typography>Oppure</Typography>
-          <BoxButton
-            bgColor="white"
-            to="/aggiungiContatto/codice"
-            text="Inserisci Codice Manualmente"
-            icon={<KeyboardIcon />}
-            big
-          /> */}
         </Box>
       )}
       {urlDetected && (
@@ -263,15 +255,17 @@ export default function ScansionaQr() {
           <TipsAndUpdatesIcon sx={{ fontSize: "64px" }} />
           <Box sx={{ height: "60px" }} />
           <Typography fontSize="16px" fontWeight={600} sx={{ marginX: "24px" }}>
-            Sembra che si tratti di una pagina
+            Sembra che si tratti di{" "}
+            {urlDetected.type === "page" && "una pagina"}{" "}
+            {urlDetected.type === "event" && "un evento"}
           </Typography>
           <AccessButton
             onClick={() => {
               setData(null);
               setError(null);
-              const url = urlDetected;
+              const { url } = urlDetected;
               setUrlDetected(null);
-              //TODO: navigazione alla pagina del CMS...
+              navigate(url);
             }}
           >
             <Typography fontSize="16px" fontWeight={600} color="#000000">

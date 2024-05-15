@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -34,6 +35,7 @@ export default function ScansionaQrContenuto() {
   const [profileDetected, setProfileDetected] = useState(null);
   const [vCardUrl, setVCardUrl] = useState(null);
   const [savedContact, setSavedContact] = useState(false);
+  const navigate = useNavigate();
 
   const handleScan = (scanData) => {
     if (scanData) {
@@ -99,19 +101,25 @@ export default function ScansionaQrContenuto() {
           <CheckCircleOutlineIcon sx={{ fontSize: "64px" }} />
           <Box sx={{ height: "60px" }} />
           <Typography fontSize="16px" fontWeight={600}>
-            Contenuto Trovato!
+            {data.type === "page" && "Pagina Trovata!"}{" "}
+            {data.type === "event" && "Evento Trovato!"}
           </Typography>
           <Box sx={{ height: "56px" }} />
 
           <AccessButton
-            component="a"
-            href={/* TODO: page link */ ""}
             sx={{
               marginTop: "0px",
               width: "90%",
               maxWidth: "400px",
               height: "36px",
               color: "#000000",
+            }}
+            onClick={() => {
+              const { url } = data;
+              setError(null);
+              setData(null);
+              setProfileDetected(null);
+              navigate(url);
             }}
           >
             <Typography fontSize="16px" fontWeight={600}>

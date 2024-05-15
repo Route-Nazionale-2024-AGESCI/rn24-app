@@ -9,7 +9,7 @@ export function decodeQr(data) {
     };
   }
   if (qrInfo.contact !== undefined) {
-    /*  
+    /*  RETURN FORMAT
       {'contact': {
         'firstName':'...'
         ...
@@ -18,7 +18,7 @@ export function decodeQr(data) {
     */
     return { ...qrInfo.contact };
 
-    /*
+    /*  RETURN FORMAT
       {
         'type':'page',
         'url':'/pages/{uuid}
@@ -30,16 +30,20 @@ export function decodeQr(data) {
     */
   } else if (qrInfo.url !== undefined) {
     let type;
-    if (qrInfo.url.includes("pages") || qrInfo.url.includes("pagine")) {
+    let url = qrInfo.url;
+    if (!url.startsWith("/")) {
+      url = `/${url}`;
+    }
+    if (url.includes("pages") || url.includes("pagine")) {
       type = "page";
-    } else if (qrInfo.url.includes("eventi")) {
+    } else if (url.includes("eventi")) {
       type = "event";
     } else
       return {
         error: true,
         errorMsg: "Il codice QR non rappresenta un contatto o un contenuto",
       };
-    return { url: qrInfo.url, type };
+    return { url, type };
   } else
     return {
       error: true,
@@ -55,5 +59,5 @@ export function encodeContact(firstName, lastName, phone, email) {
   if (email !== null) contact.email = email;
   return JSON.stringify({ contact });
 }
-export function encodeEvent(data) {}
-export function encodePage(data) {}
+// export function encodeEvent(data) {}
+// export function encodePage(data) {}
