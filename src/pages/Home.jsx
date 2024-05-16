@@ -36,6 +36,11 @@ export default function Home() {
     const regUuid = registrations.map((reg) => reg.event);
     return events
       .filter((ev) => regUuid.includes(ev.uuid))
+      .filter((ev) => {
+        const endDt = new Date(ev.ends_at);
+        const now = new Date();
+        return endDt >= now;
+      })
       .map((ev, index) => (
         <EventSummaryCard
           event={ev}
