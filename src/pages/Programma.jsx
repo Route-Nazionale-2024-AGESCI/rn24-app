@@ -48,8 +48,8 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 // /programma/?day=2024-08-23
 export async function loader({ request }) {
-  const {events} = await getEventList();
-  const {locations} = await getLocationList();
+  const { events } = await getEventList();
+  const { locations } = await getLocationList();
   const url = new URL(request.url);
   const day = url.searchParams.get("day");
   return { events, locations, day };
@@ -148,7 +148,7 @@ export default function Programma() {
           >
             {event.kind.toLowerCase()}
           </Typography>
-          <Stack direction={"row"} alignItems={"center"}>
+          {/* <Stack direction={"row"} alignItems={"center"}>
             <Typography
               fontSize="14px"
               fontWeight={600}
@@ -163,7 +163,7 @@ export default function Programma() {
                 translate: "0 -1px",
               }}
             />
-          </Stack>
+          </Stack> */}
         </Stack>
         <Stack direction={"row"} gap="10px" mt="16px" alignItems={"center"}>
           <Box
