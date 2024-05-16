@@ -108,7 +108,7 @@ export default function Login() {
             />
           </FormControl>
 
-          <Link component={RouterLink} to="/recuperoPassword" underline="none">
+          {/* <Link component={RouterLink} to="/recuperoPassword" underline="none">
             <Typography
               fontSize="14px"
               fontWeight={600}
@@ -116,7 +116,7 @@ export default function Login() {
             >
               Password dimenticata?
             </Typography>
-          </Link>
+          </Link> */}
           <FormGroup sx={{ mt: "40px" }}>
             <FormControlLabel
               control={<CheckBox inputRef={tosRef} />}
