@@ -22,7 +22,7 @@ export default function getEventColor(kind) {
       };
     case "ALTRO":
       return {
-        main: "#0077b6",
+        main: "agesciBlue.main",
         bg: "#caf0f8",
       };
     default:

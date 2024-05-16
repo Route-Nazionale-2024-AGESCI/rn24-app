@@ -13,7 +13,8 @@ import AuthProvider, { useAuth } from "./contexts/auth";
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
   greenBase = "#38A368",
-  redBase = "#E75750";
+  redBase = "#E75750",
+  blueBase = "#0077b6";
 
 let theme = createTheme({
   typography: {
@@ -45,6 +46,12 @@ theme = createTheme(theme, {
         main: redBase,
       },
       name: "agesciRed",
+    }),
+    agesciBlue: theme.palette.augmentColor({
+      color: {
+        main: blueBase,
+      },
+      name: "agesciBlue",
     }),
     white: theme.palette.augmentColor({
       color: {
