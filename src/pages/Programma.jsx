@@ -116,11 +116,7 @@ export default function Programma() {
     const startDT = new Date(event.starts_at);
     const endDT = new Date(event.ends_at);
     const inProgress = eventsInProgress.includes(event);
-    let textColor = getEventColor(event.kind).main;
-    if (textColor.includes(".")) {
-      textColor = textColor.split(".")[0];
-    }
-    console.log(event.name, event.kind, textColor);
+
     return (
       <Button
         component={RouterLink}
@@ -137,7 +133,6 @@ export default function Programma() {
           textTransform: "none",
         }}
         color={getEventColor(event.kind).main.split(".")[0]}
-        //color={textColor}
       >
         <Stack
           direction="row"
