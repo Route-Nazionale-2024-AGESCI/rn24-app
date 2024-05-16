@@ -22,6 +22,7 @@ import {
   registerToEvent,
   deleteRegistrationToEvent,
 } from "../lib/dataManager/events";
+import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 
 const GreenBox = styled(Box)({
   backgroundColor: "#EBF6F0",
@@ -72,6 +73,7 @@ export default function RegistrazioneEvento() {
   const { event } = useLoaderData();
   const regStartDT = event.registrations_open_at ?? null;
   const regEndDT = event.registrations_close_at ?? null;
+  const startDt = event.starts_at;
   const { invitations } = useEventInvitations();
   const { registrations, mutate } = useEventRegistrations();
   const networkState = useNetworkState();
@@ -81,6 +83,7 @@ export default function RegistrazioneEvento() {
 
   const checkRegistrationPeriod = () => {
     const now = new Date();
+    if (new Date(startDt) < now) return false;
     if (regStartDT !== null && new Date(regStartDT) > now) return false;
     if (regEndDT !== null && new Date(regEndDT) < now) return false;
     return true;
@@ -156,6 +159,10 @@ export default function RegistrazioneEvento() {
                   )}
                 </Button>
               </Box>
+              {/* TODO: try catch for errors /* Uncaught (in promise) Error:}
+              AxiosError: Request failed with status code 500 at index.js:28:27
+              at async _s.request (Axios.js:40:7) at async events.js:82:3 at
+              async unsubscribe (RegistrazioneEvento.jsx:164:30) */}
               <UnsubscribeModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
@@ -186,6 +193,14 @@ export default function RegistrazioneEvento() {
             sx={{ opacity: loading ? "50%" : "100%" }}
             disabled={loading}
             onClick={async () => {
+              // TODO: try catch for errors
+              /*
+              Uncaught (in promise) Error: AxiosError: Request failed with status code 400
+              at index.js:28:1
+              at async Axios.request (Axios.js:35:1)
+              at async registerToEvent (events.js:69:1)
+              at async onClick (RegistrazioneEvento.jsx:195:1)
+              */
               setLoading(true);
               const res = await registerToEvent(event.uuid);
               setLoading(false);
