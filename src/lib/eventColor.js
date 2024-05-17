@@ -1,6 +1,6 @@
 export default function getEventColor(kind) {
   switch (kind) {
-    case "TRACCE":
+    case "ALTRO":
       return {
         main: "agesciGreen.main",
         bg: "#EBF6F0",
@@ -20,7 +20,7 @@ export default function getEventColor(kind) {
         main: "agesciPurple.main",
         bg: "#E2DCEA",
       };
-    case "ALTRO":
+    case "TRACCE":
       return {
         main: "agesciBlue.main",
         bg: "#caf0f8",
