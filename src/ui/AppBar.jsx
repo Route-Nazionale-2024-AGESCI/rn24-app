@@ -136,12 +136,14 @@ export default function AppBar() {
           >
             <Box sx={{ flexGrow: 1, paddingY: "32px", paddingX: "24px" }}>
               <>
-                <Typography fontSize="20px" fontWeight={900}>
+                <Typography fontSize="20px" fontWeight={900} marginBottom={2}>
                   Menu
                 </Typography>
                 {
                   <SimpleTreeView>
-                    {filteredPages.map((page) => renderTree(page))}
+                    {filteredPages[0]?.children?.map((page) =>
+                      renderTree(page)
+                    )}
                   </SimpleTreeView>
                 }
               </>

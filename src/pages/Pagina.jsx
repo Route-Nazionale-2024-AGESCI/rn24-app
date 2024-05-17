@@ -29,25 +29,30 @@ export default function Pagina() {
         <div className="page-container">
           <HtmlWithRouterLinks htmlString={page.body} />
         </div>
-        {page.show_in_menus && (parent || children.length > 0) && <Divider />}
-        {page.show_in_menus && parent && page.slug !== "sicurezza" && (
-          <>
-            <Box height={28} />
-            <Typography variant="body2">
-              Torna a{" "}
-              <RouterLink
-                to={`/pagine/${parent.uuid}`}
-                style={{
-                  textDecoration: "none",
-                  color: "#6d5095",
-                  fontWeight: 600,
-                }}
-              >
-                {parent.title}
-              </RouterLink>
-            </Typography>
-          </>
-        )}
+        {page.show_in_menus &&
+          ((parent && parent.slug !== "rn24" && page.slug !== "sicurezza") ||
+            children.length > 0) && <Divider />}
+        {page.show_in_menus &&
+          parent &&
+          page.slug !== "sicurezza" &&
+          parent.slug !== "rn24" && (
+            <>
+              <Box height={28} />
+              <Typography variant="body2">
+                Torna a{" "}
+                <RouterLink
+                  to={`/pagine/${parent.uuid}`}
+                  style={{
+                    textDecoration: "none",
+                    color: "#6d5095",
+                    fontWeight: 600,
+                  }}
+                >
+                  {parent.title}
+                </RouterLink>
+              </Typography>
+            </>
+          )}
         {page.show_in_menus && children.length > 0 && (
           <>
             <Box height={28} />
