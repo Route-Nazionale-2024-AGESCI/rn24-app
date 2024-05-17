@@ -90,12 +90,6 @@ function usePages() {
   return pages;
 }
 
-// async function getMenu() {
-//   const { pages } = await getPages();
-
-//   return filterPages(pages);
-// }
-
 async function getSicurezza() {
   const sicurezzaPage = await searchBySlug("sicurezza");
   if (sicurezzaPage === null) return null;
