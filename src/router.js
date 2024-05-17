@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 
 import Home, { loader as homeLoader } from "./pages/Home";
-import Avvisi from "./pages/Avvisi";
+import Avvisi, { loader as avvisiLoader } from "./pages/Avvisi";
 import Mappa, { loader as mappaLoader } from "./pages/Mappa";
 import Programma, { loader as programmaLoader } from "./pages/Programma";
 import Tracce, { loader as tracceLoader } from "./pages/Tracce";
@@ -92,6 +92,7 @@ export const router = [
                       {
                         path: "avvisi",
                         element: <Avvisi />,
+                        loader: avvisiLoader,
                       },
                       {
                         path: "eventi/:eventId",
