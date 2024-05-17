@@ -14,7 +14,7 @@ export async function loader({ params }) {
 
 export default function Pagina() {
   const { page, parent } = useLoaderData();
-  const children = page.children;
+  const children = page.children.filter((c) => c.show_in_menus);
   return (
     <>
       <Typography
@@ -29,8 +29,8 @@ export default function Pagina() {
         <div className="page-container">
           <HtmlWithRouterLinks htmlString={page.body} />
         </div>
-        {(parent || children.length > 0) && <Divider />}
-        {parent && (
+        {page.show_in_menus && (parent || children.length > 0) && <Divider />}
+        {page.show_in_menus && parent && page.slug !== "sicurezza" && (
           <>
             <Box height={28} />
             <Typography variant="body2">
@@ -48,7 +48,7 @@ export default function Pagina() {
             </Typography>
           </>
         )}
-        {children.length > 0 && (
+        {page.show_in_menus && children.length > 0 && (
           <>
             <Box height={28} />
             <Typography variant="body2">Visita anche:</Typography>

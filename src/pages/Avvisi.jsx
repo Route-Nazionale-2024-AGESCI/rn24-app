@@ -3,6 +3,7 @@ import WhitePaper from "../ui/WhitePaper";
 import { useLoaderData, Link as RouterLink } from "react-router-dom";
 import HtmlWithRouterLinks from "../lib/htmlParser";
 import { getSicurezza } from "../lib/cacheManager/pages";
+
 export async function loader() {
   return await getSicurezza();
 }
