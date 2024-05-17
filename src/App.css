@@ -16,17 +16,17 @@
   line-height: 1.5;
   color: #666a66;
 }
-.page-container h4 {
+.page-container h2 {
   color: #2a2c2a;
   font-size: 1.2rem;
   font-weight: 600;
 }
-.page-container h5 {
+.page-container h3 {
   color: #2a2c2a;
   font-size: 1.2rem;
   font-weight: 500;
 }
-.page-container h6 {
+.page-container h4 {
   color: #2a2c2a;
   font-size: 1.2rem;
   font-weight: 400;
@@ -41,17 +41,17 @@
   color: #666a66;
 }
 
-.description-container h4 {
+.description-container h2 {
   font-size: 16px;
   color: #2a2c2a;
   font-weight: 500;
 }
-.description-container h5 {
+.description-container h3 {
   font-size: 14px;
   color: #2a2c2a;
   font-weight: 400;
 }
-.description-container h6 {
+.description-container h4 {
   font-size: 14px;
   color: #2a2c2a;
   font-weight: 400;
