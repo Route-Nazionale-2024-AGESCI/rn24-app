@@ -60,16 +60,14 @@ export default function AppBar() {
         (page) =>
           page.show_in_menus &&
           page.slug !== "sicurezza" &&
-          page.slug !== "eventi"
+          page.slug !== "eventi" &&
+          page.slug !== "libretto"
       )
       .map((page) => ({
         ...page,
-        children: filterPages(page.children || []).filter(
-          (child) => child.slug !== "eventi"
-        ),
+        children: filterPages(page.children || []),
       }));
   };
-
   const filteredPages = filterPages(pages);
 
   const renderTree = (nodes) => (
