@@ -69,6 +69,7 @@ export function BookletButton() {
       text="Consulta il Libretto"
       bgColor="agesciGreen"
       icon={<MenuBookIcon sx={{ mr: "8px" }} />}
+      to="/libretto"
     />
   );
 }

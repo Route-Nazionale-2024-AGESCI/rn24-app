@@ -96,10 +96,17 @@ async function getSicurezza() {
   return sicurezzaPage;
 }
 
+async function getLibretto() {
+  const librettoPage = await searchBySlug("libretto");
+  if (librettoPage === null) return null;
+  return librettoPage;
+}
+
 export {
   getPages,
   getPage,
   getSicurezza,
+  getLibretto,
   refreshPages,
   searchBySlug,
   usePages,

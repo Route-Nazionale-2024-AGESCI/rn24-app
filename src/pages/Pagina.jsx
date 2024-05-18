@@ -30,11 +30,15 @@ export default function Pagina() {
           <HtmlWithRouterLinks htmlString={page.body} />
         </div>
         {page.show_in_menus &&
-          ((parent && parent.slug !== "rn24" && page.slug !== "sicurezza") ||
+          ((parent &&
+            parent.slug !== "rn24" &&
+            page.slug !== "sicurezza" &&
+            page.slug !== "libretto") ||
             children.length > 0) && <Divider />}
         {page.show_in_menus &&
           parent &&
           page.slug !== "sicurezza" &&
+          page.slug !== "libretto" &&
           parent.slug !== "rn24" && (
             <>
               <Box height={28} />

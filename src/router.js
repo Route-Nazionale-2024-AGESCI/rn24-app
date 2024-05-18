@@ -5,6 +5,7 @@ import Avvisi, { loader as avvisiLoader } from "./pages/Avvisi";
 import Mappa, { loader as mappaLoader } from "./pages/Mappa";
 import Programma, { loader as programmaLoader } from "./pages/Programma";
 import Tracce, { loader as tracceLoader } from "./pages/Tracce";
+import Libretto, { loader as librettoLoader } from "./pages/Libretto";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
 import FabLayout from "./pages/layout/FabLayout";
@@ -93,6 +94,11 @@ export const router = [
                         path: "avvisi",
                         element: <Avvisi />,
                         loader: avvisiLoader,
+                      },
+                      {
+                        path: "libretto",
+                        element: <Libretto />,
+                        loader: librettoLoader,
                       },
                       {
                         path: "eventi/:eventId",
