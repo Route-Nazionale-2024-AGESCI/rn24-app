@@ -52,7 +52,7 @@ export default function NotifyButton() {
     if (alert !== null) {
       const timer = setTimeout(() => {
         setAlert(null);
-      }, 10000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [alert]);
