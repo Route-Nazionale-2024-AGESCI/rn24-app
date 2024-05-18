@@ -11,6 +11,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MapIcon from "@mui/icons-material/Map";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 
+import { getSicurezza } from "../lib/cacheManager/pages";
+
 const selectedColor = "#FFFFFF";
 const inactiveColor = "#86838D";
 const backgroundColor = "#2B2D2C";
@@ -24,6 +26,7 @@ const BottomNavigationAction = styled(MuiBottomNavigationAction)(`
 
 export default function NavBar() {
   const [destinazione, setDestinazione] = React.useState("Home");
+  const [sicurezzaUrl, setSicurezzaUrl] = React.useState("/avvisi");
   const location = useLocation();
   const handleDestinationChange = (event, newValue) => {
     setDestinazione(newValue);
@@ -32,6 +35,16 @@ export default function NavBar() {
   React.useEffect(() => {
     setDestinazione(location.pathname);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    const updateSicurezzaUrl = async () => {
+      const sicurezzaPage = await getSicurezza();
+      if (sicurezzaPage && sicurezzaPage?.uuid) {
+        setSicurezzaUrl(`/pages/${sicurezzaPage.uuid}`);
+      }
+    };
+    updateSicurezzaUrl();
+  });
 
   const Label = ({ text }) => <Typography fontSize="12px">{text}</Typography>;
 
@@ -76,11 +89,11 @@ export default function NavBar() {
           to="/mappa"
         />
         <BottomNavigationAction
-          label={<Label text="Avvisi" />}
-          value="/avvisi"
+          label={<Label text="Sicurezza" />}
+          value={sicurezzaUrl}
           icon={<ReportProblemIcon />}
           component={Link}
-          to="/avvisi"
+          to={sicurezzaUrl}
         />
       </BottomNavigation>
     </Container>
