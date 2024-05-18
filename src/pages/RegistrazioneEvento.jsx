@@ -1,11 +1,13 @@
 import { useLoaderData } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
 
 import { useNetworkState } from "@uidotdev/usehooks";
 
@@ -22,7 +24,6 @@ import {
   registerToEvent,
   deleteRegistrationToEvent,
 } from "../lib/dataManager/events";
-import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 
 const GreenBox = styled(Box)({
   backgroundColor: "#EBF6F0",
@@ -62,6 +63,28 @@ const GreenBox = styled(Box)({
 
 */
 
+const ErrorAlert = ({ errorMsg, onClose }) => (
+  <Fade in={errorMsg !== null}>
+    <Alert
+      severity="error"
+      onClose={onClose}
+      sx={{
+        width: "80%",
+        maxWidth: "400px",
+        position: "fixed",
+        bottom: "100px",
+        left: "50%",
+        translate: `calc(-50% - 16px)`,
+        zIndex: "2000",
+      }}
+    >
+      {errorMsg}
+    </Alert>
+  </Fade>
+);
+
+const capitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
+
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   return { event };
@@ -69,6 +92,7 @@ export async function loader({ params }) {
 
 export default function RegistrazioneEvento() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { event } = useLoaderData();
   const regStartDT = event.registrations_open_at ?? null;
@@ -80,6 +104,15 @@ export default function RegistrazioneEvento() {
 
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
+
+  useEffect(() => {
+    if (error !== null) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const checkRegistrationPeriod = () => {
     const now = new Date();
@@ -136,17 +169,7 @@ export default function RegistrazioneEvento() {
                     opacity: loading ? "50%" : "100%",
                     maxWidth: "400px",
                   }}
-                  onClick={
-                    //   async () => {
-                    //   setLoading(true);
-                    //   await deleteRegistrationToEvent(event.uuid);
-                    //   setLoading(false);
-                    //   mutate(
-                    //     registrations.filter((reg) => reg.event !== event.uuid)
-                    //   );
-                    // }
-                    () => setOpenModal(true)
-                  }
+                  onClick={() => setOpenModal(true)}
                 >
                   <Typography fontSize="16px" fontWeight={600}>
                     Annulla Iscrizione
@@ -159,65 +182,83 @@ export default function RegistrazioneEvento() {
                   )}
                 </Button>
               </Box>
-              {/* TODO: try catch for errors /* Uncaught (in promise) Error:}
-              AxiosError: Request failed with status code 500 at index.js:28:27
-              at async _s.request (Axios.js:40:7) at async events.js:82:3 at
-              async unsubscribe (RegistrazioneEvento.jsx:164:30) */}
               <UnsubscribeModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 unsubscribe={async () => {
                   setOpenModal(false);
-                  setLoading(true);
-                  await deleteRegistrationToEvent(event.uuid);
-                  setLoading(false);
-                  mutate(
-                    registrations.filter((reg) => reg.event !== event.uuid)
-                  );
+                  try {
+                    setLoading(true);
+                    await deleteRegistrationToEvent(event.uuid);
+                    mutate(
+                      registrations.filter((reg) => reg.event !== event.uuid)
+                    );
+                  } catch (err) {
+                    console.error(err);
+                    if (
+                      Array.isArray(err?.response?.data) &&
+                      err?.response?.status === 400
+                    ) {
+                      setError(capitalize(err.response.data[0]));
+                    } else {
+                      setError("Si è verificato un errore, riprova più tardi");
+                    }
+                  } finally {
+                    setLoading(false);
+                  }
                 }}
               />
             </>
           )}
+          <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
         </>
       );
     } else if (networkState.online && checkRegistrationPeriod()) {
       return (
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <AccessButton
-            sx={{ opacity: loading ? "50%" : "100%" }}
-            disabled={loading}
-            onClick={async () => {
-              // TODO: try catch for errors
-              /*
-              Uncaught (in promise) Error: AxiosError: Request failed with status code 400
-              at index.js:28:1
-              at async Axios.request (Axios.js:35:1)
-              at async registerToEvent (events.js:69:1)
-              at async onClick (RegistrazioneEvento.jsx:195:1)
-              */
-              setLoading(true);
-              const res = await registerToEvent(event.uuid);
-              setLoading(false);
-              mutate([...registrations, { event: res.event }]);
+        <>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
-            <Typography fontSize="16px" fontWeight={600}>
-              Registrati a questo evento
-            </Typography>
-            {loading && (
-              <CircularProgress
-                size="20px"
-                sx={{ marginLeft: "12px", color: "#000000" }}
-              />
-            )}
-          </AccessButton>
-        </Box>
+            <AccessButton
+              sx={{ opacity: loading ? "50%" : "100%" }}
+              disabled={loading}
+              onClick={async () => {
+                try {
+                  setLoading(true);
+                  const res = await registerToEvent(event.uuid);
+                  mutate([...registrations, { event: res.event }]);
+                } catch (err) {
+                  console.error(err);
+                  if (
+                    Array.isArray(err?.response?.data) &&
+                    err?.response?.status === 400
+                  ) {
+                    setError(capitalize(err.response.data[0]));
+                  } else {
+                    setError("Si è verificato un errore, riprova più tardi");
+                  }
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              <Typography fontSize="16px" fontWeight={600}>
+                Registrati a questo evento
+              </Typography>
+              {loading && (
+                <CircularProgress
+                  size="20px"
+                  sx={{ marginLeft: "12px", color: "#000000" }}
+                />
+              )}
+            </AccessButton>
+          </Box>
+          <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
+        </>
       );
     }
     return null;
