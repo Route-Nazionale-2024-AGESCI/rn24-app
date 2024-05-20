@@ -8,8 +8,12 @@ import Typography from "@mui/material/Typography";
 
 export default function UnsubscribeModal({ open, onClose, unsubscribe }) {
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="logout-dialog-title">
-      <DialogTitle id="logout-dialog-title">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="unsubscribe-dialog-title"
+    >
+      <DialogTitle id="unsubscribe-dialog-title">
         <Typography
           fontSize={"20px"}
           fontWeight={600}
@@ -19,11 +23,11 @@ export default function UnsubscribeModal({ open, onClose, unsubscribe }) {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <Typography fontSize="14px" fontWeight={400} color="#2B2D2B">
-            Se l'evento ha un numero di posti limitato, potresti non poterti più
-            iscrivere
-          </Typography>
+        <DialogContentText
+          sx={{ fontSize: "14px", fontWeight: 400, color: "#2B2B2B" }}
+        >
+          Se l'evento ha un numero di posti limitato, potresti non poterti più
+          iscrivere
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -38,7 +42,7 @@ export default function UnsubscribeModal({ open, onClose, unsubscribe }) {
         </Button>
         <Button onClick={unsubscribe} autoFocus>
           <Typography fontSize="16px" fontWeight={600} color="agesciRed.main">
-            Cancella iscrizione
+            Cancella
           </Typography>
         </Button>
       </DialogActions>

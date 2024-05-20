@@ -23,11 +23,11 @@ export default function LogoutModal({ open, onClose }) {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <Typography fontSize="14px" fontWeight={400} color="#2B2D2B">
-            Per poter usare nuovamente l'App dovrai riconnetterti: ti serviranno
-            una connessione internet, il tuo codice socio e la tua password
-          </Typography>
+        <DialogContentText
+          sx={{ fontSize: "14px", fontWeight: 400, color: "#2B2B2B" }}
+        >
+          Per poter usare nuovamente l'App dovrai riconnetterti: ti serviranno
+          una connessione internet, il tuo codice socio e la tua password
         </DialogContentText>
       </DialogContent>
       <DialogActions>
