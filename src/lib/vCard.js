@@ -9,7 +9,7 @@ export default function generateVCardBlob(
   const vcardData = `BEGIN:VCARD
 VERSION:4.0
 N:${lastName ? `${lastName};` : ""}${firstName ? firstName : ""}
-FN:${firstName} ${lastName}
+FN:${firstName ?? `${firstName} `}${lastName ?? ""}
 ${phone ? `TEL:${phone}` : ""}
 ${email ? `EMAIL:${email}` : ""}
 ${note ? `NOTE:${note}` : ""}
