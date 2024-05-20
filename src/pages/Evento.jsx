@@ -259,6 +259,7 @@ export default function Evento() {
             </Stack>
           )}
         </Box>
+        <Box sx={{ height: "20px" }} />
         <Outlet />
       </WhitePaper>
     </>
