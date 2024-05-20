@@ -52,8 +52,17 @@ export function decodeQr(data) {
     };
 }
 
-export function encodeContact(firstName, lastName, phone, email, note, url) {
+export function encodeContact(
+  uuid,
+  firstName,
+  lastName,
+  phone,
+  email,
+  note,
+  url
+) {
   let contact = {};
+  contact.uuid = uuid;
   if (firstName !== null && firstName !== "") contact.firstName = firstName;
   if (lastName !== null && lastName !== "") contact.lastName = lastName;
   if (phone !== null && phone !== "") contact.phone = phone;

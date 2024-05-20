@@ -80,6 +80,7 @@ export default function CondividiQr() {
   const [url, setUrl] = useState(getLocalStorageUrl());
   const [shareUrl, setShareUrl] = useState(getLocalStorageShareUrl());
   const encodedString = encodeContact(
+    user.uuid,
     shareFirstName ? firstName.trim() : null,
     shareLastName ? lastName.trim() : null,
     sharePhone ? phone : null,
