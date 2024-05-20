@@ -19,6 +19,8 @@ import { decodeQr } from "../lib/qr";
 //     "lastName":"Rossi",
 //     "phone":"1231231231",
 //     "email":"pr@email.com"
+//     "note":"Esperto di relazioni internazionali"
+//     "url":"https://www.rossipierino.eu"
 //   }
 // }
 
@@ -50,7 +52,7 @@ export default function ScansionaQr() {
       } else {
         setError(null);
         setUrlDetected(null);
-        setData(decodedQr);
+        setData(decodedQr.contact);
       }
     }
     //}
@@ -159,7 +161,6 @@ export default function ScansionaQr() {
               </Stack>
             </Stack>
             <Box sx={{ height: "16px" }} />
-            {/* TODO: aggiungere le altre info nel link di aggiunta ai contatti */}
             {!savedContact ? (
               <AccessButton
                 component="a"
@@ -170,7 +171,9 @@ export default function ScansionaQr() {
                     data.firstName,
                     data.lastName,
                     data.phone,
-                    data.email
+                    data.email,
+                    data.note,
+                    data.url
                   );
                   const url = window.URL.createObjectURL(vCardBlob);
                   setVCardUrl(url);

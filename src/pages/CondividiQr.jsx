@@ -15,6 +15,10 @@ import {
   getLocalStorageSharePhone,
   getLocalStorageEmail,
   getLocalStorageShareEmail,
+  getLocalStorageNote,
+  getLocalStorageShareNote,
+  getLocalStorageUrl,
+  getLocalStorageShareUrl,
   setLocalStorageFirstName,
   setLocalStorageShareFirstName,
   setLocalStorageLastName,
@@ -23,6 +27,10 @@ import {
   setLocalStorageSharePhone,
   setLocalStorageEmail,
   setLocalStorageShareEmail,
+  setLocalStorageNote,
+  setLocalStorageShareNote,
+  setLocalStorageUrl,
+  setLocalStorageShareUrl,
   initLocalSharableInfo,
 } from "../lib/shareContactInfo";
 
@@ -51,6 +59,8 @@ export default function CondividiQr() {
     lastName: user.last_name,
     phone: user.phone,
     email: user.email,
+    note: "",
+    url: "",
   };
   initLocalSharableInfo(userInfo);
   const [firstName, setFirstName] = useState(getLocalStorageFirstName());
@@ -65,11 +75,17 @@ export default function CondividiQr() {
   const [sharePhone, setSharePhone] = useState(getLocalStorageSharePhone());
   const [email, setEmail] = useState(getLocalStorageEmail());
   const [shareEmail, setShareEmail] = useState(getLocalStorageShareEmail());
+  const [note, setNote] = useState(getLocalStorageNote());
+  const [shareNote, setShareNote] = useState(getLocalStorageShareNote());
+  const [url, setUrl] = useState(getLocalStorageUrl());
+  const [shareUrl, setShareUrl] = useState(getLocalStorageShareUrl());
   const encodedString = encodeContact(
-    shareFirstName ? firstName : null,
-    shareLastName ? lastName : null,
+    shareFirstName ? firstName.trim() : null,
+    shareLastName ? lastName.trim() : null,
     sharePhone ? phone : null,
-    shareEmail ? email : null
+    shareEmail ? email : null,
+    shareNote ? note.trim() : null,
+    shareUrl ? url : null
   );
   return (
     <Box
@@ -91,7 +107,11 @@ export default function CondividiQr() {
           borderRadius: "8px",
         }}
       >
-        {(shareFirstName || shareLastName) && (sharePhone || shareEmail) ? (
+        {((shareFirstName && firstName !== "") ||
+          (shareLastName && lastName !== "")) &&
+        ((sharePhone && phone !== "") ||
+          (shareEmail && email !== "") ||
+          (shareUrl && url !== "")) ? (
           <QRCodeSVG value={encodedString} size={200} />
         ) : (
           <Box
@@ -110,9 +130,10 @@ export default function CondividiQr() {
               color="agesciPurple.main"
             >
               Devi condividere almeno{" "}
-              {!shareFirstName && !shareLastName
+              {!(shareFirstName && firstName !== "") &&
+              !(shareLastName && lastName !== "")
                 ? "il nome o il cognome"
-                : "il numero di telefono o l'email"}
+                : "il numero di telefono, l'email o un link"}
             </Typography>
           </Box>
         )}
@@ -203,7 +224,7 @@ export default function CondividiQr() {
               <TextField
                 value={phone}
                 onChange={(event) => {
-                  const val = event.target.value;
+                  const val = event.target.value.trim();
                   setPhone(val);
                   setLocalStoragePhone(val);
                 }}
@@ -230,9 +251,63 @@ export default function CondividiQr() {
               <TextField
                 value={email}
                 onChange={(event) => {
-                  const val = event.target.value;
+                  const val = event.target.value.trim();
                   setEmail(val);
                   setLocalStorageEmail(val);
+                }}
+              />
+            </Stack>
+          </Grid>
+        </InfoBox>
+        <InfoBox>
+          <Grid item xs={2} sx={{ display: "flex" }} alignItems={"center"}>
+            <CheckBox
+              checked={shareNote}
+              onChange={(event) => {
+                const val = event.target.checked;
+                setShareNote(val);
+                setLocalStorageShareNote(val);
+              }}
+            />
+          </Grid>
+          <Grid item xs={10}>
+            <Stack direction="column" gap="8px">
+              <Typography variant="body1" fontSize="14px" fontWeight={600}>
+                Note
+              </Typography>
+              <TextField
+                value={note}
+                onChange={(event) => {
+                  const val = event.target.value;
+                  setNote(val);
+                  setLocalStorageNote(val);
+                }}
+              />
+            </Stack>
+          </Grid>
+        </InfoBox>
+        <InfoBox>
+          <Grid item xs={2} sx={{ display: "flex" }} alignItems={"center"}>
+            <CheckBox
+              checked={shareUrl}
+              onChange={(event) => {
+                const val = event.target.checked;
+                setShareUrl(val);
+                setLocalStorageShareUrl(val);
+              }}
+            />
+          </Grid>
+          <Grid item xs={10}>
+            <Stack direction="column" gap="8px">
+              <Typography variant="body1" fontSize="14px" fontWeight={600}>
+                Link
+              </Typography>
+              <TextField
+                value={url ? url : ""}
+                onChange={(event) => {
+                  const val = event.target.value.trim();
+                  setUrl(val);
+                  setLocalStorageUrl(val);
                 }}
               />
             </Stack>
