@@ -74,7 +74,7 @@ const ErrorAlert = ({ errorMsg, onClose }) => (
         position: "fixed",
         bottom: "100px",
         left: "50%",
-        translate: `calc(-50% - 16px)`,
+        translate: `calc(-50%)`, // - 16px)`,
         zIndex: "2000",
       }}
     >
@@ -144,7 +144,14 @@ export default function RegistrazioneEvento() {
     // event.is_registration_required === true
     if (regUuid.includes(event.uuid)) {
       return (
-        <>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <GreenBox>
             <Typography fontWeight={600} fontSize="16px">
               Sei registrato a questo evento
@@ -211,7 +218,7 @@ export default function RegistrazioneEvento() {
             </>
           )}
           <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
-        </>
+        </Box>
       );
     } else if (networkState.online && checkRegistrationPeriod()) {
       return (
