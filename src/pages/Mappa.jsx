@@ -1,6 +1,9 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
 import { getLocationList, getLocation } from "../lib/cacheManager/locations";
+import { Map } from "../ui/Map";
+import Box from "@mui/material/Box";
+import { MapContainer } from "react-leaflet";
 
 /* 
   
@@ -55,12 +58,49 @@ export default function Mappa() {
   // usare per ottenere info in piu
   const { location } = useLoaderData();
 
+  // TODO: Posizione centrale della mappa di default
+  const center = lat && lon 
+  ? [lat, lon]
+  : [45.419743, 11.040704]
+
+
   return (
     <>
-      <Typography variant="h2">Mappa</Typography>
-      <Typography variant="h3">{location?.name}</Typography>
-      <Typography variant="body1">Latitude: {lat}</Typography>
-      <Typography variant="body1">Longitude: {lon}</Typography>
+      <Typography
+        variant="h1"
+        fontSize="25px"
+        fontWeight={900}
+        sx={{ margin: "16px", color: "#2B2D2B" }}
+      >
+        Mappa
+      </Typography>
+      <Box
+        sx={{
+          background: "white",
+          borderRadius: "16px",
+          height: "60vh",
+          minHeight: `calc(100vh - 348px)`,
+          overflow: "hidden",
+        }}
+      >
+        <MapContainer
+          center={center}
+          zoom={13}
+          scrollWheelZoom={true}
+          style={{ width: "100%", height: "100%", zIndex: 0 }}
+        >
+          <Map position={center} location={location} locations={locations} />
+        </MapContainer>
+      </Box>
+      <Box
+       sx={{
+        margin: "16px",
+      }}
+      >
+        <Typography variant="h3">{location?.name}</Typography>
+        <Typography variant="body1">Latitude: {lat}</Typography>
+        <Typography variant="body1">Longitude: {lon}</Typography>
+      </Box>
     </>
   );
 }
