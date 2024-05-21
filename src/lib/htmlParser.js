@@ -14,6 +14,14 @@ const renderLink = (linkElement) => {
     );
     return returnElement;
   }
+  if (attribs && attribs.href) {
+    const returnElement = (
+      <a target="_blank" {...attribs}>
+        {domToReact(children)}
+      </a>
+    );
+    return returnElement;
+  }
   return null;
 };
 
