@@ -41,6 +41,20 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     [`&.${toggleButtonGroupClasses.disabled}`]: {
       border: 0,
     },
+    position: "relative", // Ensure the ripple effect is positioned correctly
+    overflow: "hidden", // Ensure the ripple effect is clipped to the button bounds
+    "&:after": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "transparent", // Fix the overlay color
+    },
+    "&:hover:after": {
+      background: "rgba(0, 0, 0, 0.08)", // Set hover overlay color
+    },
   },
 }));
 
