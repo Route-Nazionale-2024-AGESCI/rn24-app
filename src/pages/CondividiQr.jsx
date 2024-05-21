@@ -89,17 +89,7 @@ export default function CondividiQr() {
     shareUrl ? url : null
   );
   return (
-    <Box
-      sx={{
-        width: "100%",
-        paddingX: "16px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: "100px",
-      }}
-    >
+    <>
       <Box
         sx={{
           backgroundColor: "#ffffff",
@@ -125,7 +115,6 @@ export default function CondividiQr() {
             }}
           >
             <Typography
-              // variant="h4"
               fontWeight={600}
               fontSize="20px"
               color="agesciPurple.main"
@@ -147,8 +136,7 @@ export default function CondividiQr() {
         direction="column"
         sx={{
           maxWidth: "400px",
-          width: "100%",
-          marginX: "16px",
+          width: "90%",
           textAlign: "left",
         }}
       >
@@ -315,6 +303,6 @@ export default function CondividiQr() {
           </Grid>
         </InfoBox>
       </Stack>
-    </Box>
+    </>
   );
 }

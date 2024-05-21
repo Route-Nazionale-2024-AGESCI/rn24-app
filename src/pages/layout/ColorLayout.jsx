@@ -20,8 +20,9 @@ const ColorLayout = ({ back, color }) => (
         flexGrow: "1",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "start",
         alignItems: "center",
+        paddingTop: "40px",
       }}
     >
       <Outlet />
