@@ -22,7 +22,6 @@ export async function loader({ params }) {
 
 export default function Pagina() {
   const { page, parent, parentList } = useLoaderData();
-  console.log(parentList);
   const children = page.children.filter((c) => c.show_in_menus);
   return (
     <>
@@ -84,7 +83,7 @@ export default function Pagina() {
               <Typography variant="body2">
                 Torna a{" "}
                 <RouterLink
-                  to={`/pagine/${parent.uuid}`}
+                  to={`/pages/${parent.uuid}`}
                   style={{
                     textDecoration: "none",
                     color: "#6d5095",
