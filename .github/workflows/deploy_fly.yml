@@ -1,0 +1,20 @@
+name: Deploy on fly
+on:
+  push:
+    branches:
+      - master    # change to main if needed
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    concurrency: deploy-group    # optional: ensure only one action runs at a time
+    steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: Route-Nazionale-2024-AGESCI
+          repo: rn24-backend
+          github_token: ${{ secrets.PAT }}
+          workflow_file_name: fly.yml
+          ref: master
