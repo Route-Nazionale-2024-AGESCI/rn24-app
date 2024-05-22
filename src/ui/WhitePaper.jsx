@@ -5,13 +5,12 @@ export default function WhitePaper({ children, sx = {} }) {
     <Box
       sx={{
         background: "white",
-        // textAlign: "center",
         borderRadius: "16px 16px 0 0",
         mt: "16px",
-        mb: "-20px",
+        marginBottom: "-80px",
         pt: "40px",
         pb: "80px",
-        minHeight: `calc(100vh - 348px)`,
+        minHeight: `calc(100vh - 318px)`,
         ...sx,
       }}
     >

@@ -33,7 +33,11 @@ export default function NavBar() {
   };
 
   React.useEffect(() => {
-    setDestinazione(location.pathname);
+    let dest = location.pathname;
+    if (dest.endsWith("/") && dest.length > 1) {
+      dest = dest.slice(0, dest.length - 1);
+    }
+    setDestinazione(dest);
   }, [location.pathname]);
 
   React.useEffect(() => {

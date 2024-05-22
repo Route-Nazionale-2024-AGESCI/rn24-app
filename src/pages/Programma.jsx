@@ -38,6 +38,10 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       backgroundColor: theme.palette.agesciPurple.main,
       color: theme.palette.common.white,
     },
+    "&.Mui-selected:hover": {
+      backgroundColor: theme.palette.agesciPurple.main,
+      color: theme.palette.common.white,
+    },
     [`&.${toggleButtonGroupClasses.disabled}`]: {
       border: 0,
     },

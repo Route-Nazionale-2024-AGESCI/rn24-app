@@ -91,6 +91,7 @@ export default function Home() {
         title="Tracce"
         subtitle="Scopri tutte le informazioni logistiche sul servizio della tua Comunità Capi"
       />
+      <Box sx={{ height: "40px" }} />
     </Box>
   );
 }

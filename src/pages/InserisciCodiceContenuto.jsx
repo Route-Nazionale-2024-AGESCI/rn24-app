@@ -24,7 +24,7 @@ export default function InserisciCodiceContenuto() {
       </Typography>
       <Box sx={{ height: "32px" }} />
       <TextField
-        sx={{ maxWidth: "400px" }}
+        sx={{ maxWidth: "400px", width: "90%" }}
         placeholder="Inserisci Codice"
         value={slug}
         onChange={(event) => {

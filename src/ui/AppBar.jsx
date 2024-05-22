@@ -166,7 +166,7 @@ export default function AppBar() {
               </ListItem>
               {user.is_staff && (
                 <ListItem>
-                  <ListItemButton href="/admin">
+                  <ListItemButton href="/admin" target="_blank">
                     <ListItemIcon>
                       <SettingsApplicationsIcon color="white" />
                     </ListItemIcon>
