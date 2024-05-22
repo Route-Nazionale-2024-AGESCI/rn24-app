@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "production") {
   axios.defaults.baseURL = "/api/v1/";
 } else {
   // TODO: leggere questo valore da .env, non inserito dentro git
-  axios.defaults.baseURL = "https://rn24-dev.fly.dev/api/v1/";
+  axios.defaults.baseURL = "https://rn24-dev.tapion.it/api/v1/";
 }
 
 const instance = axios.create({

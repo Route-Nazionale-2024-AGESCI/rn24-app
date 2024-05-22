@@ -23,7 +23,7 @@ import axios from "../api";
 */
 
 //   Doc:
-//   https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
+//   /api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
 export async function getEventList() {
   const response = await axios.get("events/");
   return {
@@ -46,7 +46,7 @@ export async function getTraccia() {
 
 //  API endpoint: /api/v1/events/invitations/
 //  Doc:
-//  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_invitations_list
+//  /api/v1/schema/redoc/#tag/api/operation/api_v1_events_invitations_list
 export async function getEventInvitations() {
   const response = await axios.get("events/invitations/");
 
@@ -55,7 +55,7 @@ export async function getEventInvitations() {
 
 //  API endpoint: /api/v1/events/registrations/
 //  Doc:
-//  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_list
+//  /api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_list
 export async function getEventRegistrations() {
   const response = await axios.get("events/registrations/");
 
@@ -64,7 +64,7 @@ export async function getEventRegistrations() {
 
 //  API endpoint: POST /api/v1/events/registrations/
 //  Doc:
-//  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
+//  /api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_create
 export async function registerToEvent(eventUuid) {
   const response = await axios.post("events/registrations/", {
     event: eventUuid,
@@ -75,7 +75,7 @@ export async function registerToEvent(eventUuid) {
 
 //  API endpoint: DELETE /api/v1/events/registrations/{uuid}
 //  Doc:
-//  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
+//  /api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
 export async function deleteRegistrationToEvent(eventUuid) {
   const response = await axios.delete(`events/registrations/${eventUuid}/`);
 

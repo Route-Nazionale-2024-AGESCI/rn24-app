@@ -36,7 +36,7 @@ import axios from "../api";
 }
 
   Doc:
-  https://rn24-dev.fly.dev/api/v1/schema/redoc/#tag/api/operation/api_v1_profile_retrieve
+  /api/v1/schema/redoc/#tag/api/operation/api_v1_profile_retrieve
 
 */
 export async function getUser() {
