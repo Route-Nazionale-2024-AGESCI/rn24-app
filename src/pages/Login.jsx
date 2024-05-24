@@ -159,8 +159,17 @@ export default function Login() {
               }
               label={
                 <Typography fontSize="12px">
-                  Dichiaro di accettare le condizioni di utilizzo dell'app ed
-                  acconsentire al trattamento dei dati *
+                  Dichiaro di accettare le{" "}
+                  <RouterLink
+                    to="/tos"
+                    style={{
+                      color: "#6D5095",
+                      fontWeight: 500,
+                    }}
+                  >
+                    condizioni di utilizzo
+                  </RouterLink>{" "}
+                  dell'app ed acconsentire al trattamento dei dati *
                 </Typography>
               }
             />

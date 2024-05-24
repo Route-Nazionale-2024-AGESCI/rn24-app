@@ -14,6 +14,7 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
+import ToS from "./pages/ToS";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
@@ -61,6 +62,11 @@ export const router = [
               {
                 path: "recuperoPassword",
                 element: <RecuperoPwd />,
+                errorElement: <SegmentedError />,
+              },
+              {
+                path: "tos",
+                element: <ToS />,
                 errorElement: <SegmentedError />,
               },
             ],
