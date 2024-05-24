@@ -1,7 +1,6 @@
 import { Link as RouterLink, useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 
 import PlaceIcon from "@mui/icons-material/Place";
@@ -51,7 +50,9 @@ export default function Tracce() {
           <Typography fontSize="14px" fontWeight={800} sx={{ mb: "12px" }}>
             Info Logistiche
           </Typography>
-          <Paper sx={{ p: "12px" }} elevation={1}>
+          <Box
+            sx={{ p: "12px", border: "1px solid #E2DCEA", borderRadius: "8px" }}
+          >
             {location && (
               <RouterLink
                 to={`/mappa/?location=${location.uuid}`}
@@ -90,7 +91,7 @@ export default function Tracce() {
                 {endDT.getMinutes().toString().padStart(2, "0")}
               </Typography>
             </Stack>
-          </Paper>
+          </Box>
         </Box>
       </WhitePaper>
     </>
