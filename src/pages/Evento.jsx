@@ -261,6 +261,7 @@ export default function Evento() {
         </Box>
         <Box sx={{ height: "20px" }} />
         <Outlet />
+        <Box sx={{ height: "20px" }} />
       </WhitePaper>
     </>
   );
