@@ -43,12 +43,12 @@ export function initLocalSharableInfo(userInfo) {
   if (localStorage.getItem(EMAIL_LOCAL_STORAGE_KEY) === null) {
     localStorage.setItem(EMAIL_LOCAL_STORAGE_KEY, userInfo.email);
   }
-  // if (localStorage.getItem(NOTE_LOCAL_STORAGE_KEY) === null) {
-  //   localStorage.setItem(NOTE_LOCAL_STORAGE_KEY, userInfo.note);
-  // }
-  // if (localStorage.getItem(URL_LOCAL_STORAGE_KEY) === null) {
-  //   localStorage.setItem(URL_LOCAL_STORAGE_KEY, userInfo.url);
-  // }
+  if (localStorage.getItem(NOTE_LOCAL_STORAGE_KEY) === null) {
+    localStorage.setItem(NOTE_LOCAL_STORAGE_KEY, userInfo.note);
+  }
+  if (localStorage.getItem(URL_LOCAL_STORAGE_KEY) === null) {
+    localStorage.setItem(URL_LOCAL_STORAGE_KEY, userInfo.url);
+  }
 }
 
 export function getLocalStorageFirstName() {

@@ -303,6 +303,7 @@ export default function CondividiQr() {
           </Grid>
         </InfoBox>
       </Stack>
+      <Box sx={{ height: "120px" }} />
     </>
   );
 }
