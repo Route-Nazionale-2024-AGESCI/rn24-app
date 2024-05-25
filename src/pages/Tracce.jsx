@@ -46,7 +46,7 @@ const ErrorAlert = ({ errorMsg, onClose }) => (
 
 export default function Tracce() {
   const { traccia, description, location } = useLoaderData();
-  const [loading, setLoading] = useState("false");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const startDT = new Date(traccia.starts_at);
   const endDT = new Date(traccia.ends_at);
