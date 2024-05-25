@@ -139,7 +139,7 @@ export default function RecuperoPwd() {
   );
 
   let mainContent = null;
-  if (success) {
+  if (!success) {
     mainContent = RecoveryForm;
   } else {
     mainContent = (
