@@ -60,12 +60,12 @@ export async function loader({ request }) {
 }
 
 const getCurrentDate = () => {
-  // const today = new Date(2024, 7, 25, 13);
+  //const today = new Date(2024, 7, 23, 16, 20);
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return { currentDateString: `${year}-${month}-${day}`, currentDate: today };
 };
 function testDateFormat(dateString) {
   const regex =
@@ -79,13 +79,15 @@ export default function Programma() {
   const { events, locations, day } = useLoaderData();
   const { invitations } = useEventInvitations();
   const navigate = useNavigate();
-  const currentDate = getCurrentDate();
+  const { currentDateString, currentDate } = getCurrentDate();
 
   let selectedDay;
   if (day !== null && testDateFormat(day)) selectedDay = day;
   else
     selectedDay =
-      currentDate >= minDate && currentDate <= maxDate ? currentDate : minDate;
+      currentDateString >= minDate && currentDateString <= maxDate
+        ? currentDateString
+        : minDate;
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {
@@ -95,8 +97,8 @@ export default function Programma() {
   };
 
   const findEventsInProgress = (events) => {
-    // const currentDate = new Date(2024, 7, 25, 19, 30);
-    const currentDate = new Date();
+    //const currentDate = new Date(2024, 7, 23, 19, 10);
+    //const currentDate = new Date();
     return events.filter((event) => {
       const startsAt = new Date(event.starts_at);
       const endsAt = new Date(event.ends_at);
@@ -238,6 +240,18 @@ export default function Programma() {
   };
 
   const TodayView = () => {
+    const prossimiEventiCards = filteredEvents
+      .filter(
+        (ev) =>
+          !eventsInProgress.includes(ev) && new Date(ev.starts_at) > currentDate
+      )
+      .map((ev) => <EventCard event={ev} />);
+    const eventiConclusiCards = filteredEvents
+      .filter(
+        (ev) =>
+          !eventsInProgress.includes(ev) && new Date(ev.ends_at) < currentDate
+      )
+      .map((ev) => <EventCard event={ev} />);
     return (
       <>
         <Typography
@@ -246,6 +260,8 @@ export default function Programma() {
           sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
         >
           In Corso
+        </Typography>
+        <Box sx={{ ml: "24px" }}>
           {eventsInProgress.length > 0 ? (
             eventsInProgress.map((ev) => <EventCard event={ev} key={ev.uuid} />)
           ) : (
@@ -278,19 +294,28 @@ export default function Programma() {
               </Stack>
             </Stack>
           )}
-        </Typography>
-        <Typography
-          fontSize="20px"
-          fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
-        >
-          Prossimi Eventi
-          {filteredEvents
-            .filter((ev) => !eventsInProgress.includes(ev))
-            .map((ev) => (
-              <EventCard event={ev} />
-            ))}
-        </Typography>
+        </Box>
+        {/* </Typography> */}
+        {prossimiEventiCards.length > 0 && (
+          <Typography
+            fontSize="20px"
+            fontWeight={900}
+            sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
+          >
+            Prossimi Eventi
+            {prossimiEventiCards}
+          </Typography>
+        )}
+        {eventiConclusiCards.length > 0 && (
+          <Typography
+            fontSize="20px"
+            fontWeight={900}
+            sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
+          >
+            Eventi Conclusi
+            {eventiConclusiCards}
+          </Typography>
+        )}
       </>
     );
   };
@@ -302,7 +327,7 @@ export default function Programma() {
           fontWeight={900}
           sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
         >
-          {getCurrentDate() < selectedDay
+          {currentDateString < selectedDay
             ? "Eventi in Programma"
             : "Eventi Passati"}
         </Typography>
@@ -381,7 +406,7 @@ export default function Programma() {
             </ToggleButton>
           </StyledToggleButtonGroup>
         </Box>
-        {getCurrentDate() === selectedDay ? <TodayView /> : <AnotherDayView />}
+        {currentDateString === selectedDay ? <TodayView /> : <AnotherDayView />}
       </WhitePaper>
     </>
   );
