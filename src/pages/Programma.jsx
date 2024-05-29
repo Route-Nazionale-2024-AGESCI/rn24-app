@@ -25,8 +25,13 @@ import FilterDrawer, { FilterButton } from "../ui/FilterDrawer";
 
 import getEventColor from "../lib/eventColor";
 
-import { getEventList, useEventInvitations } from "../lib/cacheManager/events";
+import {
+  getEventList,
+  useEventInvitations,
+  useEventRegistrations,
+} from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
+import { useFilters, applyFilter } from "../contexts/filter";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.grouped}`]: {
@@ -77,9 +82,11 @@ function testDateFormat(dateString) {
 export default function Programma() {
   const { events, locations, day } = useLoaderData();
   const { invitations } = useEventInvitations();
+  const { registrations } = useEventRegistrations();
   const navigate = useNavigate();
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
   const { currentDateString, currentDate } = getCurrentDate();
+  const { filters } = useFilters();
 
   const minDate = "2024-08-22";
   const maxDate = "2024-08-25";
@@ -108,7 +115,12 @@ export default function Programma() {
   };
   const invUuid = invitations.map((inv) => inv.uuid);
   const visibleEvents = events.filter((ev) => invUuid.includes(ev.uuid));
-  const filteredEvents = filterEventsByDate(visibleEvents, selectedDay);
+
+  const filteredEvents = applyFilter(
+    filterEventsByDate(visibleEvents, selectedDay),
+    filters,
+    registrations
+  );
   const eventsInProgress = findEventsInProgress(filteredEvents);
 
   const handleChangeDay = (event, newDay) => {
