@@ -78,9 +78,10 @@ export default function Mappa() {
         sx={{
           background: "white",
           borderRadius: "16px",
-          height: "60vh",
-          minHeight: `calc(100vh - 348px)`,
+          height: "50vh",
+          minHeight: `250px`,
           overflow: "hidden",
+          margin: "0 16px"
         }}
       >
         <MapContainer
