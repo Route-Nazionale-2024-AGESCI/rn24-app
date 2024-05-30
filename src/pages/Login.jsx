@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Form, Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
@@ -6,21 +6,46 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import CheckBox from "../ui/CheckBox";
+import CircularProgress from "@mui/material/CircularProgress";
 import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
 
+import CheckBox from "../ui/CheckBox";
 import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
 
 import { useAuth, AuthStatus } from "../contexts/auth";
 
+const ErrorAlert = ({ errorMsg, onClose }) => (
+  <Fade in={errorMsg !== null}>
+    <Alert
+      severity="error"
+      onClose={onClose}
+      sx={{
+        width: "80%",
+        maxWidth: "400px",
+        position: "fixed",
+        bottom: "100px",
+        left: "50%",
+        translate: `calc(-50%)`, // - 16px)`,
+        zIndex: "2000",
+      }}
+    >
+      {errorMsg}
+    </Alert>
+  </Fade>
+);
+
 export default function Login() {
   const { loginAction, status } = useAuth();
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const tosRef = useRef(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [tos, setTos] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const enableSubmit = username !== "" && password !== "" && tos;
 
   useEffect(() => {
     if (status !== AuthStatus.LoggedOut) {
@@ -28,29 +53,31 @@ export default function Login() {
     }
   }, [status, navigate]);
 
-  const handleSubmit = async () => {
-    const username = usernameRef.current.value;
-    const password = passwordRef.current.value;
-
-    // TODO: migliorare visualizzazione errori
-    if (username === "" || password === "" || !tosRef.current?.checked) {
-      alert("Campi obbligatori!");
-      return;
+  useEffect(() => {
+    if (error !== null) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
     }
-    setLoading(true);
+  }, [error]);
+
+  const handleSubmit = async () => {
     try {
+      setLoading(true);
       await loginAction({ username, password });
     } catch (error) {
-      alert("ERRORE!");
+      setError(
+        error?.response?.data?.detail ??
+          "Si è verificato un errore, riprova più tardi"
+      );
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading || status !== AuthStatus.LoggedOut)
-    // TODO: to improve
-    return <h4>Loading...</h4>;
+  if (status !== AuthStatus.LoggedOut) return <h4>Loading...</h4>;
 
   return (
     <Box
@@ -84,12 +111,14 @@ export default function Login() {
             <TextField
               id="codice-input"
               fullWidth
+              onChange={(ev) => {
+                setUsername(ev.target.value);
+              }}
               placeholder="Inserisci codice socio o alias"
               sx={{
                 mt: "8px",
                 mb: "24px",
               }}
-              inputRef={usernameRef}
             />
           </FormControl>
           <FormControl color="agesciPurple">
@@ -99,16 +128,18 @@ export default function Login() {
             <TextField
               id="password-input"
               fullWidth
+              onChange={(ev) => {
+                setPassword(ev.target.value);
+              }}
               type="password"
               placeholder="Password"
               sx={{
                 mt: "8px",
               }}
-              inputRef={passwordRef}
             />
           </FormControl>
 
-          {/* <Link component={RouterLink} to="/recuperoPassword" underline="none">
+          <Link component={RouterLink} to="/recuperoPassword" underline="none">
             <Typography
               fontSize="14px"
               fontWeight={600}
@@ -116,25 +147,51 @@ export default function Login() {
             >
               Password dimenticata?
             </Typography>
-          </Link> */}
+          </Link>
           <FormGroup sx={{ mt: "40px" }}>
             <FormControlLabel
-              control={<CheckBox inputRef={tosRef} />}
+              control={
+                <CheckBox
+                  onChange={(ev) => {
+                    setTos(ev.target.checked);
+                  }}
+                />
+              }
               label={
                 <Typography fontSize="12px">
-                  Dichiaro di accettare le condizioni di utilizzo dell'app ed
-                  acconsentire al trattamento dei dati *
+                  Dichiaro di accettare le{" "}
+                  <RouterLink
+                    to="/tos"
+                    style={{
+                      color: "#6D5095",
+                      fontWeight: 500,
+                    }}
+                  >
+                    condizioni di utilizzo
+                  </RouterLink>{" "}
+                  dell'app ed acconsentire al trattamento dei dati *
                 </Typography>
               }
             />
           </FormGroup>
-          <AccessButton onClick={handleSubmit}>
+          <AccessButton
+            onClick={handleSubmit}
+            disabled={!enableSubmit || loading}
+            sx={{ opacity: enableSubmit && !loading ? 1.0 : 0.5 }}
+          >
             <Typography fontSize="16px" fontWeight={600}>
               Accedi
             </Typography>
+            {loading && (
+              <CircularProgress
+                size="20px"
+                sx={{ marginLeft: "12px", color: "#000000" }}
+              />
+            )}
           </AccessButton>
         </Box>
       </Form>
+      <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
     </Box>
   );
 }

@@ -14,7 +14,9 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
+import ToS from "./pages/ToS";
 import RecuperoCodice from "./pages/RecuperoCodice";
+import RecuperoPwd from "./pages/RecuperoPwd";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
 import CondividiQr from "./pages/CondividiQr";
@@ -27,6 +29,7 @@ import RegistrazioneEvento, {
 } from "./pages/RegistrazioneEvento";
 import Pagina, { loader as paginaLoader } from "./pages/Pagina";
 
+import { FilterProvider } from "./contexts/filter";
 import { useAuth } from "./contexts/auth";
 
 const AuthMiddleware = () => {
@@ -35,6 +38,10 @@ const AuthMiddleware = () => {
   if (!isLoaded) return <p>caricamento...</p>;
 
   return user ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
+const FilterMiddleware = () => {
+  return <FilterProvider>{<Outlet />}</FilterProvider>;
 };
 
 export const router = [
@@ -57,6 +64,16 @@ export const router = [
                 element: <RecuperoCodice />,
                 errorElement: <SegmentedError />,
               },
+              {
+                path: "recuperoPassword",
+                element: <RecuperoPwd />,
+                errorElement: <SegmentedError />,
+              },
+              {
+                path: "tos",
+                element: <ToS />,
+                errorElement: <SegmentedError />,
+              },
             ],
           },
 
@@ -64,125 +81,133 @@ export const router = [
             element: <AuthMiddleware />,
             children: [
               {
-                element: <NavBarLayout />,
-                errorElement: <SegmentedError />,
+                element: <FilterMiddleware />,
                 children: [
                   {
-                    element: <AppBarLayout />,
+                    element: <NavBarLayout />,
+                    errorElement: <SegmentedError />,
                     children: [
                       {
-                        element: <FabLayout />,
+                        element: <AppBarLayout />,
                         children: [
                           {
-                            index: true,
-                            element: <Home />,
-                            loader: homeLoader,
+                            element: <FabLayout />,
+                            children: [
+                              {
+                                index: true,
+                                element: <Home />,
+                                loader: homeLoader,
+                              },
+                            ],
                           },
-                        ],
-                      },
-                      {
-                        path: "programma",
-                        element: <Programma />,
-                        loader: programmaLoader,
-                      },
-                      {
-                        path: "mappa",
-                        element: <Mappa />,
-                        loader: mappaLoader,
-                      },
-                      {
-                        path: "avvisi",
-                        element: <Avvisi />,
-                        loader: avvisiLoader,
-                      },
-                      {
-                        path: "libretto",
-                        element: <Libretto />,
-                        loader: librettoLoader,
-                      },
-                      {
-                        path: "eventi/:eventId",
-                        element: <Evento />,
-                        loader: eventoLoader,
-                        children: [
                           {
-                            index: true,
-                            element: <RegistrazioneEvento />,
-                            loader: registrazioneEventoLoader,
+                            path: "programma",
+                            element: <Programma />,
+                            loader: programmaLoader,
                           },
-                        ],
-                      },
-                      {
-                        path: "pagine/:pageId",
-                        element: <Pagina />,
-                        loader: paginaLoader,
-                      },
-                      {
-                        // Alias
-                        path: "pages/:pageId",
-                        element: <Pagina />,
-                        loader: paginaLoader,
-                      },
-                      {
-                        path: "contatti",
-                        element: <Contatti />,
-                      },
+                          {
+                            path: "mappa",
+                            element: <Mappa />,
+                            loader: mappaLoader,
+                          },
+                          {
+                            path: "avvisi",
+                            element: <Avvisi />,
+                            loader: avvisiLoader,
+                          },
+                          {
+                            path: "libretto",
+                            element: <Libretto />,
+                            loader: librettoLoader,
+                          },
+                          {
+                            path: "eventi/:eventId",
+                            element: <Evento />,
+                            loader: eventoLoader,
+                            children: [
+                              {
+                                index: true,
+                                element: <RegistrazioneEvento />,
+                                loader: registrazioneEventoLoader,
+                              },
+                            ],
+                          },
+                          {
+                            path: "pagine/:pageId",
+                            element: <Pagina />,
+                            loader: paginaLoader,
+                          },
+                          {
+                            // Alias
+                            path: "pages/:pageId",
+                            element: <Pagina />,
+                            loader: paginaLoader,
+                          },
+                          {
+                            path: "contatti",
+                            element: <Contatti />,
+                          },
 
-                      {
-                        path: "tracce",
-                        element: <Tracce />,
-                        loader: tracceLoader,
+                          {
+                            path: "tracce",
+                            element: <Tracce />,
+                            loader: tracceLoader,
+                          },
+                          {
+                            path: "ricercaContenuto",
+                            element: <RicercaContenuto />,
+                          },
+                        ],
                       },
                       {
-                        path: "ricercaContenuto",
-                        element: <RicercaContenuto />,
+                        element: <GreenLayout back="/contatti" />,
+                        path: "aggiungiContatto/qr",
+                        children: [
+                          {
+                            index: true,
+                            element: <ScansionaQr />,
+                          },
+                        ],
                       },
-                    ],
-                  },
-                  {
-                    element: <GreenLayout back="/contatti" />,
-                    path: "aggiungiContatto/qr",
-                    children: [
                       {
-                        index: true,
-                        element: <ScansionaQr />,
+                        element: <GreenLayout back="/ricercaContenuto" />,
+                        path: "ricercaContenuto/qr",
+                        children: [
+                          {
+                            index: true,
+                            element: <ScansionaQrContenuto />,
+                          },
+                        ],
                       },
-                    ],
-                  },
-                  {
-                    element: <GreenLayout back="/ricercaContenuto" />,
-                    path: "ricercaContenuto/qr",
-                    children: [
+                      // {
+                      //   element: <CodiceLayout back="/aggiungiContatto" />,
+                      //   path: "aggiungiContatto/codice",
+                      //   children: [
+                      //     {
+                      //       index: true,
+                      //       element: <InserisciCodice />,
+                      //     },
+                      //   ],
+                      // },
                       {
-                        index: true,
-                        element: <ScansionaQrContenuto />,
+                        element: <PurpleLayout back="/ricercaContenuto" />,
+                        path: "ricercaContenuto/codice",
+                        children: [
+                          {
+                            element: <InserisciCodiceContenuto />,
+                            index: true,
+                          },
+                        ],
                       },
-                    ],
-                  },
-                  // {
-                  //   element: <CodiceLayout back="/aggiungiContatto" />,
-                  //   path: "aggiungiContatto/codice",
-                  //   children: [
-                  //     {
-                  //       index: true,
-                  //       element: <InserisciCodice />,
-                  //     },
-                  //   ],
-                  // },
-                  {
-                    element: <PurpleLayout back="/ricercaContenuto" />,
-                    path: "ricercaContenuto/codice",
-                    children: [
-                      { element: <InserisciCodiceContenuto />, index: true },
-                    ],
-                  },
-                  {
-                    path: "/condividiContatto",
-                    element: <PurpleLayout back="/contatti" />,
-                    children: [
                       {
-                        index: true,
-                        element: <CondividiQr />,
+                        path: "/condividiContatto",
+                        element: <PurpleLayout back="/contatti" />,
+                        children: [
+                          {
+                            index: true,
+                            element: <CondividiQr />,
+                          },
+                        ],
                       },
                     ],
                   },

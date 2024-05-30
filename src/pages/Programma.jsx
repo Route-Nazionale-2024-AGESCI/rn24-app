@@ -3,6 +3,7 @@ import {
   Link as RouterLink,
   useNavigate,
 } from "react-router-dom";
+import { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -13,18 +14,24 @@ import ToggleButtonGroup, {
   toggleButtonGroupClasses,
 } from "@mui/material/ToggleButtonGroup";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PersonIcon from "@mui/icons-material/Person";
+//import PersonIcon from "@mui/icons-material/Person";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
 import HourglassTopRoundedIcon from "@mui/icons-material/HourglassTopRounded";
 import { styled } from "@mui/material/styles";
 
 import WhitePaper from "../ui/WhitePaper";
+import FilterDrawer, { FilterButton } from "../ui/FilterDrawer";
 
 import getEventColor from "../lib/eventColor";
 
-import { getEventList, useEventInvitations } from "../lib/cacheManager/events";
+import {
+  getEventList,
+  useEventInvitations,
+  useEventRegistrations,
+} from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
+import { useFilters, applyFilter } from "../contexts/filter";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   [`& .${toggleButtonGroupClasses.grouped}`]: {
@@ -60,12 +67,12 @@ export async function loader({ request }) {
 }
 
 const getCurrentDate = () => {
-  // const today = new Date(2024, 7, 25, 13);
+  //const today = new Date(2024, 7, 23, 17, 20);
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return { currentDateString: `${year}-${month}-${day}`, currentDate: today };
 };
 function testDateFormat(dateString) {
   const regex =
@@ -73,19 +80,24 @@ function testDateFormat(dateString) {
   return regex.test(dateString);
 }
 export default function Programma() {
-  const minDate = "2024-08-22";
-  const maxDate = "2024-08-25";
-
   const { events, locations, day } = useLoaderData();
   const { invitations } = useEventInvitations();
+  const { registrations } = useEventRegistrations();
   const navigate = useNavigate();
-  const currentDate = getCurrentDate();
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const { currentDateString, currentDate } = getCurrentDate();
+  const { filters } = useFilters();
+
+  const minDate = "2024-08-22";
+  const maxDate = "2024-08-25";
 
   let selectedDay;
   if (day !== null && testDateFormat(day)) selectedDay = day;
   else
     selectedDay =
-      currentDate >= minDate && currentDate <= maxDate ? currentDate : minDate;
+      currentDateString >= minDate && currentDateString <= maxDate
+        ? currentDateString
+        : minDate;
 
   const filterEventsByDate = (events, selectedDay) => {
     return events.filter((event) => {
@@ -95,8 +107,6 @@ export default function Programma() {
   };
 
   const findEventsInProgress = (events) => {
-    // const currentDate = new Date(2024, 7, 25, 19, 30);
-    const currentDate = new Date();
     return events.filter((event) => {
       const startsAt = new Date(event.starts_at);
       const endsAt = new Date(event.ends_at);
@@ -105,7 +115,12 @@ export default function Programma() {
   };
   const invUuid = invitations.map((inv) => inv.uuid);
   const visibleEvents = events.filter((ev) => invUuid.includes(ev.uuid));
-  const filteredEvents = filterEventsByDate(visibleEvents, selectedDay);
+
+  const filteredEvents = applyFilter(
+    filterEventsByDate(visibleEvents, selectedDay),
+    filters,
+    registrations
+  );
   const eventsInProgress = findEventsInProgress(filteredEvents);
 
   const handleChangeDay = (event, newDay) => {
@@ -132,7 +147,6 @@ export default function Programma() {
           display: "flex",
           flexDirection: "column",
           alignItems: "start",
-          marginX: "24px",
           marginY: "12px",
           textTransform: "none",
         }}
@@ -237,78 +251,116 @@ export default function Programma() {
     );
   };
 
-  const TodayView = () => {
+  const TodayView = ({ filterButtonOnClick }) => {
+    const prossimiEventiCards = filteredEvents
+      .filter(
+        (ev) =>
+          !eventsInProgress.includes(ev) && new Date(ev.starts_at) > currentDate
+      )
+      .map((ev) => <EventCard event={ev} />);
+    const eventiConclusiCards = filteredEvents
+      .filter(
+        (ev) =>
+          !eventsInProgress.includes(ev) && new Date(ev.ends_at) < currentDate
+      )
+      .map((ev) => <EventCard event={ev} />);
     return (
       <>
-        <Typography
-          fontSize="20px"
-          fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
-        >
-          In Corso
-          {eventsInProgress.length > 0 ? (
-            eventsInProgress.map((ev) => <EventCard event={ev} key={ev.uuid} />)
-          ) : (
-            <Stack direction={"row"} gap={"16px"} mt="12px">
-              <Box
-                sx={{
-                  height: "64px",
-                  width: "64px",
-                  borderRadius: "8px",
-                  backgroundColor: "#F0EDF4",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <HourglassTopRoundedIcon
+        <Box sx={{ marginLeft: "24px" }}>
+          <Typography
+            fontSize="20px"
+            fontWeight={900}
+            sx={{ marginTop: "32px", color: "#2B2D2B" }}
+          >
+            In Corso
+          </Typography>
+          <Box>
+            {eventsInProgress.length > 0 ? (
+              eventsInProgress.map((ev) => (
+                <EventCard event={ev} key={ev.uuid} />
+              ))
+            ) : (
+              <Stack direction={"row"} gap={"16px"} mt="12px">
+                <Box
                   sx={{
-                    fontSize: "24px",
-                    color: "#B6A7CA",
+                    height: "64px",
+                    width: "64px",
+                    borderRadius: "8px",
+                    backgroundColor: "#F0EDF4",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-              </Box>
-              <Stack direction="column" gap="8px">
-                <Typography fontSize="16px" fontWeight={600}>
-                  Nessun evento è ancora iniziato
-                </Typography>
-                <Typography fontSize="14px" fontWeight={400} color={"#2B2D2B"}>
-                  Tieniti pronto e inizia ad avvicinarti allo stand di interesse
-                </Typography>
+                >
+                  <HourglassTopRoundedIcon
+                    sx={{
+                      fontSize: "24px",
+                      color: "#B6A7CA",
+                    }}
+                  />
+                </Box>
+                <Stack direction="column" gap="8px">
+                  <Typography fontSize="16px" fontWeight={600}>
+                    Nessun evento è ancora iniziato
+                  </Typography>
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={400}
+                    color={"#2B2D2B"}
+                  >
+                    Tieniti pronto e inizia ad avvicinarti allo stand di
+                    interesse
+                  </Typography>
+                </Stack>
               </Stack>
-            </Stack>
+            )}
+          </Box>
+          {prossimiEventiCards.length > 0 && (
+            <>
+              <Typography
+                fontSize="20px"
+                fontWeight={900}
+                sx={{ marginTop: "32px", color: "#2B2D2B" }}
+              >
+                Prossimi Eventi
+              </Typography>
+              <FilterButton onClick={filterButtonOnClick} />
+              {prossimiEventiCards}
+            </>
           )}
-        </Typography>
-        <Typography
-          fontSize="20px"
-          fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
-        >
-          Prossimi Eventi
-          {filteredEvents
-            .filter((ev) => !eventsInProgress.includes(ev))
-            .map((ev) => (
-              <EventCard event={ev} />
-            ))}
-        </Typography>
+          {eventiConclusiCards.length > 0 && (
+            <Typography
+              fontSize="20px"
+              fontWeight={900}
+              sx={{ marginTop: "32px", color: "#2B2D2B" }}
+            >
+              Eventi Conclusi
+              {eventiConclusiCards}
+            </Typography>
+          )}
+        </Box>
       </>
     );
   };
-  const AnotherDayView = () => {
+  const AnotherDayView = ({ filterButtonOnClick }) => {
     return (
       <>
-        <Typography
-          fontSize="20px"
-          fontWeight={900}
-          sx={{ marginTop: "32px", marginLeft: "24px", color: "#2B2D2B" }}
-        >
-          {getCurrentDate() < selectedDay
-            ? "Eventi in Programma"
-            : "Eventi Passati"}
-        </Typography>
-        {filteredEvents.map((ev) => (
-          <EventCard event={ev} key={ev.uuid} />
-        ))}
+        <Box sx={{ marginLeft: "24px" }}>
+          <Typography
+            fontSize="20px"
+            fontWeight={900}
+            sx={{ marginTop: "32px", color: "#2B2D2B" }}
+          >
+            {currentDateString < selectedDay
+              ? "Eventi in Programma"
+              : "Eventi Passati"}
+          </Typography>
+          <FilterButton onClick={filterButtonOnClick} />
+
+          {filteredEvents.map((ev) => (
+            <EventCard event={ev} key={ev.uuid} />
+          ))}
+        </Box>
       </>
     );
   };
@@ -381,8 +433,20 @@ export default function Programma() {
             </ToggleButton>
           </StyledToggleButtonGroup>
         </Box>
-        {getCurrentDate() === selectedDay ? <TodayView /> : <AnotherDayView />}
+        {currentDateString === selectedDay ? (
+          <TodayView filterButtonOnClick={() => setOpenFilterDrawer(true)} />
+        ) : (
+          <AnotherDayView
+            filterButtonOnClick={() => setOpenFilterDrawer(true)}
+          />
+        )}
       </WhitePaper>
+      <FilterDrawer
+        open={openFilterDrawer}
+        onClose={() => {
+          setOpenFilterDrawer(false);
+        }}
+      />
     </>
   );
 }

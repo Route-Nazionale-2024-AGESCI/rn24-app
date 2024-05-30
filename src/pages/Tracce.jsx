@@ -1,13 +1,17 @@
+import { useState, useEffect } from "react";
 import { Link as RouterLink, useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 
 import PlaceIcon from "@mui/icons-material/Place";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import WhitePaper from "../ui/WhitePaper";
+import AccessButton from "../ui/AccessButton";
 
 import { getTraccia } from "../lib/cacheManager/events";
 import { getPage } from "../lib/cacheManager/pages";
@@ -20,10 +24,54 @@ export async function loader() {
   return { traccia, description, location };
 }
 
+const ErrorAlert = ({ errorMsg, onClose }) => (
+  <Fade in={errorMsg !== null}>
+    <Alert
+      severity="error"
+      onClose={onClose}
+      sx={{
+        width: "80%",
+        maxWidth: "400px",
+        position: "fixed",
+        bottom: "100px",
+        left: "50%",
+        translate: `calc(-50%)`,
+        zIndex: "2000",
+      }}
+    >
+      {errorMsg}
+    </Alert>
+  </Fade>
+);
+
 export default function Tracce() {
   const { traccia, description, location } = useLoaderData();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const startDT = new Date(traccia.starts_at);
   const endDT = new Date(traccia.ends_at);
+
+  useEffect(() => {
+    if (error !== null) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setError("Si è verificato un errore");
+    } catch (err) {
+      console.error(err);
+      setError("Si è verificato un errore");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <Typography
@@ -51,7 +99,9 @@ export default function Tracce() {
           <Typography fontSize="14px" fontWeight={800} sx={{ mb: "12px" }}>
             Info Logistiche
           </Typography>
-          <Paper sx={{ p: "12px" }} elevation={1}>
+          <Box
+            sx={{ p: "12px", border: "1px solid #E2DCEA", borderRadius: "8px" }}
+          >
             {location && (
               <RouterLink
                 to={`/mappa/?location=${location.uuid}`}
@@ -90,8 +140,32 @@ export default function Tracce() {
                 {endDT.getMinutes().toString().padStart(2, "0")}
               </Typography>
             </Stack>
-          </Paper>
+          </Box>
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <AccessButton
+            sx={{ opacity: loading ? "50%" : "100%" }}
+            disabled={loading}
+            onClick={handleSubmit}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Inizia il servizio
+            </Typography>
+            {loading && (
+              <CircularProgress
+                size="20px"
+                sx={{ marginLeft: "12px", color: "#000000" }}
+              />
+            )}
+          </AccessButton>
+        </Box>
+        <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
       </WhitePaper>
     </>
   );

@@ -148,7 +148,7 @@ export default function AppBar() {
                 }
               </>
             </Box>
-            <Divider />
+            <Divider color="#aaaaaa" />
             <List dense>
               <ListItem>
                 <ListItemButton>
