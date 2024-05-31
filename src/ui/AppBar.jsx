@@ -164,7 +164,7 @@ export default function AppBar() {
                   />
                 </ListItemButton>
               </ListItem>
-              {user.is_staff && (
+              {user.permissions.is_staff && (
                 <ListItem>
                   <ListItemButton href="/admin" target="_blank">
                     <ListItemIcon>
