@@ -19,7 +19,7 @@ import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
-import CondividiQr from "./pages/CondividiQr";
+import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import InserisciCodiceContenuto from "./pages/InserisciCodiceContenuto";
@@ -206,6 +206,7 @@ export const router = [
                           {
                             index: true,
                             element: <CondividiQr />,
+                            loader: condividiQrLoader,
                           },
                         ],
                       },

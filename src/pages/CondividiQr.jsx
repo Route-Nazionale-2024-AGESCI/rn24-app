@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -37,6 +38,12 @@ import {
 import { encodeContact } from "../lib/qr";
 
 import { useAuth } from "../contexts/auth";
+import { getUser } from "../lib/cacheManager/user";
+
+export async function loader() {
+  const user = await getUser();
+  return { user };
+}
 
 const InfoBox = ({ children }) => (
   <Grid
@@ -53,7 +60,8 @@ const InfoBox = ({ children }) => (
 );
 
 export default function CondividiQr() {
-  const { user } = useAuth();
+  const { user } = useLoaderData();
+  console.log(user);
   const userInfo = {
     firstName: user.first_name,
     lastName: user.last_name,
