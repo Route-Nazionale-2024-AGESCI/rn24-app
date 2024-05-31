@@ -3,6 +3,7 @@ import L from "leaflet";
 import { Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet.offline";
 import "leaflet/dist/leaflet.css";
+import { LocateControl } from "./LocateControl";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -25,6 +26,7 @@ export const Map = ({ position, location, locations }) => {
           <Popup>{location.name}</Popup>
         </Marker>
       }
+      <LocateControl flyTo={true} showPopup={false} locateOptions={{watch: true, enableHighAccuracy: true}} />
     </>
   );
 };

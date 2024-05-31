@@ -17,6 +17,7 @@
     "axios": "^1.6.8",
     "html-react-parser": "^5.1.10",
     "leaflet": "^1.9.4",
+    "leaflet.locatecontrol": "^0.81.1",
     "leaflet.offline": "^3.0.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
