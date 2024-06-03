@@ -240,7 +240,10 @@ export default function Evento() {
                     textAlign="left"
                     mb="4px"
                     //sx={{ color: "#666A66" }}
-                    sx={{ color: "agesciPurple.main" }}
+                    sx={{
+                      color: "agesciPurple.main",
+                      textDecoration: "underline",
+                    }}
                   >
                     {standName}
                   </Typography>

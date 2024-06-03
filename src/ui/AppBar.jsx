@@ -151,7 +151,13 @@ export default function AppBar() {
             <Divider color="#aaaaaa" />
             <List dense>
               <ListItem>
-                <ListItemButton>
+                <ListItemButton
+                  component={Link}
+                  to="/profilo"
+                  onClick={() => {
+                    setOpenDrawer(false);
+                  }}
+                >
                   <ListItemIcon>
                     <PersonIcon color="white" />
                   </ListItemIcon>
@@ -164,7 +170,7 @@ export default function AppBar() {
                   />
                 </ListItemButton>
               </ListItem>
-              {user.is_staff && (
+              {user.permissions.is_staff && (
                 <ListItem>
                   <ListItemButton href="/admin" target="_blank">
                     <ListItemIcon>

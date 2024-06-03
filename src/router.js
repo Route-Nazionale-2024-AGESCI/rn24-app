@@ -14,12 +14,13 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
+import Profilo, { loader as profiloLoader } from "./pages/Profilo";
 import ToS from "./pages/ToS";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
-import CondividiQr from "./pages/CondividiQr";
+import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import InserisciCodiceContenuto from "./pages/InserisciCodiceContenuto";
@@ -157,6 +158,11 @@ export const router = [
                             path: "ricercaContenuto",
                             element: <RicercaContenuto />,
                           },
+                          {
+                            path: "profilo",
+                            element: <Profilo />,
+                            loader: profiloLoader,
+                          },
                         ],
                       },
                       {
@@ -206,6 +212,7 @@ export const router = [
                           {
                             index: true,
                             element: <CondividiQr />,
+                            loader: condividiQrLoader,
                           },
                         ],
                       },

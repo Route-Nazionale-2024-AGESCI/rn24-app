@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.6.8",
+    "elliptic": "^6.5.5",
     "html-react-parser": "^5.1.10",
     "leaflet": "^1.9.4",
     "leaflet.locatecontrol": "^0.81.1",
@@ -45,7 +46,7 @@
     "start": "react-scripts start",
     "start-server": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "NODE_ENV=test react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
