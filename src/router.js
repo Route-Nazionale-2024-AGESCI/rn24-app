@@ -14,6 +14,7 @@ import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
+import Profilo, { loader as profiloLoader } from "./pages/Profilo";
 import ToS from "./pages/ToS";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
@@ -156,6 +157,11 @@ export const router = [
                           {
                             path: "ricercaContenuto",
                             element: <RicercaContenuto />,
+                          },
+                          {
+                            path: "profilo",
+                            element: <Profilo />,
+                            loader: profiloLoader,
                           },
                         ],
                       },

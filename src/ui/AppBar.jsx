@@ -151,7 +151,13 @@ export default function AppBar() {
             <Divider color="#aaaaaa" />
             <List dense>
               <ListItem>
-                <ListItemButton>
+                <ListItemButton
+                  component={Link}
+                  to="/profilo"
+                  onClick={() => {
+                    setOpenDrawer(false);
+                  }}
+                >
                   <ListItemIcon>
                     <PersonIcon color="white" />
                   </ListItemIcon>

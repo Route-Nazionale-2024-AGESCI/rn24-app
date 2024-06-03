@@ -1,5 +1,6 @@
 import { getUser as APIgetUser } from "../dataManager/user";
 
+// TODO: transform into hook useUser
 export async function getUser() {
   let user;
   if (navigator.onLine) {
