@@ -1,9 +1,13 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
 import { getLocationList, getLocation } from "../lib/cacheManager/locations";
-import { Map } from "../ui/Map";
+import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
 import { MapContainer } from "react-leaflet";
+import { useState } from "react";
+import { Stack } from "@mui/material";
+import PlaceIcon from "@mui/icons-material/Place";
+import { DirectionsButton } from "../ui/Map/LocationInfo";
 
 /* 
   
@@ -63,11 +67,13 @@ export default function Mappa() {
   ? [lat, lon]
   : [45.419743, 11.040704]
 
-
+  const [centerTo, setCenterTo] = useState();
+  const centerMap = () => {
+    setCenterTo(center)
+  }
   return (
     <>
       <Typography
-        variant="h1"
         fontSize="25px"
         fontWeight={900}
         sx={{ margin: "16px", color: "#2B2D2B" }}
@@ -81,7 +87,7 @@ export default function Mappa() {
           height: "50vh",
           minHeight: `250px`,
           overflow: "hidden",
-          margin: "0 16px"
+          margin: "0 16px",
         }}
       >
         <MapContainer
@@ -90,18 +96,33 @@ export default function Mappa() {
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
         >
-          <Map position={center} location={location} locations={locations} />
+          <Map
+            position={center}
+            location={location}
+            locations={locations}
+            centerTo={centerTo}
+          />
         </MapContainer>
       </Box>
-      <Box
-       sx={{
-        margin: "16px",
-      }}
-      >
-        <Typography variant="h3">{location?.name}</Typography>
-        <Typography variant="body1">Latitude: {lat}</Typography>
-        <Typography variant="body1">Longitude: {lon}</Typography>
-      </Box>
+      {location && (
+        <Box
+          sx={{
+            margin: "16px",
+          }}
+        >
+          <Stack direction="row" spacing="8px" alignItems="center" >
+            <PlaceIcon sx={{ fontSize: 22, color: "#666A66" }} onClick={centerMap}/>
+            <Typography
+              onClick={centerMap}
+              fontSize="16px"
+              variant="body1"
+              fontWeight={600}
+            >
+              {location.name}
+            </Typography>
+          </Stack>
+          <DirectionsButton position={`${lat},${lon}`}/>
+        </Box>)}
     </>
   );
 }
