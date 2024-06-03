@@ -37,7 +37,6 @@ import {
 
 import { encodeContact } from "../lib/qr";
 
-import { useAuth } from "../contexts/auth";
 import { getUser } from "../lib/cacheManager/user";
 
 export async function loader() {
