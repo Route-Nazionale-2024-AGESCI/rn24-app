@@ -1,5 +1,5 @@
 import { ec } from "elliptic";
-import { createHash } from "crypto";
+//import { createHash } from "crypto";
 import isValidUUID from "./uuid";
 
 /*
@@ -180,7 +180,7 @@ export const decodeAndValidateBadge = (data, publicKey) => {
   // // Importa la chiave in formato elliptic
   // const pubKeyRecovered = myEc.keyFromPublic(derBuffer, "der");
 
-  // const hash = createHash("sha256").update(encodedBadge).digest();
+  //const hash = window !== 'undefined' && window.crypto...  //createHash("sha256").update(encodedBadge).digest();
   // const isSignValid = pubKeyRecovered.verify(hash, signature);
   /*
 
