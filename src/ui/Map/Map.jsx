@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import L from "leaflet";
-import { Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { Marker, Polygon, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet.offline";
 import "leaflet/dist/leaflet.css";
 import { LocateControl } from "./LocateControl";
@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
 });
 
 
-export const Map = ({ position, location, locations, centerTo }) => {
+export const Map = ({ position, location, locations, centerTo, polygon }) => {
   const map = useMap();
 
   useEffect(()=>{
@@ -23,7 +23,7 @@ export const Map = ({ position, location, locations, centerTo }) => {
       map.flyTo(centerTo, 13)
     }
   }, [centerTo])
-  
+
   return (
     <>
       <TileLayer
@@ -35,7 +35,17 @@ export const Map = ({ position, location, locations, centerTo }) => {
           <Popup><LocationInfo location={location} position={position}/></Popup>
         </Marker>
       }
-      <LocateControl position={'bottomright'} setView={false} flyTo={true} showPopup={false} locateOptions={{watch: true, enableHighAccuracy: true}} />
+      {Boolean(polygon) && 
+        <Polygon positions={polygon} />
+      }
+      <LocateControl 
+        position={'bottomright'}
+        setView={false}
+        flyTo={true}
+        showPopup={false}
+        clickBehavior={{inView: 'inView', outOfView: 'setView', inViewNotFollowing: 'setView'}}
+        locateOptions={{watch: true, enableHighAccuracy: true}}
+      />
     </>
   );
 };

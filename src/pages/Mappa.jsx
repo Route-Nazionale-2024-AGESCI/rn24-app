@@ -21,7 +21,7 @@ import { DirectionsButton } from "../ui/Map/LocationInfo";
 export async function loader({ request }) {
   const { locations } = await getLocationList();
   const url = new URL(request.url);
-  let location, lat, lon;
+  let location, lat, lon, polygon;
 
   if (url.searchParams.get("location")) {
     // Found location uuid in request
@@ -30,8 +30,10 @@ export async function loader({ request }) {
       location = null;
       lat = null;
       lon = null;
+      polygon = null;
     } else {
       [lat, lon] = location?.coords.coordinates;
+      polygon = location?.polygon?.coordinates;
     }
   } else if (url.searchParams.get("lat") && url.searchParams.get("lon")) {
     // Found latitude and longitude in request
@@ -48,7 +50,7 @@ export async function loader({ request }) {
     lon = null;
     location = null;
   }
-  return { locations, lat, lon, location };
+  return { locations, lat, lon, location, polygon };
 }
 
 export default function Mappa() {
@@ -62,6 +64,8 @@ export default function Mappa() {
   // usare per ottenere info in piu
   const { location } = useLoaderData();
 
+  // Poligono relaativo alla location, se presente
+  const { polygon } = useLoaderData();
   // TODO: Posizione centrale della mappa di default
   const center = lat && lon 
   ? [lat, lon]
@@ -101,6 +105,7 @@ export default function Mappa() {
             location={location}
             locations={locations}
             centerTo={centerTo}
+            polygon={polygon}
           />
         </MapContainer>
       </Box>
