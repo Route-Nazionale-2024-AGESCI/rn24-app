@@ -1,16 +1,10 @@
 import Box from "@mui/material/Box";
 import { QRCodeSVG } from "qrcode.react";
 
-import { getUser } from "../lib/cacheManager/user";
-import { useLoaderData } from "react-router-dom";
-
-export async function loader() {
-  const user = await getUser();
-  return { user };
-}
+import { useUser } from "../lib/cacheManager/user";
 
 export default function FullScreenBadge() {
-  const { user } = useLoaderData();
+  const { user } = useUser();
   return (
     <Box
       sx={{

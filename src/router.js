@@ -8,22 +8,20 @@ import Tracce, { loader as tracceLoader } from "./pages/Tracce";
 import Libretto, { loader as librettoLoader } from "./pages/Libretto";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
-import FullScreenBadge, {
-  loader as fullScreenBadgeLoader,
-} from "./pages/FullScreenBadge";
+import FullScreenBadge from "./pages/FullScreenBadge";
 import FabLayout from "./pages/layout/FabLayout";
 import AccessLayout from "./pages/layout/AccessLayout";
 import RootError from "./ui/RootError";
 import SegmentedError from "./ui/SegmentError";
 import Contatti from "./pages/Contatti";
 import Login from "./pages/Login";
-import Profilo, { loader as profiloLoader } from "./pages/Profilo";
+import Profilo from "./pages/Profilo";
 import ToS from "./pages/ToS";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
 import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
-import CondividiQr, { loader as condividiQrLoader } from "./pages/CondividiQr";
+import CondividiQr from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
 import ScansionaQrContenuto from "./pages/ScansionaQrContenuto";
 import InserisciCodiceContenuto from "./pages/InserisciCodiceContenuto";
@@ -164,7 +162,6 @@ export const router = [
                           {
                             path: "profilo",
                             element: <Profilo />,
-                            loader: profiloLoader,
                           },
                         ],
                       },
@@ -234,7 +231,6 @@ export const router = [
                         children: [
                           {
                             element: <FullScreenBadge />,
-                            loader: fullScreenBadgeLoader,
                             index: true,
                           },
                         ],
@@ -251,7 +247,6 @@ export const router = [
                           {
                             index: true,
                             element: <CondividiQr />,
-                            loader: condividiQrLoader,
                           },
                         ],
                       },

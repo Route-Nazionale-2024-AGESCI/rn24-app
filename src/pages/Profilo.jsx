@@ -1,5 +1,5 @@
-import { useLoaderData, Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -9,12 +9,7 @@ import { QRCodeSVG } from "qrcode.react";
 
 import WhitePaper from "../ui/WhitePaper";
 
-import { getUser } from "../lib/cacheManager/user";
-
-export async function loader() {
-  const user = await getUser();
-  return { user };
-}
+import { useUser } from "../lib/cacheManager/user";
 
 const UserInfo = ({
   title,
@@ -44,7 +39,7 @@ const UserInfo = ({
 );
 
 export default function Profilo() {
-  const { user } = useLoaderData();
+  const { user } = useUser();
   return (
     <>
       <Typography
@@ -128,10 +123,10 @@ export default function Profilo() {
             {user.squads && user.squads.length > 0 && (
               <UserInfo title="Pattuglie" fullWidth>
                 {user.squads.map((s) => (
-                  <>
+                  <React.Fragment key={s}>
                     {s.name}
                     <br />
-                  </>
+                  </React.Fragment>
                 ))}
               </UserInfo>
             )}
