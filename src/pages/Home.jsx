@@ -14,9 +14,10 @@ import {
   getEventList,
   useEventRegistrations,
 } from "../lib/cacheManager/events";
+import { useEventInvitations } from "../lib/cacheManager/events";
 import { getLocationList } from "../lib/cacheManager/locations";
 
-import { useAuth } from "../contexts/auth";
+import { useUser } from "../lib/cacheManager/user";
 
 import { getLocalStorageFirstName } from "../lib/shareContactInfo";
 
@@ -26,11 +27,13 @@ export async function loader() {
   return { events, locations };
 }
 
+// TODO: mostrare diversamente dagli altri gli eventi di tipo LOGISTICO ??
 export default function Home() {
-  const { user } = useAuth();
+  const { user } = useUser();
   const { events, locations } = useLoaderData();
   const { registrations } = useEventRegistrations();
-  const name = getLocalStorageFirstName() ?? user.first_name;
+  useEventInvitations(); // caching locally
+  const name = getLocalStorageFirstName() ?? user.first_name ?? "";
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
   const buildEventCards = (events) => {
     const regUuid = registrations.map((reg) => reg.event);
