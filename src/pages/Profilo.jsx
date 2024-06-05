@@ -88,18 +88,18 @@ export default function Profilo() {
           }}
         >
           <Grid container rowSpacing={"24px"}>
-            <UserInfo title="Nome">{user.first_name}</UserInfo>
-            <UserInfo title="Cognome">{user.last_name}</UserInfo>
-            <UserInfo title="Codice socio">{user.agesci_id}</UserInfo>
-            <UserInfo title="Gruppo">{user.scout_group.name}</UserInfo>
-            <UserInfo title="Zona">{user.scout_group.zone}</UserInfo>
-            <UserInfo title="Regione">{user.scout_group.region}</UserInfo>
+            <UserInfo title="Nome">{user?.first_name}</UserInfo>
+            <UserInfo title="Cognome">{user?.last_name}</UserInfo>
+            <UserInfo title="Codice socio">{user?.agesci_id}</UserInfo>
+            <UserInfo title="Gruppo">{user?.scout_group?.name}</UserInfo>
+            <UserInfo title="Zona">{user?.scout_group?.zone}</UserInfo>
+            <UserInfo title="Regione">{user?.scout_group?.region}</UserInfo>
             <UserInfo title="Sottocampo">
-              {user.scout_group.subdistrict.district.name}
+              {user?.scout_group?.subdistrict?.district?.name}
             </UserInfo>
             <UserInfo title="Contrada" autoFormat={false}>
               <Link
-                to={`/mappa/?location=${user.scout_group.subdistrict.location}`}
+                to={`/mappa/?location=${user?.scout_group?.subdistrict?.location}`}
               >
                 <Typography
                   variant="subtitle2"
@@ -110,15 +110,15 @@ export default function Profilo() {
                     textDecoration: "underline",
                   }}
                 >
-                  {user.scout_group.subdistrict.name}
+                  {user?.scout_group?.subdistrict?.name}
                 </Typography>
               </Link>
             </UserInfo>
             <UserInfo title="Email" fullWidth>
-              {user.email}
+              {user?.email}
             </UserInfo>
             <UserInfo title="Numero" fullWidth>
-              {user.phone}
+              {user?.phone}
             </UserInfo>
             {user.squads && user.squads.length > 0 && (
               <UserInfo title="Pattuglie" fullWidth>
