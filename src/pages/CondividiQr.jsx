@@ -54,7 +54,6 @@ const InfoBox = ({ children }) => (
 
 export default function CondividiQr() {
   const { user } = useUser();
-  console.log(user);
   const userInfo = {
     firstName: user.first_name,
     lastName: user.last_name,
