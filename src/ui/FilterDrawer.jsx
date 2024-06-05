@@ -31,15 +31,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const StyledButton = styled(ButtonBase)(({ hasFilters, theme }) => ({
-  backgroundColor: hasFilters ? "#E2DCEA" : "#ffffff",
+const StyledButton = styled(ButtonBase)(({ hasfilters, theme }) => ({
+  backgroundColor: hasfilters === "true" ? "#E2DCEA" : "#ffffff",
   color: theme.palette.agesciPurple.main,
   border: "1px solid",
-  borderColor: hasFilters ? theme.palette.agesciPurple.main : "#E2DCEA",
+  borderColor:
+    hasfilters === "true" ? theme.palette.agesciPurple.main : "#E2DCEA",
   padding: "12px",
   marginTop: "12px",
   marginBottom: "12px",
-  paddingRight: hasFilters ? "36px" : "12px",
+  paddingRight: hasfilters === "true" ? "36px" : "12px",
   borderRadius: "8px",
 }));
 
@@ -269,7 +270,7 @@ export function FilterButton({ onClick }) {
   const filtersNumber = countFilters(filters);
   return (
     <StyledButton
-      hasFilters={filtersNumber > 0}
+      hasfilters={filtersNumber > 0 ? "true" : "false"}
       variant="contained"
       onClick={onClick}
     >
