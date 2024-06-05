@@ -3,6 +3,7 @@ import { Form, Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,6 +12,7 @@ import Link from "@mui/material/Link";
 import Alert from "@mui/material/Alert";
 import Fade from "@mui/material/Fade";
 
+import ToS from "./ToS";
 import CheckBox from "../ui/CheckBox";
 import TextField from "../ui/TextField";
 import AccessButton from "../ui/AccessButton";
@@ -43,6 +45,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [tos, setTos] = useState(false);
   const [error, setError] = useState(null);
+  const [openTos, setOpenTos] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const enableSubmit = username !== "" && password !== "" && tos;
@@ -79,6 +82,16 @@ export default function Login() {
 
   if (status !== AuthStatus.LoggedOut) return <h4>Loading...</h4>;
 
+  if (openTos)
+    return (
+      <ToS
+        onClose={() => setOpenTos(false)}
+        onAccept={() => {
+          setOpenTos(false);
+          setTos(true);
+        }}
+      />
+    );
   return (
     <Box
       sx={{
@@ -111,6 +124,7 @@ export default function Login() {
             <TextField
               id="codice-input"
               fullWidth
+              value={username}
               onChange={(ev) => {
                 setUsername(ev.target.value);
               }}
@@ -128,6 +142,7 @@ export default function Login() {
             <TextField
               id="password-input"
               fullWidth
+              value={password}
               onChange={(ev) => {
                 setPassword(ev.target.value);
               }}
@@ -152,6 +167,7 @@ export default function Login() {
             <FormControlLabel
               control={
                 <CheckBox
+                  checked={tos}
                   onChange={(ev) => {
                     setTos(ev.target.checked);
                   }}
@@ -160,15 +176,22 @@ export default function Login() {
               label={
                 <Typography fontSize="12px">
                   Dichiaro di accettare le{" "}
-                  <RouterLink
-                    to="/tos"
-                    style={{
+                  <Button
+                    variant="text"
+                    component="span"
+                    sx={{
                       color: "#6D5095",
                       fontWeight: 500,
+                      fontSize: "12px",
+                      margin: 0,
+                      padding: 0,
+                      translate: "0 -1px",
+                      textTransform: "none",
                     }}
+                    onClick={() => setOpenTos(true)}
                   >
                     condizioni di utilizzo
-                  </RouterLink>{" "}
+                  </Button>{" "}
                   dell'app ed acconsentire al trattamento dei dati *
                 </Typography>
               }

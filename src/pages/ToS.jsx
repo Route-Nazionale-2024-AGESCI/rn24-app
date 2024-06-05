@@ -1,10 +1,11 @@
 import WhitePaper from "../ui/WhitePaper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
 
-export default function ToS() {
+// TODO: richiedere contenuto alla pattuglia competente
+export default function ToS({ onClose, onAccept }) {
   return (
     <>
       <Typography
@@ -35,19 +36,34 @@ export default function ToS() {
           <Typography variant="h4">Privacy</Typography>
           <Typography variant="body2">Solite dell'AGESCI</Typography>
         </Box>
-        <Button
-          color="agesciPurple"
-          variant="contained"
-          disableElevation
-          component={Link}
-          to="/login"
-          sx={{
-            width: "80px",
-            alignSelf: "end",
-          }}
-        >
-          OK
-        </Button>
+        <Stack direction="row" justifyContent="end" gap="20px">
+          <Button
+            color="agesciPurple"
+            variant="outlined"
+            disableElevation
+            onClick={onClose}
+            sx={{
+              width: "100px",
+              alignSelf: "end",
+              textTransform: "none",
+            }}
+          >
+            Chiudi
+          </Button>
+          <Button
+            color="agesciPurple"
+            variant="contained"
+            disableElevation
+            onClick={onAccept}
+            sx={{
+              width: "100px",
+              alignSelf: "end",
+              textTransform: "none",
+            }}
+          >
+            Accetto
+          </Button>
+        </Stack>
       </WhitePaper>
     </>
   );
