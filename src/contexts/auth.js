@@ -72,6 +72,7 @@ const AuthProvider = ({ children }) => {
       });
       return () => {
         axios.interceptors.request.eject(interceptor);
+        localStorage.clear();
       };
     }
     // else{
