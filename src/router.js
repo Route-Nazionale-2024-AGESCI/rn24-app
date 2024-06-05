@@ -8,6 +8,9 @@ import Tracce, { loader as tracceLoader } from "./pages/Tracce";
 import Libretto, { loader as librettoLoader } from "./pages/Libretto";
 import NavBarLayout from "./pages/layout/NavBarLayout";
 import AppBarLayout from "./pages/layout/AppBarLayout";
+import FullScreenBadge, {
+  loader as fullScreenBadgeLoader,
+} from "./pages/FullScreenBadge";
 import FabLayout from "./pages/layout/FabLayout";
 import AccessLayout from "./pages/layout/AccessLayout";
 import RootError from "./ui/RootError";
@@ -166,7 +169,12 @@ export const router = [
                         ],
                       },
                       {
-                        element: <GreenLayout back="/contatti" />,
+                        element: (
+                          <GreenLayout
+                            back="/contatti"
+                            backText="Torna agli altri metodi"
+                          />
+                        ),
                         path: "aggiungiContatto/qr",
                         children: [
                           {
@@ -176,7 +184,12 @@ export const router = [
                         ],
                       },
                       {
-                        element: <GreenLayout back="/ricercaContenuto" />,
+                        element: (
+                          <GreenLayout
+                            back="/ricercaContenuto"
+                            backText="Torna agli altri metodi"
+                          />
+                        ),
                         path: "ricercaContenuto/qr",
                         children: [
                           {
@@ -196,7 +209,12 @@ export const router = [
                       //   ],
                       // },
                       {
-                        element: <PurpleLayout back="/ricercaContenuto" />,
+                        element: (
+                          <PurpleLayout
+                            back="/ricercaContenuto"
+                            backText="Torna agli altri metodi"
+                          />
+                        ),
                         path: "ricercaContenuto/codice",
                         children: [
                           {
@@ -206,8 +224,29 @@ export const router = [
                         ],
                       },
                       {
+                        element: (
+                          <PurpleLayout
+                            back="/profilo"
+                            backText="Torna al profilo"
+                          />
+                        ),
+                        path: "badge",
+                        children: [
+                          {
+                            element: <FullScreenBadge />,
+                            loader: fullScreenBadgeLoader,
+                            index: true,
+                          },
+                        ],
+                      },
+                      {
                         path: "/condividiContatto",
-                        element: <PurpleLayout back="/contatti" />,
+                        element: (
+                          <PurpleLayout
+                            back="/contatti"
+                            backText="Torna agli altri metodi"
+                          />
+                        ),
                         children: [
                           {
                             index: true,

@@ -4,7 +4,10 @@ import { Link as RouterLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function BackToOtherMethods({ back }) {
+export default function BackToOtherMethods({
+  back,
+  backText = "Torna agli altri metodi",
+}) {
   return (
     <Box
       sx={{
@@ -23,7 +26,7 @@ export default function BackToOtherMethods({ back }) {
           fontWeight={600}
           sx={{ color: "#ffffff", textTransform: "none" }}
         >
-          Torna agli altri metodi
+          {backText}
         </Typography>
       </Button>
     </Box>

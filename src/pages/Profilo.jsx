@@ -16,11 +16,16 @@ export async function loader() {
   return { user };
 }
 
-const UserInfo = ({ title, children, autoFormat = true }) => (
-  <Grid item xs={6}>
+const UserInfo = ({
+  title,
+  children,
+  autoFormat = true,
+  fullWidth = false,
+}) => (
+  <Grid item xs={fullWidth ? 12 : 6}>
     <Stack direction="column">
       <Typography fontSize="14px" fontWeight={600}>
-        {title}
+        {title}:
       </Typography>
       {autoFormat ? (
         <Typography
@@ -47,7 +52,7 @@ export default function Profilo() {
         fontWeight={900}
         sx={{ ml: "24px", color: "#2B2D2B" }}
       >
-        Profilo
+        Profilo Utente
       </Typography>
       <Box
         sx={{
@@ -63,9 +68,12 @@ export default function Profilo() {
             padding: "8px",
             marginTop: " 20px",
             borderRadius: "8px",
+            border: "4px solid #6D5095",
           }}
+          component={Link}
+          to="/badge"
         >
-          <QRCodeSVG value={user.qr_code} size={200} />
+          <QRCodeSVG value={user.qr_code} size={100} />
         </Box>
       </Box>
       <Box sx={{ height: "32px" }} />
@@ -85,18 +93,16 @@ export default function Profilo() {
           }}
         >
           <Grid container rowSpacing={"24px"}>
-            <UserInfo title="Nome">
-              {user.first_name} {user.last_name}
-            </UserInfo>
+            <UserInfo title="Nome">{user.first_name}</UserInfo>
+            <UserInfo title="Cognome">{user.last_name}</UserInfo>
             <UserInfo title="Codice socio">{user.agesci_id}</UserInfo>
-            <UserInfo title="Gruppo">
-              {user.scout_group.name}
-              <br />
-              ZONA {user.scout_group.zone}
-              <br />
-              {user.scout_group.region}
+            <UserInfo title="Gruppo">{user.scout_group.name}</UserInfo>
+            <UserInfo title="Zona">{user.scout_group.zone}</UserInfo>
+            <UserInfo title="Regione">{user.scout_group.region}</UserInfo>
+            <UserInfo title="Sottocampo">
+              {user.scout_group.subdistrict.district.name}
             </UserInfo>
-            <UserInfo title="Contrada e sottocampo" autoFormat={false}>
+            <UserInfo title="Contrada" autoFormat={false}>
               <Link
                 to={`/mappa/?location=${user.scout_group.subdistrict.location}`}
               >
@@ -113,13 +119,14 @@ export default function Profilo() {
                 </Typography>
               </Link>
             </UserInfo>
-            <UserInfo title="Contatti">
-              {user.phone}
-              <br />
+            <UserInfo title="Email" fullWidth>
               {user.email}
             </UserInfo>
+            <UserInfo title="Numero" fullWidth>
+              {user.phone}
+            </UserInfo>
             {user.squads && user.squads.length > 0 && (
-              <UserInfo title="Pattuglie">
+              <UserInfo title="Pattuglie" fullWidth>
                 {user.squads.map((s) => (
                   <>
                     {s.name}
@@ -130,6 +137,7 @@ export default function Profilo() {
             )}
           </Grid>
         </Box>
+        <Box sx={{ height: "40px" }} />
       </WhitePaper>
     </>
   );

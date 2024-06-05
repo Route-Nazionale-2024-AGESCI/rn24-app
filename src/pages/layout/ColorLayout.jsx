@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 
 import BackToOtherMethods from "../../ui/BackToOtherMethods";
 
-const ColorLayout = ({ back, color }) => (
+const ColorLayout = ({ back, color, backText }) => (
   <Box
     sx={{
       minHeight: "100vh",
@@ -13,7 +13,7 @@ const ColorLayout = ({ back, color }) => (
       bgcolor: color,
     }}
   >
-    <BackToOtherMethods back={back} />
+    <BackToOtherMethods back={back} backText={backText} />
     <Box
       sx={{
         textAlign: "center",
@@ -30,14 +30,18 @@ const ColorLayout = ({ back, color }) => (
   </Box>
 );
 
-export function PurpleLayout({ back }) {
-  return <ColorLayout back={back} color="agesciPurple.main" />;
+export function PurpleLayout({ back, backText }) {
+  return (
+    <ColorLayout back={back} backText={backText} color="agesciPurple.main" />
+  );
 }
 
-export function RedLayout({ back }) {
-  return <ColorLayout back={back} color="agesciRed.main" />;
+export function RedLayout({ back, backText }) {
+  return <ColorLayout back={back} backText={backText} color="agesciRed.main" />;
 }
 
-export function GreenLayout({ back }) {
-  return <ColorLayout back={back} color="agesciGreen.main" />;
+export function GreenLayout({ back, backText }) {
+  return (
+    <ColorLayout back={back} backText={backText} color="agesciGreen.main" />
+  );
 }
