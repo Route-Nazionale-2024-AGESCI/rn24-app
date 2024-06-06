@@ -243,10 +243,19 @@ export default function ScansionaQr() {
             color: "#ffffff",
             justifyContent: "space-around",
             height: "100%",
+            width: "100%",
+            minHeight: "200px",
             marginBottom: "80px",
-            overflow: "scroll",
+            //overflow: "scroll",
           }}
         >
+          {/* sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#ffffff",
+            width: "100%",
+          }} */}
           <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
           <Typography fontSize="16px" fontWeight={600}>
             Si è verificato un errore...
