@@ -47,7 +47,7 @@ export default function ScansionaQrContenuto() {
           setError(null);
           setData(decodedQr);
           setProfileDetected(null);
-        } else if (decodeQr.type === "contact") {
+        } else if (decodedQr.type === "contact") {
           setError(null);
           setData(null);
           setProfileDetected(decodedQr);
@@ -154,7 +154,7 @@ export default function ScansionaQrContenuto() {
             justifyContent: "space-around",
             height: "100%",
             width: "100%",
-            minHeight: "200px",
+            minHeight: "300px",
             marginBottom: "80px",
           }}
         >
