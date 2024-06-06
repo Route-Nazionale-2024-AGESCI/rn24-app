@@ -82,12 +82,10 @@ export const detectQrTypeAndValidate = (data) => {
   if (data.startsWith("P#")) {
     if (!isValidLink(data)) throw new InvalidLinkError();
     return QRCodeCategories.PageLink;
-  }
-  if (data.startsWith("E#")) {
+  } else if (data.startsWith("E#")) {
     if (!isValidLink(data)) throw new InvalidLinkError();
     return QRCodeCategories.EventLink;
-  }
-  if (data.startsWith("{")) {
+  } else if (data.startsWith("{")) {
     try {
       const contactData = JSON.parse(data);
       if (contactData.contact === undefined) throw new InvalidContactError();
@@ -98,18 +96,22 @@ export const detectQrTypeAndValidate = (data) => {
   }
 
   // badge
-  const [encodedBadge, signature, ...others] = data.split("#");
-  if (others.length !== 0) throw new UnknownQRCodeCategory();
-  if (signature === undefined) throw new InvalidBadgeError();
-  const buf = Buffer.from(encodedBadge, "base64");
-  const badgeInfo = buf.toString().split("#");
-  if (
-    badgeInfo.length !== 11 ||
-    badgeInfo[0] !== "B" ||
-    !isValidUUID(badgeInfo[1])
-  )
-    throw new InvalidBadgeError();
-  return QRCodeCategories.Badge;
+  else if (data.startsWith("B#")) {
+    const [encodedBadge, signature, ...others] = data.split("#");
+    if (others.length !== 0) throw new UnknownQRCodeCategory();
+    if (signature === undefined) throw new InvalidBadgeError();
+    const buf = Buffer.from(encodedBadge, "base64");
+    const badgeInfo = buf.toString().split("#");
+    if (
+      badgeInfo.length !== 11 ||
+      badgeInfo[0] !== "B" ||
+      !isValidUUID(badgeInfo[1])
+    )
+      throw new InvalidBadgeError();
+    return QRCodeCategories.Badge;
+  } else {
+    throw new UnknownQRCodeCategory();
+  }
 };
 
 export const decodeContact = (data) => {
