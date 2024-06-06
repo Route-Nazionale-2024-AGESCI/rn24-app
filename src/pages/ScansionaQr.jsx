@@ -41,10 +41,8 @@ export default function ScansionaQr() {
 
   const handleScan = (scanData) => {
     if (scanData) {
-      console.log(scanData.text);
       try {
         const decodedQr = decodeQr(scanData.text);
-        console.log(decodedQr);
         if (["page", "event"].includes(decodedQr.type)) {
           setError(null);
           setData(null);
