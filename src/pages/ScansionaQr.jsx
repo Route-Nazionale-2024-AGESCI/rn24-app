@@ -68,14 +68,7 @@ export default function ScansionaQr() {
         setData(null);
         setUrlDetected(null);
       }
-      // if (decodedQr.error) {
-      //   setError(decodedQr.errorMsg);
-      //   setData(null);
-      //   setUrlDetected(null);
-      //   console.error(decodedQr.errorMsg);
-      // } else
     }
-    //}
   };
 
   return (
