@@ -79,7 +79,7 @@ export default function ScansionaQrContenuto() {
           <QrReader
             delay={300}
             constraints={{
-              facingMode: { exact: "environment" },
+              facingMode: { ideal: "environment" },
             }}
             onResult={handleScan}
             containerStyle={{
