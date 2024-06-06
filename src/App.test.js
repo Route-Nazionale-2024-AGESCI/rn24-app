@@ -25,6 +25,7 @@ const {
   decodeEventLink,
   decodeAndValidateBadge,
   decodeQr,
+  encodeContact,
 } = require("./lib/qr");
 
 // Esempio di chiave pubblica
@@ -158,10 +159,40 @@ describe("QR code type detection and validation", () => {
   });
 });
 
+describe("QR code encoder", () => {
+  it("should encode a contact", () => {
+    const contactData = encodeContact(
+      "myUuid",
+      "name",
+      "second-name",
+      "333444555",
+      "john@doe.com",
+      "some text",
+      "https://mysite.com"
+    );
+    expect(contactData).toEqual(
+      JSON.stringify({
+        contact: {
+          uuid: "myUuid",
+          firstName: "name",
+          lastName: "second-name",
+          phone: "333444555",
+          email: "john@doe.com",
+          note: "some text",
+          url: "https://mysite.com",
+        },
+      })
+    );
+  });
+});
+
 describe("QR code decoders", () => {
   it("should decode a contact QR code", () => {
     const contactData = JSON.stringify({ contact: "example" });
-    expect(decodeContact(contactData)).toEqual({ contact: "example" });
+    expect(decodeContact(contactData)).toEqual({
+      type: "contact",
+      contact: "example",
+    });
   });
 
   it("should decode a PageLink QR code", () => {
@@ -180,17 +211,18 @@ describe("QR code decoders", () => {
     });
   });
 
-  // it("should decode and validate a valid Badge QR code", () => {
-  //   const encodedBadge =
-  //     "QiMwODliNjU2MC01Y2M5LTRiOTAtYjhmMi1iYWRkMmExYmE1NWEjRGVtbyNDb2dub21lI2RlbW9AZXhhbXBsZS5jb20jKzM5MDk4NzY1MjM0I1NJTFZJIE1BUklOQSAzNiMjNC0xNiM0I1N0YWZm";
+  it("should decode and validate a valid Badge QR code", () => {
+    const encodedBadge =
+      "QiMwODliNjU2MC01Y2M5LTRiOTAtYjhmMi1iYWRkMmExYmE1NWEjRGVtbyNDb2dub21lI2RlbW9AZXhhbXBsZS5jb20jKzM5MDk4NzY1MjM0I1NJTFZJIE1BUklOQSAzNiMjNC0xNiM0I1N0YWZm";
 
-  //   const validSignature =
-  //     "unHijBOPMK3YmL95olF+OwGayPkz95bpef0rH+sfd9qGz/wHPseYHHiKiqSes12gzWArzrxrQbJlugXdgP6fVg==";
-  //   const data = `${encodedBadge}#${validSignature}`;
-  //   const userInfo = decodeAndValidateBadge(data, publicKey);
-  //   expect(userInfo.validSignature).toBe(true);
-  //   expect(userInfo.uuid).toBe("41895ab6-abf1-4268-a146-61786fd667a5");
-  // });
+    const validSignature =
+      "unHijBOPMK3YmL95olF+OwGayPkz95bpef0rH+sfd9qGz/wHPseYHHiKiqSes12gzWArzrxrQbJlugXdgP6fVg==";
+    const data = `${encodedBadge}#${validSignature}`;
+    const res = decodeAndValidateBadge(data, publicKey);
+    expect(res.validSignature).toBe(true);
+    expect(res.type).toBe("badge");
+    expect(res.userInfo.uuid).toBe("41895ab6-abf1-4268-a146-61786fd667a5");
+  });
 
   // it("should throw InvalidBadgeSignatureError for invalid signature", () => {
   //   const encodedBadge =

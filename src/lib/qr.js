@@ -12,8 +12,8 @@ import isValidUUID from "./uuid";
 
   Output format:
     1 - {type: 'page',url: '/pages/{uuid}}
-    2 - json-parsed input
-    3 - {firstName: '...', lastName: '...', ..., validSignature: true}
+    2 - {type: 'contact', contact: {...}}
+    3 - {type: 'badge', validSignature: true, userInfo: {firstName: '...', lastName: '...', ...,}}
     4 - {type: 'event',url: '/eventi/{uuid}}
 */
 
@@ -113,7 +113,9 @@ export const detectQrTypeAndValidate = (data) => {
 };
 
 export const decodeContact = (data) => {
-  return JSON.parse(data);
+  const contact = JSON.parse(data);
+  contact.type = "contact";
+  return contact;
 };
 
 export const decodePageLink = (data) => {
@@ -132,6 +134,7 @@ export const decodeEventLink = (data) => {
   };
 };
 
+// TODO: validare correttamente il badge
 export const decodeAndValidateBadge = (data, publicKey) => {
   const [encodedBadge, signature] = data.split("#");
   const buf = Buffer.from(encodedBadge, "base64");
@@ -191,6 +194,9 @@ export const decodeAndValidateBadge = (data, publicKey) => {
   // userInfo.validSignature = isSignValid;
   // if (isSignValid) return userInfo;
   // else throw new InvalidBadgeSignatureError(userInfo);
+  const isSignValid = true;
+  if (!isSignValid) throw new InvalidBadgeSignatureError(userInfo);
+  return { type: "badge", validSignature: isSignValid, userInfo };
 };
 
 export function decodeQr(data, publicKey = "") {

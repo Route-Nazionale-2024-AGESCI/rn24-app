@@ -14,6 +14,7 @@ import { decodeQr } from "../lib/qr";
 
 // Struttura dei dati codificati nel QR Code:
 // {
+//   'type':'contact',
 //   'contact': {
 //     "firstName":"Pierino",
 //     "lastName":"Rossi",
@@ -26,6 +27,7 @@ import { decodeQr } from "../lib/qr";
 
 // oppure
 // {
+//   'type': 'page' || 'event'
 //   'url': 'link/to/page/'
 // }
 
@@ -39,21 +41,41 @@ export default function ScansionaQr() {
 
   const handleScan = (scanData) => {
     if (scanData) {
-      const decodedQr = decodeQr(scanData);
-      if (decodedQr.error) {
-        setError(decodedQr.errorMsg);
+      console.log(scanData.text);
+      try {
+        const decodedQr = decodeQr(scanData.text);
+        console.log(decodedQr);
+        if (["page", "event"].includes(decodedQr.type)) {
+          setError(null);
+          setData(null);
+          setUrlDetected({ url: decodedQr.url, type: decodedQr.type });
+        } else if (decodedQr.type === "badge") {
+          setData(null);
+          setError(
+            "Si tratta di un badge personale per il controllo degli accessi. Invita l'altra persona ad andare nella sezione Contatti"
+          );
+          setUrlDetected(null);
+        } else if (decodedQr.type === "contact") {
+          setError(null);
+          setUrlDetected(null);
+          setData(decodedQr.contact);
+        } else {
+          setError("Si è verificato un problema, riprova tra un attimo");
+          setData(null);
+          setUrlDetected(null);
+        }
+      } catch (error) {
+        console.error(error.message);
+        setError(error.message);
         setData(null);
         setUrlDetected(null);
-        console.error(decodedQr.errorMsg);
-      } else if (decodedQr.url) {
-        setError(null);
-        setData(null);
-        setUrlDetected({ url: decodedQr.url, type: decodedQr.type });
-      } else {
-        setError(null);
-        setUrlDetected(null);
-        setData(decodedQr.contact);
       }
+      // if (decodedQr.error) {
+      //   setError(decodedQr.errorMsg);
+      //   setData(null);
+      //   setUrlDetected(null);
+      //   console.error(decodedQr.errorMsg);
+      // } else
     }
     //}
   };
@@ -65,9 +87,9 @@ export default function ScansionaQr() {
         <>
           <QrReader
             delay={300}
-            constraints={{
-              facingMode: { exact: "environment" },
-            }}
+            // constraints={{
+            //   facingMode: { exact: "environment" },
+            // }}
             onResult={handleScan}
             containerStyle={{
               borderRadius: "8px",
