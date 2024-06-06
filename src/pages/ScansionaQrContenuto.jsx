@@ -37,6 +37,7 @@ export default function ScansionaQrContenuto() {
   const [savedContact, setSavedContact] = useState(false);
   const navigate = useNavigate();
 
+  // FIXME: replicare struttura di ScansionaQr.jsx
   const handleScan = (scanData) => {
     if (scanData) {
       const decodedQr = decodeQr(scanData);
@@ -139,8 +140,9 @@ export default function ScansionaQrContenuto() {
             color: "#ffffff",
             justifyContent: "space-around",
             height: "100%",
+            width: "100%",
+            minHeight: "200px",
             marginBottom: "80px",
-            overflow: "scroll",
           }}
         >
           <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
