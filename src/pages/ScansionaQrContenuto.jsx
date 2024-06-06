@@ -165,6 +165,7 @@ export default function ScansionaQrContenuto() {
           <Typography fontSize="14px" fontWeight={400} sx={{ marginX: "24px" }}>
             {error}
           </Typography>
+          <Box sx={{ height: "24px" }} />
           <AccessButton
             onClick={() => {
               setData(null);
@@ -177,7 +178,9 @@ export default function ScansionaQrContenuto() {
               Riprova
             </Typography>
           </AccessButton>
+          <Box sx={{ height: "24px" }} />
           <Typography>Oppure</Typography>
+          <Box sx={{ height: "24px" }} />
           <BoxButton
             bgColor="white"
             to="/ricercaContenuto/codice"
