@@ -87,9 +87,9 @@ export default function ScansionaQr() {
         <>
           <QrReader
             delay={300}
-            // constraints={{
-            //   facingMode: { exact: "environment" },
-            // }}
+            constraints={{
+              facingMode: { ideal: "environment" },
+            }}
             onResult={handleScan}
             containerStyle={{
               borderRadius: "8px",
@@ -246,16 +246,8 @@ export default function ScansionaQr() {
             width: "100%",
             minHeight: "200px",
             marginBottom: "80px",
-            //overflow: "scroll",
           }}
         >
-          {/* sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#ffffff",
-            width: "100%",
-          }} */}
           <SentimentVeryDissatisfiedIcon sx={{ fontSize: "64px" }} />
           <Typography fontSize="16px" fontWeight={600}>
             Si è verificato un errore...
