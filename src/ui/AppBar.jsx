@@ -172,7 +172,7 @@ export default function AppBar() {
               </ListItem>
               {user.permissions.is_staff && (
                 <ListItem>
-                  <ListItemButton href="/admin" target="_blank">
+                  <ListItemButton href="/api/admin/" target="_blank">
                     <ListItemIcon>
                       <SettingsApplicationsIcon color="white" />
                     </ListItemIcon>
