@@ -16,6 +16,7 @@ import BoxButton from "../ui/BoxButton";
 
 // Struttura dei dati codificati nel QR Code:
 // {
+//   'type':'contact',
 //   'contact': {
 //     "firstName":"Pierino",
 //     "lastName":"Rossi",
@@ -26,6 +27,7 @@ import BoxButton from "../ui/BoxButton";
 
 // oppure
 // {
+//   'type': 'page' || 'event'
 //   'url': 'link/to/page/'
 // }
 
@@ -37,23 +39,34 @@ export default function ScansionaQrContenuto() {
   const [savedContact, setSavedContact] = useState(false);
   const navigate = useNavigate();
 
-  // FIXME: replicare struttura di ScansionaQr.jsx
   const handleScan = (scanData) => {
     if (scanData) {
-      const decodedQr = decodeQr(scanData);
-      if (decodedQr.error) {
-        setError(decodedQr.errorMsg);
+      try {
+        const decodedQr = decodeQr(scanData.text);
+        if (["page", "event"].includes(decodedQr.type)) {
+          setError(null);
+          setData(decodedQr);
+          setProfileDetected(null);
+        } else if (decodeQr.type === "contact") {
+          setError(null);
+          setData(null);
+          setProfileDetected(decodedQr);
+        } else if (decodedQr.type === "badge") {
+          setData(null);
+          setProfileDetected(null);
+          setError(
+            "Si tratta di un badge personale per il controllo degli accessi."
+          );
+        } else {
+          setError("Si è verificato un problema, riprova tra un attimo.");
+          setData(null);
+          setProfileDetected(null);
+        }
+      } catch (error) {
+        console.error(error.message);
+        setError(error.message);
         setData(null);
         setProfileDetected(null);
-        console.error(decodedQr.errorMsg);
-      } else if (decodedQr.url) {
-        setError(null);
-        setData(decodedQr);
-        setProfileDetected(null);
-      } else {
-        setError(null);
-        setData(null);
-        setProfileDetected(decodedQr);
       }
     }
   };

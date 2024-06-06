@@ -50,7 +50,7 @@ export default function ScansionaQr() {
         } else if (decodedQr.type === "badge") {
           setData(null);
           setError(
-            "Si tratta di un badge personale per il controllo degli accessi. Invita l'altra persona ad andare nella sezione Contatti"
+            "Si tratta di un badge personale per il controllo degli accessi. Invita l'altra persona ad andare nella sezione Contatti."
           );
           setUrlDetected(null);
         } else if (decodedQr.type === "contact") {
@@ -58,7 +58,7 @@ export default function ScansionaQr() {
           setUrlDetected(null);
           setData(decodedQr.contact);
         } else {
-          setError("Si è verificato un problema, riprova tra un attimo");
+          setError("Si è verificato un problema, riprova tra un attimo.");
           setData(null);
           setUrlDetected(null);
         }
