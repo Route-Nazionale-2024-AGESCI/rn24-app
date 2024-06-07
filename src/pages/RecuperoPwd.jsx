@@ -35,6 +35,7 @@ const ErrorAlert = ({ errorMsg, onClose }) => (
   </Fade>
 );
 
+// TODO: testare funzionamento della procedura di recupero!!
 export default function RecuperoPwd() {
   const [codice, setCodice] = useState("");
   const [email, setEmail] = useState("");

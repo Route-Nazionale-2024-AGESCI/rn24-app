@@ -56,7 +56,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 // TODO: implementare API per il numero di iscritti ??
-
+// TODO: nascondere gli eventi di tipo LOGISTICO ??
 // /programma/?day=2024-08-23
 export async function loader({ request }) {
   const { events } = await getEventList();
