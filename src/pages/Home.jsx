@@ -86,13 +86,13 @@ export default function Home() {
       </Stack>
       <Box height="32px" />
       <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
-        Servizio
+        Non stare a guardare!
       </Typography>
       <ImageCard
         imgSrc="Verona.jpg"
         imgAlt="Verona"
-        title="Tracce"
-        subtitle="Scopri tutte le informazioni logistiche sul servizio della tua Comunità Capi"
+        title="Iscriviti a un Evento"
+        subtitle="Progetta la tua Route Capi scegliendo quale Felicità vuoi vivere"
       />
       <Box sx={{ height: "40px" }} />
     </Box>

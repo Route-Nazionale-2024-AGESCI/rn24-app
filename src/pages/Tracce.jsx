@@ -155,7 +155,7 @@ export default function Tracce() {
             onClick={handleSubmit}
           >
             <Typography fontSize="16px" fontWeight={600}>
-              Inizia il servizio
+              Inizia il Servizio
             </Typography>
             {loading && (
               <CircularProgress
