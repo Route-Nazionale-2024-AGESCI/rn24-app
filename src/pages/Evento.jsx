@@ -4,11 +4,13 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Fab from "@mui/material/Fab";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonIcon from "@mui/icons-material/Person";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 
 import WhitePaper from "../ui/WhitePaper";
 
@@ -18,6 +20,7 @@ import { italianMonth } from "../lib/italianDate";
 import { getLocation } from "../lib/cacheManager/locations";
 import { getEvent } from "../lib/cacheManager/events";
 import { getPage } from "../lib/cacheManager/pages";
+import { useUser } from "../lib/cacheManager/user";
 import HtmlWithRouterLinks from "../lib/htmlParser";
 
 export async function loader({ params }) {
@@ -28,8 +31,10 @@ export async function loader({ params }) {
   return { event, location, description };
 }
 
+// TODO: action al Button di scansione QR
 export default function Evento() {
   const { event, location, description } = useLoaderData();
+  const { user } = useUser();
 
   const standName = location?.name ?? "Luogo non definito";
   const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
@@ -265,6 +270,21 @@ export default function Evento() {
         <Box sx={{ height: "20px" }} />
         <Outlet />
         <Box sx={{ height: "20px" }} />
+        {user.permissions.can_scan_qr && (
+          <>
+            <Box sx={{ height: "80px" }}></Box>
+            <Fab
+              color="agesciPurple"
+              style={{
+                position: "fixed",
+                right: "24px",
+                bottom: "100px",
+              }}
+            >
+              <QrCodeIcon sx={{ color: "#FFFFFF" }} />
+            </Fab>
+          </>
+        )}
       </WhitePaper>
     </>
   );
