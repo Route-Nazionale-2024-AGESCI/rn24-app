@@ -1,4 +1,4 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useParams } from "react-router-dom";
 
 import Home, { loader as homeLoader } from "./pages/Home";
 import Avvisi, { loader as avvisiLoader } from "./pages/Avvisi";
@@ -18,7 +18,11 @@ import Login from "./pages/Login";
 import Profilo from "./pages/Profilo";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
-import { PurpleLayout, GreenLayout } from "./pages/layout/ColorLayout";
+import {
+  PurpleLayout,
+  GreenLayout,
+  RedLayout,
+} from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
 import CondividiQr from "./pages/CondividiQr";
 import RicercaContenuto from "./pages/RicercaContenuto";
@@ -29,6 +33,11 @@ import RegistrazioneEvento, {
   loader as registrazioneEventoLoader,
 } from "./pages/RegistrazioneEvento";
 import Pagina, { loader as paginaLoader } from "./pages/Pagina";
+import Scan from "./pages/badgeControl/Scan";
+import UserFound from "./pages/badgeControl/UserFound";
+import UserNotFound from "./pages/badgeControl/UserNotFound";
+import QrNotFound from "./pages/badgeControl/QrNotFound";
+import BadQr from "./pages/badgeControl/BadQr";
 
 import { FilterProvider } from "./contexts/filter";
 import { useAuth } from "./contexts/auth";
@@ -43,6 +52,11 @@ const AuthMiddleware = () => {
 
 const FilterMiddleware = () => {
   return <FilterProvider>{<Outlet />}</FilterProvider>;
+};
+
+const AccessControlWrapper = ({ Layout }) => {
+  const { eventId } = useParams();
+  return <Layout back={`/eventi/${eventId}`} backText="Torna all'evento" />;
 };
 
 export const router = [
@@ -243,6 +257,27 @@ export const router = [
                             element: <CondividiQr />,
                           },
                         ],
+                      },
+
+                      // CONTROLLO ACCESSI
+                      {
+                        path: "/controlloAccessi/:eventId",
+                        element: <AccessControlWrapper Layout={PurpleLayout} />,
+                        children: [
+                          { index: true, element: <Scan /> },
+                          { path: "bad-qr", element: <BadQr /> },
+                          { path: "qr-not-found", element: <QrNotFound /> },
+                        ],
+                      },
+                      {
+                        path: "/controlloAccessi/:eventId/user-found",
+                        element: <AccessControlWrapper Layout={GreenLayout} />,
+                        children: [{ index: true, element: <UserFound /> }],
+                      },
+                      {
+                        path: "/controlloAccessi/:eventId/user-not-found",
+                        element: <AccessControlWrapper Layout={RedLayout} />,
+                        children: [{ index: true, element: <UserNotFound /> }],
                       },
                     ],
                   },

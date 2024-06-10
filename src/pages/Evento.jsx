@@ -280,6 +280,8 @@ export default function Evento() {
                 right: "24px",
                 bottom: "100px",
               }}
+              LinkComponent={Link}
+              to={`/controlloAccessi/${event.uuid}`}
             >
               <QrCodeIcon sx={{ color: "#FFFFFF" }} />
             </Fab>
