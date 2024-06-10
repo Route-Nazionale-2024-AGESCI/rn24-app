@@ -96,21 +96,17 @@ export const detectQrTypeAndValidate = (data) => {
   }
 
   // badge
-  else if (data.startsWith("B#")) {
+  // FIXME: se si tratta di un badge è codificato base64, non inizia con B# in chiaro
+  else {
     const [encodedBadge, signature, ...others] = data.split("#");
     if (others.length !== 0) throw new UnknownQRCodeCategory();
     if (signature === undefined) throw new InvalidBadgeError();
     const buf = Buffer.from(encodedBadge, "base64");
     const badgeInfo = buf.toString().split("#");
-    if (
-      badgeInfo.length !== 11 ||
-      badgeInfo[0] !== "B" ||
-      !isValidUUID(badgeInfo[1])
-    )
+    if (badgeInfo[0] !== "B") throw new UnknownQRCodeCategory();
+    else if (badgeInfo.length !== 12 || !isValidUUID(badgeInfo[1]))
       throw new InvalidBadgeError();
     return QRCodeCategories.Badge;
-  } else {
-    throw new UnknownQRCodeCategory();
   }
 };
 
@@ -150,6 +146,7 @@ export const decodeAndValidateBadge = (data, publicKey) => {
     phone,
     scoutGroup,
     region,
+    line,
     subdistrict,
     district,
     squad,
@@ -163,6 +160,7 @@ export const decodeAndValidateBadge = (data, publicKey) => {
     phone,
     scoutGroup,
     region,
+    line,
     subdistrict,
     district,
     squad: squads,

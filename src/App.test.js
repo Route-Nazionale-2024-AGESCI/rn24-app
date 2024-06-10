@@ -141,7 +141,7 @@ describe("QR code type detection and validation", () => {
 
   it("should detect a Badge QR code", () => {
     const validBadge = Buffer.from(
-      "B#41895ab6-abf1-4268-a146-61786fd667a5#John#Doe#john.doe@example.com#1234567890#ScoutGroup#Region#Subdistrict#District#Squad"
+      "B#41895ab6-abf1-4268-a146-61786fd667a5#John#Doe#john.doe@example.com#1234567890#ScoutGroup#Region#Line#Subdistrict#District#Squad"
     ).toString("base64");
     const validSignature =
       "unHijBOPMK3YmL95olF+OwGayPkz95bpef0rH+sfd9qGz/wHPseYHHiKiqSes12gzWArzrxrQbJlugXdgP6fVg==";
@@ -213,7 +213,7 @@ describe("QR code decoders", () => {
 
   it("should decode and validate a valid Badge QR code", () => {
     const encodedBadge =
-      "QiMwODliNjU2MC01Y2M5LTRiOTAtYjhmMi1iYWRkMmExYmE1NWEjRGVtbyNDb2dub21lI2RlbW9AZXhhbXBsZS5jb20jKzM5MDk4NzY1MjM0I1NJTFZJIE1BUklOQSAzNiMjNC0xNiM0I1N0YWZm";
+      "QiNhODNmNTQwZC1mYzI4LTQ0MTUtYTU0Ni1mZjMwNGM4YzBjZDEjQ29uY2V0dGEjQ2FjY2lvcHBvbGkjYW5pdGEzN0BleGFtcGxlLm9yZyMwOTk0NjE5MTEzNyNDQVNFIE5VT1ZFIDczIyM1I0wjVklPTEEj";
 
     const validSignature =
       "unHijBOPMK3YmL95olF+OwGayPkz95bpef0rH+sfd9qGz/wHPseYHHiKiqSes12gzWArzrxrQbJlugXdgP6fVg==";
@@ -221,7 +221,7 @@ describe("QR code decoders", () => {
     const res = decodeAndValidateBadge(data, publicKey);
     expect(res.validSignature).toBe(true);
     expect(res.type).toBe("badge");
-    expect(res.userInfo.uuid).toBe("41895ab6-abf1-4268-a146-61786fd667a5");
+    expect(res.userInfo.uuid).toBe("a83f540d-fc28-4415-a546-ff304c8c0cd1");
   });
 
   // it("should throw InvalidBadgeSignatureError for invalid signature", () => {
