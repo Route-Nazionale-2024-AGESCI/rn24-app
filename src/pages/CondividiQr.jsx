@@ -251,33 +251,6 @@ export default function CondividiQr() {
         <InfoBox>
           <Grid item xs={2} sx={{ display: "flex" }} alignItems={"center"}>
             <CheckBox
-              checked={shareNote}
-              onChange={(event) => {
-                const val = event.target.checked;
-                setShareNote(val);
-                setLocalStorageShareNote(val);
-              }}
-            />
-          </Grid>
-          <Grid item xs={10}>
-            <Stack direction="column" gap="8px">
-              <Typography variant="body1" fontSize="14px" fontWeight={600}>
-                Note
-              </Typography>
-              <TextField
-                value={note}
-                onChange={(event) => {
-                  const val = event.target.value;
-                  setNote(val);
-                  setLocalStorageNote(val);
-                }}
-              />
-            </Stack>
-          </Grid>
-        </InfoBox>
-        <InfoBox>
-          <Grid item xs={2} sx={{ display: "flex" }} alignItems={"center"}>
-            <CheckBox
               checked={shareUrl}
               onChange={(event) => {
                 const val = event.target.checked;
@@ -297,6 +270,35 @@ export default function CondividiQr() {
                   const val = event.target.value.trim();
                   setUrl(val);
                   setLocalStorageUrl(val);
+                }}
+              />
+            </Stack>
+          </Grid>
+        </InfoBox>
+        <InfoBox>
+          <Grid item xs={2} sx={{ display: "flex" }} alignItems={"center"}>
+            <CheckBox
+              checked={shareNote}
+              onChange={(event) => {
+                const val = event.target.checked;
+                setShareNote(val);
+                setLocalStorageShareNote(val);
+              }}
+            />
+          </Grid>
+          <Grid item xs={10}>
+            <Stack direction="column" gap="8px">
+              <Typography variant="body1" fontSize="14px" fontWeight={600}>
+                Note
+              </Typography>
+              <TextField
+                value={note}
+                multiline={true}
+                minRows={3}
+                onChange={(event) => {
+                  const val = event.target.value;
+                  setNote(val);
+                  setLocalStorageNote(val);
                 }}
               />
             </Stack>
