@@ -95,11 +95,11 @@ export default function Profilo() {
             <UserInfo title="Zona">{user?.scout_group?.zone}</UserInfo>
             <UserInfo title="Regione">{user?.scout_group?.region}</UserInfo>
             <UserInfo title="Sottocampo">
-              {user?.scout_group?.subdistrict?.district?.name}
+              {user?.scout_group?.line?.subdistrict?.district?.name}
             </UserInfo>
-            <UserInfo title="Contrada" autoFormat={false}>
+            <UserInfo title="Contrada - Fila" autoFormat={false}>
               <Link
-                to={`/mappa/?location=${user?.scout_group?.subdistrict?.location}`}
+                to={`/mappa/?location=${user?.scout_group?.line?.location}`}
               >
                 <Typography
                   variant="subtitle2"
@@ -110,7 +110,8 @@ export default function Profilo() {
                     textDecoration: "underline",
                   }}
                 >
-                  {user?.scout_group?.subdistrict?.name}
+                  {user?.scout_group?.line?.subdistrict?.name} -{" "}
+                  {user?.scout_group?.line?.name}
                 </Typography>
               </Link>
             </UserInfo>
