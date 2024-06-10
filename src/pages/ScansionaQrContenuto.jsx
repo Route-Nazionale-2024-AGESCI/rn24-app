@@ -50,7 +50,7 @@ export default function ScansionaQrContenuto() {
         } else if (decodedQr.type === "contact") {
           setError(null);
           setData(null);
-          setProfileDetected(decodedQr);
+          setProfileDetected(decodedQr.contact);
         } else if (decodedQr.type === "badge") {
           setData(null);
           setProfileDetected(null);
