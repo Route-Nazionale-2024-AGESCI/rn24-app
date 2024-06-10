@@ -96,7 +96,6 @@ export const detectQrTypeAndValidate = (data) => {
   }
 
   // badge
-  // FIXME: se si tratta di un badge è codificato base64, non inizia con B# in chiaro
   else {
     const [encodedBadge, signature, ...others] = data.split("#");
     if (others.length !== 0) throw new UnknownQRCodeCategory();
