@@ -151,7 +151,7 @@ export default function FilterDrawer({ open, onClose }) {
               <MenuItem value="TRACCE">Tracce</MenuItem>
               <MenuItem value="PASTI">Pasti</MenuItem>
               <MenuItem value="DOCCIA">Doccia</MenuItem>
-              <MenuItem value="LOGISTICO">Logistico</MenuItem>
+              {/* <MenuItem value="LOGISTICO">Logistico</MenuItem> */}
               <MenuItem value="ALTRO">Altro</MenuItem>
             </Select>
           </FormControl>
