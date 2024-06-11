@@ -100,7 +100,7 @@ export const detectQrTypeAndValidate = (data) => {
     const [encodedBadge, signature, ...others] = data.split("#");
     if (others.length !== 0) throw new UnknownQRCodeCategory();
     if (signature === undefined) throw new InvalidBadgeError();
-    const buf = Buffer.from(encodedBadge, "base64");
+    const buf = atob(encodedBadge);
     const badgeInfo = buf.toString().split("#");
     if (badgeInfo[0] !== "B") throw new UnknownQRCodeCategory();
     else if (badgeInfo.length !== 12 || !isValidUUID(badgeInfo[1]))
@@ -134,8 +134,7 @@ export const decodeEventLink = (data) => {
 // TODO: validare correttamente il badge
 export const decodeAndValidateBadge = (data, publicKey) => {
   const [encodedBadge, signature] = data.split("#");
-  const buf = Buffer.from(encodedBadge, "base64");
-
+  const buf = atob(encodedBadge);
   const [
     _headerChar,
     uuid,
@@ -206,7 +205,7 @@ export function decodeQr(data, publicKey = "") {
       return decodeEventLink(data);
     case QRCodeCategories.PageLink:
       return decodePageLink(data);
-    case QRCodeCategories.Badge(data):
+    case QRCodeCategories.Badge:
       return decodeAndValidateBadge(data, publicKey);
     default:
       throw new UnknownQRCodeCategory();
