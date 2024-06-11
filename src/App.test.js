@@ -249,4 +249,36 @@ describe("QR code main decoder function", () => {
       url: "/pages/41895ab6-abf1-4268-a146-61786fd667a5",
     });
   });
+  it("Should detect a badge with correct uuid", () => {
+    const encodedBadge =
+      "QiNhODNmNTQwZC1mYzI4LTQ0MTUtYTU0Ni1mZjMwNGM4YzBjZDEjQ29uY2V0dGEjQ2FjY2lvcHBvbGkjYW5pdGEzN0BleGFtcGxlLm9yZyMwOTk0NjE5MTEzNyNDQVNFIE5VT1ZFIDczIyM1I0wjVklPTEEj";
+    const validSignature =
+      "unHijBOPMK3YmL95olF+OwGayPkz95bpef0rH+sfd9qGz/wHPseYHHiKiqSes12gzWArzrxrQbJlugXdgP6fVg==";
+    const data = `${encodedBadge}#${validSignature}`;
+    const res = decodeQr(data);
+    expect(res.type).toBe("badge");
+    expect(res.userInfo.uuid).toBe("a83f540d-fc28-4415-a546-ff304c8c0cd1");
+  });
+  it("Should detect a contact with correct user info", () => {
+    const data = {
+      contact: {
+        firstName: "John",
+        lastName: "Doe",
+        phone: "123123123",
+        email: "john.doe@email.com",
+        note: "Some text...",
+        url: "https://abc.net/",
+      },
+    };
+    const { type, contact } = decodeQr(JSON.stringify(data));
+    expect(type).toBe("contact");
+    expect(contact).toEqual({
+      firstName: "John",
+      lastName: "Doe",
+      phone: "123123123",
+      email: "john.doe@email.com",
+      note: "Some text...",
+      url: "https://abc.net/",
+    });
+  });
 });
