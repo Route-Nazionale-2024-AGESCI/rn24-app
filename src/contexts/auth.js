@@ -40,9 +40,28 @@ export const AuthIsNotLoggedIn = ({ children }) => {
   return <>{isLoaded && status === AuthStatus.LoggedOut ? children : null}</>;
 };
 
+const getInitialTokens = () => {
+    const query = new URLSearchParams(window.location.search);
+
+    const impersonateToken = query.get('at');
+    const impersonateCsrfToken = query.get('ct');
+
+    if (
+        impersonateToken
+        && impersonateToken.match(/^[a-f0-9]{40}$/)
+        && impersonateCsrfToken
+    ) {
+        return [impersonateToken, impersonateCsrfToken];
+    }
+
+    return [
+        localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY),
+        localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY)
+    ];
+};
+
 const AuthProvider = ({ children }) => {
-  const localToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-  const localCsrfToken = localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
+  const [localToken, localCsrfToken] = getInitialTokens();
   const [status, setStatus] = useState(
     localToken && localCsrfToken ? AuthStatus.Loading : AuthStatus.LoggedOut
   );
