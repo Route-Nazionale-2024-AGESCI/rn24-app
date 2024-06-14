@@ -21,10 +21,11 @@ import { styled } from "@mui/material/styles";
 
 import LogoutModal from "./LogoutModal";
 import RnLogo from "./RnLogo";
-import NotifyButton from "./NotifyButton";
+// import NotifyButton from "./NotifyButton";
 import Menu from "./Menu";
 import { usePages } from "../lib/cacheManager/pages";
 import { useAuth } from "../contexts/auth";
+import { useRefreshData } from "../lib/dataManager/version";
 
 const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
   ({ theme }) => ({
@@ -53,6 +54,7 @@ export default function AppBar() {
   const [openModal, setOpenModal] = useState(false);
   const { user } = useAuth();
   const pages = usePages();
+  useRefreshData();
 
   const filterPages = (pages) => {
     return pages
@@ -117,7 +119,7 @@ export default function AppBar() {
         >
           <RnLogo />
           <Stack direction="row" spacing="16px">
-            <NotifyButton />
+            {/* <NotifyButton /> */}
             <Menu onClick={() => setOpenDrawer(!openDrawer)} />
           </Stack>
         </Box>
