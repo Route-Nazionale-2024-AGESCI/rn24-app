@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+// unused component -- no more maintained, could be broken...
+import { useState, useEffect, useCallback } from "react";
 import { useRevalidator } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Button from "@mui/material/Button";
@@ -28,7 +29,7 @@ export default function NotifyButton() {
   const { eventsVersion, pagesVersion, locationsVersion } = useVersions();
   const { localEventsVersion, localPagesVersion, localLocationsVersion } =
     getLocalVersions();
-  const dataNeedRefresh = (() => {
+  const checkDataNeedRefresh = () => {
     if (
       eventsVersion === undefined ||
       pagesVersion === undefined ||
@@ -46,7 +47,8 @@ export default function NotifyButton() {
       isBefore(localPagesVersion, pagesVersion) ||
       isBefore(localLocationsVersion, locationsVersion)
     );
-  })();
+  };
+  const [dataNeedRefresh, setDataNeedRefresh] = useState(false); //checkDataNeedRefresh();
 
   useEffect(() => {
     if (alert !== null) {
@@ -56,6 +58,58 @@ export default function NotifyButton() {
       return () => clearTimeout(timer);
     }
   }, [alert]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      console.log("Check for refresh needed");
+      if (checkDataNeedRefresh()) {
+        setDataNeedRefresh(true);
+        console.log("Data need refresh");
+      } else {
+        setDataNeedRefresh(false);
+        console.log("Data do not need refresh");
+      }
+    }, 5000);
+    return () => clearInterval(timer);
+    //return () => clearTimeout(timer);
+  });
+
+  const refreshData = useCallback(() => {
+    // download fresh data
+    const promises = [];
+    isBefore(localEventsVersion, eventsVersion) &&
+      promises.push(refreshEventList());
+    isBefore(localPagesVersion, pagesVersion) && promises.push(refreshPages());
+    isBefore(localLocationsVersion, locationsVersion) &&
+      promises.push(refreshLocationList());
+
+    Promise.all(promises)
+      .then(() => {
+        // Alert positivo
+        setAlert("success");
+        revalidator.revalidate();
+      })
+      .catch((error) => {
+        // Alert negativo
+        console.error(error);
+        setAlert("error");
+      });
+    setAnchorEl(null);
+  }, [
+    localEventsVersion,
+    eventsVersion,
+    localPagesVersion,
+    pagesVersion,
+    localLocationsVersion,
+    locationsVersion,
+    revalidator,
+  ]);
+
+  useEffect(() => {
+    if (dataNeedRefresh) refreshData();
+  }, [dataNeedRefresh, refreshData]);
+
+  //if (dataNeedRefresh) refreshData();
   return (
     <>
       <Button
@@ -91,31 +145,7 @@ export default function NotifyButton() {
         slotProps={{ paper: { sx: { mt: 1 }, elevation: 3 } }}
       >
         {dataNeedRefresh ? (
-          <MenuItem
-            onClick={() => {
-              // download fresh data
-              const promises = [];
-              isBefore(localEventsVersion, eventsVersion) &&
-                promises.push(refreshEventList());
-              isBefore(localPagesVersion, pagesVersion) &&
-                promises.push(refreshPages());
-              isBefore(localLocationsVersion, locationsVersion) &&
-                promises.push(refreshLocationList());
-
-              Promise.all(promises)
-                .then(() => {
-                  // Alert positivo
-                  setAlert("success");
-                  revalidator.revalidate();
-                })
-                .catch((error) => {
-                  // Alert negativo
-                  console.error(error);
-                  setAlert("error");
-                });
-              setAnchorEl(null);
-            }}
-          >
+          <MenuItem onClick={() => refreshData()}>
             <DownloadIcon />
             <Typography variant="body2" sx={{ marginLeft: "8px" }}>
               Scarica gli aggiornamenti
