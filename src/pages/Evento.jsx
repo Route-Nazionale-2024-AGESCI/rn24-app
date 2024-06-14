@@ -251,7 +251,6 @@ export default function Evento() {
                         fontWeight={600}
                         textAlign="left"
                         mb="4px"
-                        //sx={{ color: "#666A66" }}
                         sx={{
                           color: "agesciPurple.main",
                           textDecoration: "underline",
@@ -295,7 +294,21 @@ export default function Evento() {
                       >
                         Disponibile anche offline
                       </Typography>
-                      <Link to="partecipanti">Visualizza</Link>
+                      <Link to="partecipanti">
+                        <Typography
+                          variant="subtitle2"
+                          fontSize="12px"
+                          fontWeight={600}
+                          textAlign="left"
+                          mb="4px"
+                          sx={{
+                            color: "agesciPurple.main",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Visualizza
+                        </Typography>
+                      </Link>
                     </>
                   )}
                 </Stack>
