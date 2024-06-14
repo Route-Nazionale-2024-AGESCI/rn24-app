@@ -133,7 +133,9 @@ export default function Evento() {
                   Data:
                 </Typography>
                 <Stack direction="row" spacing="8px" alignItems="center">
-                  <CalendarMonthIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                  <CalendarMonthIcon
+                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -1px" }}
+                  />
                   <Typography
                     variant="subtitle2"
                     fontSize="12px"
@@ -152,7 +154,9 @@ export default function Evento() {
                 </Typography>
 
                 <Stack direction="row" spacing="8px" alignItems="center">
-                  <AccessTimeIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                  <AccessTimeIcon
+                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -1px" }}
+                  />
                   <Typography
                     variant="subtitle2"
                     fontSize="12px"
@@ -221,7 +225,9 @@ export default function Evento() {
                   Luogo:
                 </Typography>
                 <Stack direction="row" spacing="8px" alignItems="center">
-                  <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                  <PlaceIcon
+                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -2px" }}
+                  />
 
                   {location === undefined ? (
                     <Typography
@@ -260,7 +266,7 @@ export default function Evento() {
             </Grid>
 
             {/* BEGIN */}
-            {user.permissions.can_scan_qr && (
+            {user?.permissions?.can_scan_qr && (
               <Grid item xs={6}>
                 <Stack direction="column" marginY={"24px"}>
                   <Typography fontSize="14px" fontWeight={600}>
@@ -311,7 +317,7 @@ export default function Evento() {
         <Box sx={{ height: "20px" }} />
         <Outlet />
         <Box sx={{ height: "20px" }} />
-        {user.permissions.can_scan_qr && attendees.length > 0 && (
+        {user?.permissions?.can_scan_qr && attendees.length > 0 && (
           <>
             <Box sx={{ height: "80px" }}></Box>
             <Fab
