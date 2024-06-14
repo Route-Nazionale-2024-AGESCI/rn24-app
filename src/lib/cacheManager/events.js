@@ -3,7 +3,9 @@ import {
   getEventList as APIgetEventList,
   getEventRegistrations as APIgetEventRegistrations,
   getEventInvitations as APIgetEventInvitations,
+  getEventAttendees as APIgetEventAttendees,
 } from "../dataManager/events";
+import { useUser } from "./user";
 
 async function getEventList() {
   let events, version;
@@ -100,6 +102,25 @@ function useEventInvitations() {
   };
 }
 
+function useEventAttendees(eventId) {
+  const { user } = useUser();
+  const shouldFetch = user && user.permissions.can_scan_qr;
+  const fetchUrl = shouldFetch ? `events/${eventId}/attendees` : null;
+  const { data, error, mutate } = useSWR(fetchUrl, APIgetEventAttendees, {
+    refreshInterval: 30000,
+  });
+  // TODO: manage errors
+  error !== undefined && console.error(error);
+  if (data) {
+    localStorage.setItem(`attendees-${eventId}`, JSON.stringify(data));
+    return { attendees: data, mutate };
+  }
+  return {
+    attendees: JSON.parse(localStorage.getItem(`attendees-${eventId}`)) ?? [],
+    mutate,
+  };
+}
+
 export {
   getEventList,
   getEvent,
@@ -108,5 +129,6 @@ export {
   getEventRegistrations,
   useEventInvitations,
   useEventRegistrations,
+  useEventAttendees,
   refreshEventList,
 };

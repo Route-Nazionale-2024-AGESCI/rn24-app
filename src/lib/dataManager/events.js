@@ -1,26 +1,4 @@
 import axios from "../api";
-/*
-  API endpoint: /api/v1/events/
-  Recuperare l'elenco completo degli eventi
-
-  Struttura Event:
-  {
-    "uuid": "095be615-a8ad-4c33-8e9c-c7612fbf6c9f",
-    "created_at": string da convertire in Date, es: Date("2019-08-24T14:15:22Z"),
-    "name": "string",
-    "page": null || "41895ab6-abf1-4268-a146-61786fd667a5",
-    "location": "15f20760-76a7-41ee-b509-705d3ffd8eb5",
-    "is_registration_required": bool,
-    "registration_limit": null || int,
-    "registration_limit_from_same_scout_group": null || int,
-    "starts_at": string da convertire in Date,
-    "ends_at": string da convertire in Date,
-    "registrations_open_at": null || string da convertire in Date,
-    "registrations_close_at": null || string da convertire in Date,
-    "kind": string (valori possibili: "SGUARDI", "INCONTRI", "TRACCE", "CONFRONTI", "ALTRO"), 
-  }
-
-*/
 
 //   Doc:
 //   /api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
@@ -78,6 +56,14 @@ export async function registerToEvent(eventUuid) {
 //  /api/v1/schema/redoc/#tag/api/operation/api_v1_events_registrations_destroy
 export async function deleteRegistrationToEvent(eventUuid) {
   const response = await axios.delete(`events/registrations/${eventUuid}/`);
+
+  return response.data;
+}
+
+//  API endpoint: GET /api/v1/events/{uuid}/attendees/
+export async function getEventAttendees(url) {
+  // TODO: check what happens if user doens't have can scan qr permission
+  const response = await axios.get(url);
 
   return response.data;
 }
