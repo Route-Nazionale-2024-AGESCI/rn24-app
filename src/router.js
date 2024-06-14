@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import Profilo from "./pages/Profilo";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
+import AttendeesList from "./pages/AttendeesList";
 import {
   PurpleLayout,
   GreenLayout,
@@ -141,6 +142,10 @@ export const router = [
                                 loader: registrazioneEventoLoader,
                               },
                             ],
+                          },
+                          {
+                            path: "eventi/:eventId/partecipanti",
+                            element: <AttendeesList />,
                           },
                           {
                             path: "pagine/:pageId",

@@ -18,7 +18,7 @@ import getEventColor from "../lib/eventColor";
 import { italianMonth } from "../lib/italianDate";
 
 import { getLocation } from "../lib/cacheManager/locations";
-import { getEvent } from "../lib/cacheManager/events";
+import { getEvent, useEventAttendees } from "../lib/cacheManager/events";
 import { getPage } from "../lib/cacheManager/pages";
 import { useUser } from "../lib/cacheManager/user";
 import HtmlWithRouterLinks from "../lib/htmlParser";
@@ -31,10 +31,10 @@ export async function loader({ params }) {
   return { event, location, description };
 }
 
-// TODO: action al Button di scansione QR
 export default function Evento() {
   const { event, location, description } = useLoaderData();
   const { user } = useUser();
+  const { attendees } = useEventAttendees(event.uuid);
 
   const standName = location?.name ?? "Luogo non definito";
   const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
@@ -214,48 +214,89 @@ export default function Evento() {
                 </Grid>
               </>
             ) : null}
-          </Grid>
-          <Stack direction="column" marginY={"24px"}>
-            <Typography fontSize="14px" fontWeight={600}>
-              Luogo:
-            </Typography>
-            <Stack direction="row" spacing="8px" alignItems="center">
-              <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
 
-              {location === undefined ? (
-                <Typography
-                  variant="subtitle2"
-                  fontSize="12px"
-                  fontWeight={400}
-                  textAlign="left"
-                  mb="4px"
-                  sx={{ color: "#666A66" }}
-                >
-                  standName
+            <Grid item xs={6}>
+              <Stack direction="column" marginY={"24px"}>
+                <Typography fontSize="14px" fontWeight={600}>
+                  Luogo:
                 </Typography>
-              ) : (
-                <Link
-                  to={`/mappa/?location=${location.uuid}`}
-                  //style={{ textDecoration: "none" }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    fontSize="12px"
-                    fontWeight={600}
-                    textAlign="left"
-                    mb="4px"
-                    //sx={{ color: "#666A66" }}
-                    sx={{
-                      color: "agesciPurple.main",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    {standName}
+                <Stack direction="row" spacing="8px" alignItems="center">
+                  <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
+
+                  {location === undefined ? (
+                    <Typography
+                      variant="subtitle2"
+                      fontSize="12px"
+                      fontWeight={400}
+                      textAlign="left"
+                      mb="4px"
+                      sx={{ color: "#666A66" }}
+                    >
+                      standName
+                    </Typography>
+                  ) : (
+                    <Link
+                      to={`/mappa/?location=${location.uuid}`}
+                      //style={{ textDecoration: "none" }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        fontSize="12px"
+                        fontWeight={600}
+                        textAlign="left"
+                        mb="4px"
+                        //sx={{ color: "#666A66" }}
+                        sx={{
+                          color: "agesciPurple.main",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {standName}
+                      </Typography>
+                    </Link>
+                  )}
+                </Stack>
+              </Stack>
+            </Grid>
+
+            {/* BEGIN */}
+            {user.permissions.can_scan_qr && (
+              <Grid item xs={6}>
+                <Stack direction="column" marginY={"24px"}>
+                  <Typography fontSize="14px" fontWeight={600}>
+                    Elenco partecipanti:
                   </Typography>
-                </Link>
-              )}
-            </Stack>
-          </Stack>
+                  {attendees.length === 0 ? (
+                    <Typography
+                      variant="subtitle2"
+                      fontSize="12px"
+                      fontWeight={400}
+                      textAlign="left"
+                      mb="4px"
+                      sx={{ color: "#666A66" }}
+                    >
+                      Non disponibile
+                    </Typography>
+                  ) : (
+                    <>
+                      <Typography
+                        variant="subtitle2"
+                        fontSize="12px"
+                        fontWeight={400}
+                        textAlign="left"
+                        mb="4px"
+                        sx={{ color: "#666A66" }}
+                      >
+                        Disponibile anche offline
+                      </Typography>
+                      <Link to="partecipanti">Visualizza</Link>
+                    </>
+                  )}
+                </Stack>
+              </Grid>
+            )}
+            {/* END */}
+          </Grid>
           {description && (
             <Stack direction="column">
               <Typography fontSize="14px" fontWeight={600}>
@@ -270,7 +311,7 @@ export default function Evento() {
         <Box sx={{ height: "20px" }} />
         <Outlet />
         <Box sx={{ height: "20px" }} />
-        {user.permissions.can_scan_qr && (
+        {user.permissions.can_scan_qr && attendees.length > 0 && (
           <>
             <Box sx={{ height: "80px" }}></Box>
             <Fab
