@@ -7,11 +7,17 @@ import { QrReader } from "react-qr-reader";
 
 import MainContainer from "../../ui/BadgeControl/MainContainer";
 import { decodeQr, QRCodeScanError } from "../../lib/qr";
+import { useEventAttendees } from "../../lib/cacheManager/events";
 
 export default function Scan() {
   const { eventId } = useParams();
+  const { attendees } = useEventAttendees(eventId);
+
   const navigate = useNavigate();
   const baseURL = `/controlloAccessi/${eventId}/`;
+
+  const attendeesUuid = attendees.map((attendee) => attendee.uuid);
+
   const handleScan = (scanData) => {
     if (scanData) {
       try {
@@ -19,10 +25,9 @@ export default function Scan() {
         if (["page", "event", "contact"].includes(decodedQr.type)) {
           navigate(baseURL + "bad-qr");
         } else if (decodedQr.type === "badge") {
-          // TODO: search user id in registration list
-          navigate(baseURL + "user-found");
-
-          // else navigate("user-not-found")
+          if (attendeesUuid.includes(decodedQr.userInfo.uuid))
+            navigate(baseURL + "user-found/" + decodedQr.userInfo.uuid);
+          else navigate(baseURL + "user-not-found");
         } else {
           navigate(baseURL + "qr-not-found");
         }

@@ -97,7 +97,13 @@ const UserDialog = ({ user, open, onClose }) => {
         )}
       </Grid>
       <DialogActions>
-        <Button onClick={onClose} color="agesciPurple">
+        <Button
+          onClick={onClose}
+          color="agesciPurple"
+          variant="contained"
+          disableElevation
+          sx={{ position: "absolute", bottom: 20, right: 20 }}
+        >
           Chiudi
         </Button>
       </DialogActions>

@@ -275,7 +275,7 @@ export const router = [
                         ],
                       },
                       {
-                        path: "/controlloAccessi/:eventId/user-found",
+                        path: "/controlloAccessi/:eventId/user-found/:userId",
                         element: <AccessControlWrapper Layout={GreenLayout} />,
                         children: [{ index: true, element: <UserFound /> }],
                       },

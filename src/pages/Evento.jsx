@@ -264,26 +264,14 @@ export default function Evento() {
               </Stack>
             </Grid>
 
-            {/* BEGIN */}
-            {user?.permissions?.can_scan_qr && (
-              <Grid item xs={6}>
-                <Stack direction="column" marginY={"24px"}>
-                  <Typography fontSize="14px" fontWeight={600}>
-                    Elenco partecipanti:
-                  </Typography>
-                  {attendees.length === 0 ? (
-                    <Typography
-                      variant="subtitle2"
-                      fontSize="12px"
-                      fontWeight={400}
-                      textAlign="left"
-                      mb="4px"
-                      sx={{ color: "#666A66" }}
-                    >
-                      Non disponibile
+            {user?.permissions?.can_scan_qr &&
+              event.is_registration_required && (
+                <Grid item xs={6}>
+                  <Stack direction="column" marginY={"24px"}>
+                    <Typography fontSize="14px" fontWeight={600}>
+                      Elenco partecipanti:
                     </Typography>
-                  ) : (
-                    <>
+                    {attendees.length === 0 ? (
                       <Typography
                         variant="subtitle2"
                         fontSize="12px"
@@ -292,29 +280,40 @@ export default function Evento() {
                         mb="4px"
                         sx={{ color: "#666A66" }}
                       >
-                        Disponibile anche offline
+                        Non disponibile
                       </Typography>
-                      <Link to="partecipanti">
+                    ) : (
+                      <>
                         <Typography
                           variant="subtitle2"
                           fontSize="12px"
-                          fontWeight={600}
+                          fontWeight={400}
                           textAlign="left"
                           mb="4px"
-                          sx={{
-                            color: "agesciPurple.main",
-                            textDecoration: "underline",
-                          }}
+                          sx={{ color: "#666A66" }}
                         >
-                          Visualizza
+                          Disponibile anche offline
                         </Typography>
-                      </Link>
-                    </>
-                  )}
-                </Stack>
-              </Grid>
-            )}
-            {/* END */}
+                        <Link to="partecipanti">
+                          <Typography
+                            variant="subtitle2"
+                            fontSize="12px"
+                            fontWeight={600}
+                            textAlign="left"
+                            mb="4px"
+                            sx={{
+                              color: "agesciPurple.main",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            Visualizza
+                          </Typography>
+                        </Link>
+                      </>
+                    )}
+                  </Stack>
+                </Grid>
+              )}
           </Grid>
           {description && (
             <Stack direction="column">
@@ -330,23 +329,25 @@ export default function Evento() {
         <Box sx={{ height: "20px" }} />
         <Outlet />
         <Box sx={{ height: "20px" }} />
-        {user?.permissions?.can_scan_qr && attendees.length > 0 && (
-          <>
-            <Box sx={{ height: "80px" }}></Box>
-            <Fab
-              color="agesciPurple"
-              style={{
-                position: "fixed",
-                right: "24px",
-                bottom: "100px",
-              }}
-              LinkComponent={Link}
-              to={`/controlloAccessi/${event.uuid}`}
-            >
-              <QrCodeIcon sx={{ color: "#FFFFFF" }} />
-            </Fab>
-          </>
-        )}
+        {user?.permissions?.can_scan_qr &&
+          attendees.length > 0 &&
+          event.is_registration_required && (
+            <>
+              <Box sx={{ height: "80px" }}></Box>
+              <Fab
+                color="agesciPurple"
+                style={{
+                  position: "fixed",
+                  right: "24px",
+                  bottom: "100px",
+                }}
+                LinkComponent={Link}
+                to={`/controlloAccessi/${event.uuid}`}
+              >
+                <QrCodeIcon sx={{ color: "#FFFFFF" }} />
+              </Fab>
+            </>
+          )}
       </WhitePaper>
     </>
   );
