@@ -122,6 +122,8 @@ export default function AttendeesList() {
   if (!user.permissions.can_scan_qr) {
     navigate(`/eventi/${eventId}/`);
   }
+  const scannedAttendees =
+    JSON.parse(localStorage.getItem(`scannedAttendees-${eventId}`)) ?? [];
 
   return (
     <>
@@ -140,31 +142,41 @@ export default function AttendeesList() {
           Elenco partecipanti
         </Typography>
 
-        {attendees.map((attendee) => (
-          <Card key={attendee.uuid} sx={{ m: 1 }}>
-            <CardActionArea
-              onClick={() => {
-                setSelectedUser(attendee);
-                setOpenDialog(true);
+        {attendees.map((attendee) => {
+          const scanned = scannedAttendees.includes(attendee.uuid);
+          return (
+            <Card
+              key={attendee.uuid}
+              sx={{
+                m: 1,
+                color: scanned ? "agesciGreen.main" : "#000000",
+                backgroundColor: scanned ? "#EBF6F0" : "white",
               }}
             >
-              <CardContent>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography fontSize="14px" fontWeight={600}>
-                    {attendee.first_name} {attendee.last_name}
+              <CardActionArea
+                onClick={() => {
+                  setSelectedUser(attendee);
+                  setOpenDialog(true);
+                }}
+              >
+                <CardContent>
+                  <Stack direction="row" justifyContent="space-between">
+                    <Typography fontSize="14px" fontWeight={600}>
+                      {attendee.first_name} {attendee.last_name}
+                    </Typography>
+                    <Typography fontSize="14px" fontWeight={400}>
+                      {attendee.agesci_id}
+                    </Typography>
+                  </Stack>
+                  <Typography fontSize="12px" fontWeight={400}>
+                    {attendee.scout_group?.name} - {attendee.scout_group?.zone}{" "}
+                    - {attendee.scout_group?.region}
                   </Typography>
-                  <Typography fontSize="14px" fontWeight={400}>
-                    {attendee.agesci_id}
-                  </Typography>
-                </Stack>
-                <Typography fontSize="12px" fontWeight={400}>
-                  {attendee.scout_group?.name} - {attendee.scout_group?.zone} -{" "}
-                  {attendee.scout_group?.region}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          );
+        })}
       </Box>
       <UserDialog
         user={selectedUser}

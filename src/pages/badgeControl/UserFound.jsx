@@ -44,7 +44,14 @@ export default function UserFound() {
   const { attendees } = useEventAttendees(eventId);
 
   const attendee = attendees.find((attendee) => attendee.uuid === userId);
-  console.log(attendee);
+
+  const scannedAttendees =
+    JSON.parse(localStorage.getItem(`scannedAttendees-${eventId}`)) ?? [];
+  scannedAttendees.push(attendee.uuid);
+  localStorage.setItem(
+    `scannedAttendees-${eventId}`,
+    JSON.stringify(scannedAttendees)
+  );
 
   return (
     <MainContainer>
