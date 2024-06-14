@@ -105,7 +105,7 @@ function useEventInvitations() {
 function useEventAttendees(eventId) {
   const { user } = useUser();
   const shouldFetch = user && user.permissions.can_scan_qr;
-  const fetchUrl = shouldFetch ? `events/${eventId}/attendees` : null;
+  const fetchUrl = shouldFetch ? `events/${eventId}/attendees/` : null;
   const { data, error, mutate } = useSWR(fetchUrl, APIgetEventAttendees, {
     refreshInterval: 30000,
   });
