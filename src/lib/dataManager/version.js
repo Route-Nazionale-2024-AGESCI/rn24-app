@@ -73,7 +73,6 @@ export function useRefreshData() {
       refreshEventList().then(() => {
         setEventsUpdated(true);
         revalidator.revalidate();
-        console.log("events updated");
       });
     }
   }, [eventsUpdated, revalidator]);
@@ -82,7 +81,6 @@ export function useRefreshData() {
       refreshPages().then(() => {
         setPagesUpdated(true);
         revalidator.revalidate();
-        console.log("pages updated");
       });
     }
   }, [pagesUpdated, revalidator]);
@@ -91,7 +89,6 @@ export function useRefreshData() {
       refreshLocationList().then(() => {
         setLocationsUpdated(true);
         revalidator.revalidate();
-        console.log("locations updated");
       });
     }
   }, [locationsUpdated, revalidator]);
@@ -102,7 +99,6 @@ export function useRefreshData() {
       isBefore(localEventsVersion, eventsVersion)
     ) {
       setEventsUpdated(false);
-      console.log("events need update");
     }
   }, [eventsVersion, localEventsVersion]);
   useEffect(() => {
@@ -112,7 +108,6 @@ export function useRefreshData() {
       isBefore(localPagesVersion, pagesVersion)
     ) {
       setPagesUpdated(false);
-      console.log("pages need update");
     }
   }, [pagesVersion, localPagesVersion]);
   useEffect(() => {
@@ -122,7 +117,6 @@ export function useRefreshData() {
       isBefore(localLocationsVersion, locationsVersion)
     ) {
       setLocationsUpdated(false);
-      console.log("locations need update");
     }
   }, [locationsVersion, localLocationsVersion]);
 }
