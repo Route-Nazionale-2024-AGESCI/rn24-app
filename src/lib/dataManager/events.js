@@ -1,4 +1,5 @@
 import axios from "../api";
+import useSWR from "swr";
 
 //   Doc:
 //   /api/v1/schema/redoc/#tag/api/operation/api_v1_events_list
@@ -13,6 +14,28 @@ export async function getEventList() {
 // /api/v1/events/{uuid}/
 export async function getEvent(uuid) {
   const response = await axios.get(`events/${uuid}/`);
+
+  return response.data;
+}
+
+export async function getEventCheckIn(url) {
+  const response = await axios.get(url);
+
+  return response.data;
+}
+
+export function useCheckIn(uuid) {
+  return useSWR(uuid ? `events/${uuid}/check-in/` : null, getEventCheckIn);
+}
+
+export async function postEventCheckIn(uuid, check_in = true) {
+  const response = await axios.post(`events/${uuid}/check-in/`, { check_in });
+
+  return response.data;
+}
+
+export async function deleteEventCheckIn(uuid) {
+  const response = await axios.delete(`events/${uuid}/check-in/`);
 
   return response.data;
 }

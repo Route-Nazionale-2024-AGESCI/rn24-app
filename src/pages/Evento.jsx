@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useLoaderData, Outlet, Link } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
@@ -5,14 +6,18 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonIcon from "@mui/icons-material/Person";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
 
 import WhitePaper from "../ui/WhitePaper";
+import AccessButton from "../ui/AccessButton";
 
 import getEventColor from "../lib/eventColor";
 import { italianMonth } from "../lib/italianDate";
@@ -21,12 +26,45 @@ import { getLocation } from "../lib/cacheManager/locations";
 import { getEvent, useEventAttendees } from "../lib/cacheManager/events";
 import { getPage } from "../lib/cacheManager/pages";
 import { useUser } from "../lib/cacheManager/user";
+import {
+  useCheckIn,
+  postEventCheckIn,
+  deleteEventCheckIn,
+} from "../lib/dataManager/events";
 import HtmlWithRouterLinks from "../lib/htmlParser";
+
+import { useNetworkState } from "@uidotdev/usehooks";
+
+const ErrorAlert = ({ errorMsg, onClose }) => (
+  <Fade in={errorMsg !== null}>
+    <Alert
+      severity="error"
+      onClose={onClose}
+      sx={{
+        width: "80%",
+        maxWidth: "400px",
+        position: "fixed",
+        bottom: "100px",
+        left: "50%",
+        translate: `calc(-50%)`,
+        zIndex: "2000",
+      }}
+    >
+      {errorMsg}
+    </Alert>
+  </Fade>
+);
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const location = await getLocation(event.location);
   const description = await getPage(event.page);
+  // let check_in;
+  // if (event.kind === "TRACCE") {
+  //   check_in = await getEventCheckIn(event.uuid);
+  // } else {
+  //   check_in = null;
+  // }
 
   return { event, location, description };
 }
@@ -35,6 +73,22 @@ export default function Evento() {
   const { event, location, description } = useLoaderData();
   const { user } = useUser();
   const { attendees } = useEventAttendees(event.uuid);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const networkState = useNetworkState();
+  const { data, mutate } = useCheckIn(
+    event.kind === "TRACCE" ? event.uuid : null
+  );
+  const { check_in } = data ?? { check_in: null };
+
+  useEffect(() => {
+    if (error !== null) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const standName = location?.name ?? "Luogo non definito";
   const startDT = event?.starts_at ? new Date(event.starts_at) : undefined;
@@ -42,6 +96,26 @@ export default function Evento() {
   const registrationDT = event?.registrations_open_at
     ? new Date(event.registrations_open_at)
     : undefined;
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      if (check_in === false) {
+        await postEventCheckIn(event.uuid);
+        mutate({ check_in: true });
+        // mutate();
+      } else {
+        await deleteEventCheckIn(event.uuid);
+        mutate({ check_in: false });
+        // mutate()
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Si è verificato un errore");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -327,7 +401,39 @@ export default function Evento() {
           )}
         </Box>
         <Box sx={{ height: "20px" }} />
-        <Outlet />
+        <Box>
+          <Outlet />
+          <Box sx={{ height: "20px" }} />
+          {event.kind === "TRACCE" &&
+            networkState.online &&
+            check_in !== null && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <AccessButton
+                  sx={{ opacity: loading ? "50%" : "100%", m: 0 }}
+                  disabled={loading}
+                  onClick={handleSubmit}
+                >
+                  <Typography fontSize="16px" fontWeight={600}>
+                    {check_in === false
+                      ? "Inizia il Servizio"
+                      : "Segna come non iniziato"}
+                  </Typography>
+                  {loading && (
+                    <CircularProgress
+                      size="20px"
+                      sx={{ marginLeft: "12px", color: "#000000" }}
+                    />
+                  )}
+                </AccessButton>
+              </Box>
+            )}
+        </Box>
         <Box sx={{ height: "20px" }} />
         {user?.permissions?.can_scan_qr &&
           attendees.length > 0 &&
@@ -348,6 +454,7 @@ export default function Evento() {
               </Fab>
             </>
           )}
+        <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
       </WhitePaper>
     </>
   );
