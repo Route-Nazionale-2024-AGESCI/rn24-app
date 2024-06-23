@@ -40,6 +40,12 @@ const UserInfo = ({
 
 export default function Profilo() {
   const { user } = useUser();
+  let happinessPath = (user?.scout_group?.happiness_path ?? "")
+    .replace(/_/g, " ")
+    .toLowerCase();
+  happinessPath =
+    happinessPath.charAt(0).toUpperCase() + happinessPath.slice(1);
+
   return (
     <>
       <Typography
@@ -114,6 +120,9 @@ export default function Profilo() {
                   {user?.scout_group?.line?.name}
                 </Typography>
               </Link>
+            </UserInfo>
+            <UserInfo title="Percorso di felicità" fullWidth>
+              {happinessPath}
             </UserInfo>
             <UserInfo title="Email" fullWidth>
               {user?.email}
