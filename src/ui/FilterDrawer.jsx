@@ -10,9 +10,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+// import Radio from "@mui/material/Radio";
+// import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -100,8 +100,8 @@ const countFilters = (filters) => {
   let n = 0;
   if (filters.name !== "") n++;
   if (filters.kind !== "") n++;
-  if (filters.aperturaIscrizioni !== null) n++;
-  if (filters.isRegistered !== null) n++;
+  //if (filters.aperturaIscrizioni !== null) n++;
+  //if (filters.isRegistered !== null) n++;
   return n;
 };
 
@@ -109,10 +109,10 @@ export default function FilterDrawer({ open, onClose }) {
   const { filters, updateFilter } = useFilters();
   const [name, setName] = useState(filters.name);
   const [kind, setKind] = useState(filters.kind);
-  const [aperturaIscrizioni, setAperturaIscrizioni] = useState(
-    filters.aperturaIscrizioni
-  );
-  const [isRegistered, setIsRegistered] = useState(filters.isRegistered);
+  // const [aperturaIscrizioni, setAperturaIscrizioni] = useState(
+  //   filters.aperturaIscrizioni
+  // );
+  // const [isRegistered, setIsRegistered] = useState(filters.isRegistered);
 
   return (
     <Drawer open={open} onClose={onClose}>
@@ -156,7 +156,7 @@ export default function FilterDrawer({ open, onClose }) {
             </Select>
           </FormControl>
         </FilterAccordion>
-        <FilterAccordion title="Stato Iscrizione">
+        {/* <FilterAccordion title="Stato Iscrizione">
           <FormControl>
             <RadioGroup
               row
@@ -217,7 +217,7 @@ export default function FilterDrawer({ open, onClose }) {
               />
             </RadioGroup>
           </FormControl>
-        </FilterAccordion>
+        </FilterAccordion> */}
         <Box
           sx={{
             display: "flex",
@@ -231,8 +231,8 @@ export default function FilterDrawer({ open, onClose }) {
             onClick={(ev) => {
               updateFilter("name", name);
               updateFilter("kind", kind);
-              updateFilter("aperturaIscrizioni", aperturaIscrizioni);
-              updateFilter("isRegistered", isRegistered);
+              //updateFilter("aperturaIscrizioni", aperturaIscrizioni);
+              //updateFilter("isRegistered", isRegistered);
               onClose();
             }}
           >
@@ -246,12 +246,12 @@ export default function FilterDrawer({ open, onClose }) {
             onClick={(ev) => {
               updateFilter("name", "");
               updateFilter("kind", "");
-              updateFilter("aperturaIscrizioni", null);
-              updateFilter("isRegistered", null);
+              //updateFilter("aperturaIscrizioni", null);
+              //updateFilter("isRegistered", null);
               setName("");
               setKind("");
-              setAperturaIscrizioni(null);
-              setIsRegistered(null);
+              //setAperturaIscrizioni(null);
+              //setIsRegistered(null);
               onClose();
             }}
           >

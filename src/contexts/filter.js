@@ -6,8 +6,8 @@ export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     name: "",
     kind: "",
-    aperturaIscrizioni: null,
-    isRegistered: null,
+    //aperturaIscrizioni: null,
+    //isRegistered: null,
   });
 
   const updateFilter = (filterName, value) => {
@@ -32,7 +32,7 @@ export const applyFilter = (events, filters, registrations) => {
   const now = new Date();
 
   return events.filter((event) => {
-    const { name, kind, aperturaIscrizioni, isRegistered } = filters;
+    const { name, kind /*aperturaIscrizioni, isRegistered*/ } = filters;
     const eventStart = new Date(event.starts_at);
 
     // Filtra per nome
@@ -42,46 +42,47 @@ export const applyFilter = (events, filters, registrations) => {
     const kindMatch = kind ? event.kind === kind : true;
 
     // Filtra per aperturaIscrizioni
-    let registrationOpenMatch = true;
-    if (aperturaIscrizioni !== null) {
-      if (
-        event.registrations_open_at === null &&
-        event.registrations_close_at === null
-      ) {
-        registrationOpenMatch = aperturaIscrizioni === true;
-      } else if (event.registrations_open_at === null) {
-        const registrationClose = new Date(event.registrations_close_at);
-        registrationOpenMatch =
-          aperturaIscrizioni === true
-            ? now < registrationClose
-            : now >= registrationClose;
-      } else if (event.registrations_close_at === null) {
-        const registrationOpen = new Date(event.registrations_open_at);
-        registrationOpenMatch =
-          aperturaIscrizioni === true
-            ? now >= registrationOpen
-            : now < registrationOpen;
-      } else {
-        const registrationOpen = new Date(event.registrations_open_at);
-        const registrationClose = new Date(event.registrations_close_at);
-        registrationOpenMatch =
-          aperturaIscrizioni === true
-            ? now >= registrationOpen && now < registrationClose
-            : now < registrationOpen || now >= registrationClose;
-      }
+    // let registrationOpenMatch = true;
+    // if (aperturaIscrizioni !== null) {
+    //   if (
+    //     event.registrations_open_at === null &&
+    //     event.registrations_close_at === null
+    //   ) {
+    //     registrationOpenMatch = aperturaIscrizioni === true;
+    //   } else if (event.registrations_open_at === null) {
+    //     const registrationClose = new Date(event.registrations_close_at);
+    //     registrationOpenMatch =
+    //       aperturaIscrizioni === true
+    //         ? now < registrationClose
+    //         : now >= registrationClose;
+    //   } else if (event.registrations_close_at === null) {
+    //     const registrationOpen = new Date(event.registrations_open_at);
+    //     registrationOpenMatch =
+    //       aperturaIscrizioni === true
+    //         ? now >= registrationOpen
+    //         : now < registrationOpen;
+    //   } else {
+    //     const registrationOpen = new Date(event.registrations_open_at);
+    //     const registrationClose = new Date(event.registrations_close_at);
+    //     registrationOpenMatch =
+    //       aperturaIscrizioni === true
+    //         ? now >= registrationOpen && now < registrationClose
+    //         : now < registrationOpen || now >= registrationClose;
+    //   }
 
-      // Non ci si può iscrivere ad un evento una volta che è iniziato
-      if (event.registrations_close_at === null && now >= eventStart) {
-        registrationOpenMatch = false;
-      }
-    }
+    //   // Non ci si può iscrivere ad un evento una volta che è iniziato
+    //   if (event.registrations_close_at === null && now >= eventStart) {
+    //     registrationOpenMatch = false;
+    //   }
+    // }
 
-    // Filtra per stato dell'iscrizione
-    const isRegisteredMatch =
-      isRegistered !== null
-        ? registrations.some((reg) => reg.event === event.uuid) === isRegistered
-        : true;
+    // // Filtra per stato dell'iscrizione
+    // const isRegisteredMatch =
+    //   isRegistered !== null
+    //     ? registrations.some((reg) => reg.event === event.uuid) === isRegistered
+    //     : true;
 
-    return nameMatch && kindMatch && registrationOpenMatch && isRegisteredMatch;
+    //return nameMatch && kindMatch && registrationOpenMatch && isRegisteredMatch;
+    return nameMatch && kindMatch;
   });
 };
