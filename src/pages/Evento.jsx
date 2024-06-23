@@ -57,8 +57,8 @@ const ErrorAlert = ({ errorMsg, onClose }) => (
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
-  const location = await getLocation(event.location);
-  const description = await getPage(event.page);
+  const location = await getLocation(event?.location);
+  const description = await getPage(event?.page);
   // let check_in;
   // if (event.kind === "TRACCE") {
   //   check_in = await getEventCheckIn(event.uuid);
@@ -72,14 +72,20 @@ export async function loader({ params }) {
 export default function Evento() {
   const { event, location, description } = useLoaderData();
   const { user } = useUser();
-  const { attendees } = useEventAttendees(event.uuid);
+  const { attendees } = useEventAttendees(event?.uuid);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const networkState = useNetworkState();
   const { data, mutate } = useCheckIn(
-    event.kind === "TRACCE" ? event.uuid : null
+    event?.kind === "TRACCE" ? event?.uuid : null
   );
   const { check_in } = data ?? { check_in: null };
+
+  if (event === null) {
+    throw new Error(
+      "Evento non trovato... Assicurati di aver inserito l'ID corretto"
+    );
+  }
 
   useEffect(() => {
     if (error !== null) {

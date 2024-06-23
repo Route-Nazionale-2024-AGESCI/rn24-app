@@ -6,6 +6,7 @@ import {
   getEventAttendees as APIgetEventAttendees,
 } from "../dataManager/events";
 import { useUser } from "./user";
+import isValidUUID, { isValidId } from "../uuid";
 
 async function getEventList() {
   let events, version;
@@ -34,7 +35,11 @@ async function refreshEventList() {
 
 async function getEvent(uuid) {
   const { events } = await getEventList();
-  return events.find((event) => event.uuid === uuid);
+  if (isValidUUID(uuid))
+    return events.find((event) => event.uuid === uuid) ?? null;
+  else if (isValidId(uuid))
+    return events.find((event) => event.id === Number(uuid)) ?? null;
+  return null;
 }
 
 async function getTraccia() {

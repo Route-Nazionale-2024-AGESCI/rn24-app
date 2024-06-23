@@ -90,6 +90,7 @@ export const router = [
 
           {
             element: <AuthMiddleware />,
+            errorElement: <SegmentedError />,
             children: [
               {
                 element: <FilterMiddleware />,
@@ -100,6 +101,7 @@ export const router = [
                     children: [
                       {
                         element: <AppBarLayout />,
+                        errorElement: <SegmentedError />,
                         children: [
                           {
                             element: <FabLayout />,

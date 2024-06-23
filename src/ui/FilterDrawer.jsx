@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ButtonBase from "@mui/material/ButtonBase";
 import InputBase from "@mui/material/InputBase";
 import Drawer from "@mui/material/Drawer";
@@ -109,6 +110,8 @@ export default function FilterDrawer({ open, onClose }) {
   const { filters, updateFilter } = useFilters();
   const [name, setName] = useState(filters.name);
   const [kind, setKind] = useState(filters.kind);
+  const [id, setId] = useState(null);
+  const navigate = useNavigate();
   // const [aperturaIscrizioni, setAperturaIscrizioni] = useState(
   //   filters.aperturaIscrizioni
   // );
@@ -257,6 +260,40 @@ export default function FilterDrawer({ open, onClose }) {
           >
             <Typography fontSize="16px" fontWeight={600} color="agesciRed.main">
               Elimina Filtri
+            </Typography>
+          </AccessButton>
+        </Box>
+        <Typography
+          fontSize="20px"
+          fontWeight={900}
+          sx={{ ml: "16px", mt: "72px", mb: "24px" }}
+        >
+          Ricerca
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            //mt: "48px",
+            px: "16px",
+          }}
+        >
+          <StyledTextField
+            placeholder="Cerca tramite ID"
+            color="agesciPurple"
+            value={id}
+            onChange={(ev) => setId(ev.target.value)}
+            sx={{ width: "100%" }}
+          />
+          <AccessButton
+            sx={{ m: 0, mt: "24px" }}
+            onClick={(ev) => {
+              onClose();
+              navigate(`/eventi/${id}`);
+            }}
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Vai
             </Typography>
           </AccessButton>
         </Box>
