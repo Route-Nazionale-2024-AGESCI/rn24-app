@@ -113,9 +113,11 @@ export default function Programma() {
     });
   };
   const invUuid = invitations.map((inv) => inv.uuid);
+  const registrationUuid = registrations.map((reg) => reg.event);
   const visibleEvents = events
     .filter((ev) => invUuid.includes(ev.uuid))
-    .filter((ev) => ev.kind !== "LOGISTICO");
+    .filter((ev) => registrationUuid.includes(ev.uuid));
+  //.filter((ev) => ev.kind !== "LOGISTICO");
 
   const filteredEvents = applyFilter(
     filterEventsByDate(visibleEvents, selectedDay),
