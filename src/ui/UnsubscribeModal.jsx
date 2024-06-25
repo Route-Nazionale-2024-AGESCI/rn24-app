@@ -20,13 +20,15 @@ export default function UnsubscribeModal({ open, onClose, unsubscribe }) {
     >
       <DialogTitle id="unsubscribe-dialog-title" textAlign={"center"}>
         <Typography fontSize={"20px"} fontWeight={600}>
-          Vuoi davvero cancellare l'iscrizione all'evento?
+          Annulla Iscrizione
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText sx={{ fontSize: "16px", color: "#000000" }}>
-          Se l'evento ha un numero di posti limitato, potresti non poterti più
-          iscrivere
+        <DialogContentText
+          sx={{ fontSize: "16px", color: "#000000", textAlign: "center" }}
+        >
+          Una volta eliminata l'iscrizione potresti non riuscire ad iscriverti
+          più a questo evento
         </DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -28,7 +28,9 @@ export default function LogoutModal({ open, onClose }) {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText sx={{ fontSize: "16px", color: "#000000" }}>
+        <DialogContentText
+          sx={{ fontSize: "16px", color: "#000000", textAlign: "center" }}
+        >
           Per poter usare nuovamente l'App dovrai riconnetterti: ti serviranno
           una connessione internet, il tuo codice socio e la tua password
         </DialogContentText>
