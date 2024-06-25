@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { getLocationList as APIgetLocationList } from "../dataManager/locations";
 
 async function getLocationList() {
@@ -32,4 +33,16 @@ async function getLocation(uuid) {
   return locations.find((loc) => loc.uuid === uuid);
 }
 
-export { getLocationList, getLocation, refreshLocationList };
+function useLocations() {
+  const [locations, setLocations] = useState([]);
+  useEffect(() => {
+    const loadLocations = async () => {
+      const { locations } = await getLocationList();
+      setLocations(locations);
+    };
+    loadLocations();
+  }, []);
+  return locations;
+}
+
+export { getLocationList, getLocation, refreshLocationList, useLocations };
