@@ -55,10 +55,14 @@ export default function IncontriPlanner() {
                 day: "numeric",
               })
               .replace(/\//g, "-")}
-            happinessPath={e.happiness_path
-              .toLowerCase()
-              .replace(/_/g, " ")
-              .replace(/^\w/, (c) => c.toUpperCase())} // Capitalize first character
+            happinessPath={
+              e.happiness_path
+                ? e.happiness_path
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .replace(/^\w/, (c) => c.toUpperCase()) // Capitalize first character
+                : null
+            }
             title={e.name}
             idAccadimento={e.correlation_id}
           />

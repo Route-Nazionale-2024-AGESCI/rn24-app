@@ -47,22 +47,6 @@ export default function IncontroGeneralCard({
         >
           Incontri
         </Typography>
-        {/* <Stack direction={"row"} alignItems={"center"}>
-            <Typography
-              fontSize="14px"
-              fontWeight={600}
-              color="agesciPurple.main"
-            >
-              10/25
-            </Typography>
-            <PersonIcon
-              fontSize="14px"
-              color="agesciPurple"
-              sx={{
-                translate: "0 -1px",
-              }}
-            />
-          </Stack> */}
       </Stack>
       <Stack direction={"row"} gap="10px" mt="16px" alignItems={"center"}>
         <Box
@@ -107,19 +91,21 @@ export default function IncontroGeneralCard({
           {date}
         </Typography>
       </Stack>
-      <Stack direction="row" spacing="8px" alignItems="center">
-        <Diversity1RoundedIcon sx={{ fontSize: 14, color: "#666A66" }} />
-        <Typography
-          variant="subtitle2"
-          fontSize="14px"
-          fontWeight={400}
-          textAlign="left"
-          mb="4px"
-          sx={{ color: "#666A66" }}
-        >
-          {happinessPath}
-        </Typography>
-      </Stack>
+      {happinessPath !== null && (
+        <Stack direction="row" spacing="8px" alignItems="center">
+          <Diversity1RoundedIcon sx={{ fontSize: 14, color: "#666A66" }} />
+          <Typography
+            variant="subtitle2"
+            fontSize="14px"
+            fontWeight={400}
+            textAlign="left"
+            mb="4px"
+            sx={{ color: "#666A66" }}
+          >
+            {happinessPath}
+          </Typography>
+        </Stack>
+      )}
     </Button>
   );
 }
