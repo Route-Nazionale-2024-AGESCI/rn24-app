@@ -6,24 +6,27 @@ export default function getEventColor(kind) {
         bg: "#EBF6F0",
       };
     case "SGUARDI":
-      return {
-        main: "agesciYellow.main",
-        bg: "#F5E7D3",
-      };
     case "INCONTRI":
-      return {
-        main: "agesciRed.main",
-        bg: "#FDEEEE",
-      };
     case "CONFRONTI":
+    case "TRACCE":
       return {
         main: "agesciPurple.main",
         bg: "#E2DCEA",
       };
-    case "TRACCE":
+    case "PASTI":
+      return {
+        main: "agesciYellow.main",
+        bg: "#F5E7D3",
+      };
+    case "DOCCIA":
       return {
         main: "agesciBlue.main",
-        bg: "#caf0f8",
+        bg: "#E6F7FC",
+      };
+    case "LOGISTICO":
+      return {
+        main: "agesciRed.main",
+        bg: "#FDEEEE",
       };
     default:
       return {
