@@ -45,8 +45,15 @@ import RoutePlanner, {
 import IncontriPlanner, {
   loader as incontriPlannerLoader,
 } from "./pages/planner/IncontriPlanner";
-import ConfrontiPlanner from "./pages/planner/ConfrontiPlanner";
-import SguardiPlanner from "./pages/planner/SguardiPlanner";
+import ConfrontiPlanner, {
+  loader as confrontiPlannerLoader,
+} from "./pages/planner/ConfrontiPlanner";
+import SguardiPlanner, {
+  loader as sguardiPlannerLoader,
+} from "./pages/planner/SguardiPlanner";
+import AccadimentoPlanner, {
+  loader as accadimentoPlannerLoader,
+} from "./pages/planner/AccadimentoPlanner";
 
 import { FilterProvider } from "./contexts/filter";
 import { useAuth } from "./contexts/auth";
@@ -199,10 +206,17 @@ export const router = [
                           {
                             path: "progetta-route/sguardi",
                             element: <SguardiPlanner />,
+                            loader: sguardiPlannerLoader,
                           },
                           {
                             path: "progetta-route/confronti",
                             element: <ConfrontiPlanner />,
+                            loader: confrontiPlannerLoader,
+                          },
+                          {
+                            path: "progetta-route/incontri/:idAccadimento",
+                            element: <AccadimentoPlanner />,
+                            loader: accadimentoPlannerLoader,
                           },
                         ],
                       },

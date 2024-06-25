@@ -59,13 +59,6 @@ export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const location = await getLocation(event?.location);
   const description = await getPage(event?.page);
-  // let check_in;
-  // if (event.kind === "TRACCE") {
-  //   check_in = await getEventCheckIn(event.uuid);
-  // } else {
-  //   check_in = null;
-  // }
-
   return { event, location, description };
 }
 
@@ -165,8 +158,29 @@ export default function Evento() {
               </Stack>
             </Grid>
             <Grid item xs={6}>
-              <Stack direction="column">
-                {((event.registration_limit &&
+              {event.is_registration_required &&
+                event.registration_limit !== null && (
+                  <Stack direction="column">
+                    <Typography fontSize="14px" fontWeight={600}>
+                      Numero Iscritti:
+                    </Typography>
+                    <Stack direction={"row"} alignItems={"center"} gap="4px">
+                      <Typography
+                        fontSize="14px"
+                        fontWeight={600}
+                        color="agesciPurple.main"
+                      >
+                        {event.personal_registrations_count}/
+                        {event.registration_limit}
+                      </Typography>
+                      <PersonIcon
+                        color="agesciPurple"
+                        sx={{ fontSize: "14px" }}
+                      />
+                    </Stack>
+                  </Stack>
+                )}
+              {/* {((event.registration_limit &&
                   event.registration_limit < 30000) ||
                   (event.registration_limit_from_same_scout_group &&
                     event.registration_limit_from_same_scout_group <
@@ -204,8 +218,7 @@ export default function Evento() {
                       {event.registration_limit_from_same_scout_group} dallo
                       stesso gruppo
                     </Typography>
-                  )}
-              </Stack>
+                  )} */}
             </Grid>
             <Grid item xs={6}>
               <Stack direction="column">
