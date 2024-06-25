@@ -39,6 +39,14 @@ import UserFound from "./pages/badgeControl/UserFound";
 import UserNotFound from "./pages/badgeControl/UserNotFound";
 import QrNotFound from "./pages/badgeControl/QrNotFound";
 import BadQr from "./pages/badgeControl/BadQr";
+import RoutePlanner, {
+  loader as routePlannerLoader,
+} from "./pages/planner/RoutePlanner";
+import IncontriPlanner, {
+  loader as incontriPlannerLoader,
+} from "./pages/planner/IncontriPlanner";
+import ConfrontiPlanner from "./pages/planner/ConfrontiPlanner";
+import SguardiPlanner from "./pages/planner/SguardiPlanner";
 
 import { FilterProvider } from "./contexts/filter";
 import { useAuth } from "./contexts/auth";
@@ -177,6 +185,24 @@ export const router = [
                           {
                             path: "profilo",
                             element: <Profilo />,
+                          },
+                          {
+                            path: "progetta-route",
+                            element: <RoutePlanner />,
+                            loader: routePlannerLoader,
+                          },
+                          {
+                            path: "progetta-route/incontri",
+                            element: <IncontriPlanner />,
+                            loader: incontriPlannerLoader,
+                          },
+                          {
+                            path: "progetta-route/sguardi",
+                            element: <SguardiPlanner />,
+                          },
+                          {
+                            path: "progetta-route/confronti",
+                            element: <ConfrontiPlanner />,
                           },
                         ],
                       },

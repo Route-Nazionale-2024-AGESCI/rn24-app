@@ -6,9 +6,9 @@ import {
   AddContactButton,
   BookletButton,
   QrCodeButton,
+  RoutePlannerButton,
 } from "../ui/CardButton";
 import EventSummaryCard from "../ui/EventSummaryCard";
-import ImageCard from "../ui/ImageCard";
 
 import {
   getEventList,
@@ -27,7 +27,6 @@ export async function loader() {
   return { events, locations };
 }
 
-// TODO: mostrare diversamente dagli altri gli eventi di tipo LOGISTICO ??
 export default function Home() {
   const { user } = useUser();
   const { events, locations } = useLoaderData();
@@ -86,14 +85,9 @@ export default function Home() {
       </Stack>
       <Box height="32px" />
       <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
-        Non stare a guardare!
+        La tua Route
       </Typography>
-      <ImageCard
-        imgSrc="Verona.jpg"
-        imgAlt="Verona"
-        title="Iscriviti a un Evento"
-        subtitle="Progetta la tua Route Capi scegliendo quale Felicità vuoi vivere"
-      />
+      <RoutePlannerButton />
       <Box sx={{ height: "40px" }} />
     </Box>
   );

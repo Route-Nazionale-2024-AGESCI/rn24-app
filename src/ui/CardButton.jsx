@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import RouteIcon from "@mui/icons-material/Route";
 
 export default function CardButton({ text, icon, bgColor, to = undefined }) {
   const linkProps =
@@ -26,6 +27,7 @@ export default function CardButton({ text, icon, bgColor, to = undefined }) {
     justifyContent: "start",
     pl: "16px",
     textAlign: "left",
+    color: "#ffffff",
   };
   return (
     <Button
@@ -70,6 +72,17 @@ export function BookletButton() {
       bgColor="agesciGreen"
       icon={<MenuBookIcon sx={{ mr: "8px" }} />}
       to="/libretto"
+    />
+  );
+}
+
+export function RoutePlannerButton() {
+  return (
+    <CardButton
+      text="Progetta la Tua Route"
+      bgColor="agesciYellow"
+      icon={<RouteIcon sx={{ mr: "8px" }} />}
+      to="/progetta-route"
     />
   );
 }
