@@ -25,10 +25,6 @@ export default function Libretto() {
           Al momento non sono ancora stati caricati materiali per il libretto
           della Route Nazionale.
         </Typography>
-        <Typography variant="body1" mt={6}>
-          Puoi controllare se ci sono aggiornamenti tramite l'icona delle
-          notifiche.
-        </Typography>
       </WhitePaper>
     </>
   );
