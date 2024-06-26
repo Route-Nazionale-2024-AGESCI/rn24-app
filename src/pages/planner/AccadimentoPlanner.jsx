@@ -18,7 +18,7 @@ export default function AccadimentoPlanner() {
   const { idAccadimento } = useParams();
   const incontri = useMemo(
     () => events.filter((e) => e.correlation_id === idAccadimento),
-    [events]
+    [events, idAccadimento]
   );
   return (
     <>

@@ -28,7 +28,7 @@ export default function IncontriPlanner() {
             ? e.happiness_path === user.scout_group.happiness_path
             : true)
       ),
-    [events]
+    [events, isAlfiere, user.scout_group.happiness_path]
   );
 
   const idAccadimento = useMemo(() => {
@@ -67,7 +67,7 @@ export default function IncontriPlanner() {
             idAccadimento={e.correlation_id}
           />
         )),
-    [idAccadimento]
+    [idAccadimento, incontri]
   );
 
   return (
