@@ -26,10 +26,6 @@ export default function Avvisi() {
           Al momento non sono disponibili indicazioni per la sicurezza durante
           la Route Nazionale.
         </Typography>
-        <Typography variant="body1" mt={6}>
-          Mantieni sempre aggioranta la tua App controllando l'icona delle
-          notifiche!
-        </Typography>
       </WhitePaper>
     </>
   );
