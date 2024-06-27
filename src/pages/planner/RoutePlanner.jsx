@@ -6,7 +6,10 @@ import Stack from "@mui/material/Stack";
 import WhitePaper from "../../ui/WhitePaper";
 import Banner from "./Banner";
 
-import { getEventList } from "../../lib/cacheManager/events";
+import {
+  getEventList,
+  useEventRegistrations,
+} from "../../lib/cacheManager/events";
 
 export async function loader() {
   const { events } = await getEventList();
@@ -15,17 +18,34 @@ export async function loader() {
 
 export default function RoutePlanner() {
   const { events } = useLoaderData();
-  const incontri = useMemo(
-    () => events.filter((e) => e.kind === "INCONTRI"),
-    [events]
+  const { registrations } = useEventRegistrations();
+  const registrationsUuid = useMemo(
+    () => registrations.filter((r) => r.is_personal).map((r) => r.event),
+    [registrations]
   );
-  const confronti = useMemo(
-    () => events.filter((e) => e.kind === "CONFRONTI"),
-    [events]
+
+  const incontro = useMemo(
+    () =>
+      registrationsUuid.find((uuid) =>
+        events.filter((e) => e.kind === "INCONTRI").some((e) => e.uuid === uuid)
+      ),
+    [events, registrationsUuid]
   );
-  const sguardi = useMemo(
-    () => events.filter((e) => e.kind === "SGUARDI"),
-    [events]
+  const confronto = useMemo(
+    () =>
+      registrationsUuid.find((uuid) =>
+        events
+          .filter((e) => e.kind === "CONFRONTI")
+          .some((e) => e.uuid === uuid)
+      ),
+    [events, registrationsUuid]
+  );
+  const sguardo = useMemo(
+    () =>
+      registrationsUuid.find((uuid) =>
+        events.filter((e) => e.kind === "SGUARDI").some((e) => e.uuid === uuid)
+      ),
+    [events, registrationsUuid]
   );
   return (
     <>
@@ -39,9 +59,9 @@ export default function RoutePlanner() {
         }}
       >
         <Stack direction={"column"} alignItems={"center"} spacing={"20px"}>
-          <Banner type="incontri" events={incontri} />
-          <Banner type="confronti" events={confronti} />
-          <Banner type="sguardi" events={sguardi} />
+          <Banner type="incontri" event={incontro} />
+          <Banner type="confronti" event={confronto} />
+          <Banner type="sguardi" event={sguardo} />
         </Stack>
       </WhitePaper>
     </>

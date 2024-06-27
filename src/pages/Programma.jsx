@@ -1,30 +1,19 @@
-import {
-  useLoaderData,
-  Link as RouterLink,
-  useNavigate,
-} from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup, {
   toggleButtonGroupClasses,
 } from "@mui/material/ToggleButtonGroup";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-//import PersonIcon from "@mui/icons-material/Person";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PlaceIcon from "@mui/icons-material/Place";
 import HourglassTopRoundedIcon from "@mui/icons-material/HourglassTopRounded";
 import { styled } from "@mui/material/styles";
 
 import WhitePaper from "../ui/WhitePaper";
 import FilterDrawer, { FilterButton } from "../ui/FilterDrawer";
 import EventCard from "../ui/EventCard";
-
-import getEventColor from "../lib/eventColor";
 
 import {
   getEventList,
@@ -56,7 +45,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   },
 }));
 
-// TODO: implementare API per il numero di iscritti ??
 // /programma/?day=2024-08-23
 export async function loader({ request }) {
   const { events } = await getEventList();

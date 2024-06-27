@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Card from "@mui/material/Card";
@@ -7,22 +7,10 @@ import Typography from "@mui/material/Typography";
 import AccessButton from "../../ui/AccessButton";
 import AlfiereModal from "../../ui/AlfiereModal";
 
-import { useEventRegistrations } from "../../lib/cacheManager/events";
-
-export default function Banner({ type, events }) {
+export default function Banner({ type, event }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { registrations } = useEventRegistrations();
-  const registrationsUuid = useMemo(
-    () => registrations.filter((r) => r.is_personal).map((r) => r.event),
-    [registrations]
-  );
-  // id dell'evento a cui l'utente è già registrato, oppure undefined
-  const alreadyRegistered = useMemo(
-    () => registrationsUuid.find((uuid) => events.some((e) => e.uuid === uuid)),
-    [events, registrationsUuid]
-  );
   const title =
     type === "sguardi"
       ? "Sguardi"
@@ -52,7 +40,7 @@ export default function Banner({ type, events }) {
           {title}
         </Typography>
         <Typography color="#2B2D2B" fontSize="16px">
-          {alreadyRegistered !== undefined
+          {event !== undefined
             ? `Complimenti, hai già scelto l'evento di tipo ${title} a cui partecipare! Se vuoi modificarlo, clicca qui sotto.`
             : `Seleziona l'evento di tipo ${title} a cui partecipare!`}
         </Typography>
@@ -65,8 +53,8 @@ export default function Banner({ type, events }) {
             maxWidth: "400px",
           }}
           onClick={
-            alreadyRegistered !== undefined
-              ? () => navigate(`/eventi/${alreadyRegistered}`)
+            event !== undefined
+              ? () => navigate(`/eventi/${event}`)
               : type === "incontri"
               ? () => setOpen(true)
               : type === "confronti"
@@ -75,9 +63,7 @@ export default function Banner({ type, events }) {
           }
         >
           <Typography fontSize="16px" fontWeight={600}>
-            {alreadyRegistered !== undefined
-              ? "Modifica Evento"
-              : "Seleziona Evento"}
+            {event !== undefined ? "Modifica Evento" : "Seleziona Evento"}
           </Typography>
         </AccessButton>
       </Card>

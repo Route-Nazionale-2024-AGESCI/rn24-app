@@ -3,7 +3,10 @@ import { useLoaderData } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 
-import { getEventList } from "../../lib/cacheManager/events";
+import {
+  getEventList,
+  useEventInvitations,
+} from "../../lib/cacheManager/events";
 
 import EventCard from "../../ui/EventCard";
 import WhitePaper from "../../ui/WhitePaper";
@@ -15,9 +18,15 @@ export async function loader() {
 
 export default function ConfrontiPlanner() {
   const { events } = useLoaderData();
+  const { invitations } = useEventInvitations();
+  const invUuid = useMemo(
+    () => invitations.map((inv) => inv.uuid),
+    [invitations]
+  );
   const confronti = useMemo(
-    () => events.filter((e) => e.kind === "CONFRONTI"),
-    [events]
+    () =>
+      events.filter((e) => e.kind === "CONFRONTI" && invUuid.includes(e.uuid)),
+    [events, invUuid]
   );
   return (
     <>

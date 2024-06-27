@@ -3,7 +3,10 @@ import { useLoaderData } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 
-import { getEventList } from "../../lib/cacheManager/events";
+import {
+  getEventList,
+  useEventInvitations,
+} from "../../lib/cacheManager/events";
 import { useUser } from "../../lib/cacheManager/user";
 
 import WhitePaper from "../../ui/WhitePaper";
@@ -18,17 +21,23 @@ export async function loader({ request }) {
 export default function IncontriPlanner() {
   const { isAlfiere, events } = useLoaderData();
   const { user } = useUser();
+  const { invitations } = useEventInvitations();
+  const invUuid = useMemo(
+    () => invitations.map((inv) => inv.uuid),
+    [invitations]
+  );
 
   const incontri = useMemo(
     () =>
       events.filter(
         (e) =>
           e.kind === "INCONTRI" &&
+          invUuid.includes(e.uuid) &&
           (isAlfiere
             ? e.happiness_path === user.scout_group.happiness_path
             : true)
       ),
-    [events, isAlfiere, user.scout_group.happiness_path]
+    [events, isAlfiere, user.scout_group.happiness_path, invUuid]
   );
 
   const idAccadimento = useMemo(() => {
