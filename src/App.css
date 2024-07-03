@@ -72,3 +72,33 @@
   height: auto;
   border-radius: 8px;
 }
+
+.marker-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #c30b82;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+}
+
+.marker-pin::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+ }
+
+ 
+.marker-custom-icon {
+  position: absolute;
+  font-size: 14px;
+  left: -2px;
+  top: -4px;
+}

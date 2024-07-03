@@ -10,6 +10,18 @@ import "./App.css";
 import { router } from "./router";
 import AuthProvider, { useAuth } from "./contexts/auth";
 
+// import di tutte le icone fontawesome solid, da capire come filtrare
+// solo quelle utilizzate da noi e configurazione service worker
+import { library } from '@fortawesome/fontawesome-svg-core';
+import * as Icons from '@fortawesome/free-solid-svg-icons';
+
+const iconList = Object
+  .keys(Icons)
+  .filter(key => key !== "fas" && key !== "prefix" )
+  .map(icon => Icons[icon])
+
+library.add(...iconList)
+
 const yellowBase = "#F6AB2D",
   purpleBase = "#6D5095",
   greenBase = "#38A368",
