@@ -7,6 +7,9 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/montserrat": "^5.0.17",
     "@fontsource/roboto": "^5.0.12",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
     "@mui/x-tree-view": "^7.4.0",
@@ -20,6 +23,7 @@
     "leaflet": "^1.9.4",
     "leaflet.locatecontrol": "^0.81.1",
     "leaflet.offline": "^3.0.1",
+    "protomaps-leaflet": "^3.1.2",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,10 +47,10 @@
     "workbox-streams": "^6.6.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-server": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "NODE_ENV=test react-scripts test",
+    "start": "react-app-rewired start",
+    "start-server": "BROWSER=none react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "NODE_ENV=test react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -68,6 +72,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "react-app-rewired": "^2.2.1"
   }
 }

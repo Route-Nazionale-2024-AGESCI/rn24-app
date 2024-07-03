@@ -21,7 +21,7 @@ import { DirectionsButton } from "../ui/Map/LocationInfo";
 export async function loader({ request }) {
   const { locations } = await getLocationList();
   const url = new URL(request.url);
-  let location, lat, lon, polygon;
+  let location, lat, lon, publicLocations;
 
   if (url.searchParams.get("location")) {
     // Found location uuid in request
@@ -30,10 +30,8 @@ export async function loader({ request }) {
       location = null;
       lat = null;
       lon = null;
-      polygon = null;
     } else {
       [lat, lon] = location?.coords.coordinates;
-      polygon = location?.polygon?.coordinates;
     }
   } else if (url.searchParams.get("lat") && url.searchParams.get("lon")) {
     // Found latitude and longitude in request
@@ -50,12 +48,16 @@ export async function loader({ request }) {
     lon = null;
     location = null;
   }
-  return { locations, lat, lon, location, polygon };
+  if ( locations ) {
+    publicLocations = locations.filter((loc) => loc.is_public === true)
+  } 
+  return { locations, lat, lon, location, publicLocations };
 }
 
 export default function Mappa() {
   // Elenco delle locations... come filtrare quelle che deve visualizzare l'utente?
   const { locations } = useLoaderData();
+  const { publicLocations } = useLoaderData();
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -96,7 +98,9 @@ export default function Mappa() {
       >
         <MapContainer
           center={center}
-          zoom={13}
+          zoom={14}
+          minZoom={13}
+          maxZoom={23}
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
         >
@@ -105,7 +109,7 @@ export default function Mappa() {
             location={location}
             locations={locations}
             centerTo={centerTo}
-            polygon={polygon}
+            publicLocations={publicLocations}
           />
         </MapContainer>
       </Box>
@@ -126,7 +130,7 @@ export default function Mappa() {
               {location.name}
             </Typography>
           </Stack>
-          <DirectionsButton position={`${lat},${lon}`}/>
+          {/* <DirectionsButton position={`${lat},${lon}`}/> */}
         </Box>)}
     </>
   );

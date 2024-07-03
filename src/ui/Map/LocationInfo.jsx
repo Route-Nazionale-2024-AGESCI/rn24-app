@@ -23,7 +23,7 @@ export const LocationInfo = ({ location, position }) => {
           >
             {location.name}
           </Typography>
-          <DirectionsButton position={position} />
+          {/* <DirectionsButton position={position} /> */}
         </Stack>
       </Box>
     </>
