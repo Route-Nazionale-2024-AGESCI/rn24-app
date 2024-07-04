@@ -1,5 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
+import { useMemo } from "react";
 import { getLocationList, getLocation } from "../lib/cacheManager/locations";
 import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
@@ -7,6 +8,9 @@ import { MapContainer } from "react-leaflet";
 import { useState } from "react";
 import { Stack } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
+import { useUser } from "../lib/cacheManager/user";
+import { useEventRegistrations } from "../lib/cacheManager/events";
+import { getEventList } from "../lib/cacheManager/events";
 import { DirectionsButton } from "../ui/Map/LocationInfo";
 
 /* 
@@ -20,6 +24,7 @@ import { DirectionsButton } from "../ui/Map/LocationInfo";
 
 export async function loader({ request }) {
   const { locations } = await getLocationList();
+  const { events } = await getEventList();
   const url = new URL(request.url);
   let location, lat, lon, publicLocations;
 
@@ -48,16 +53,33 @@ export async function loader({ request }) {
     lon = null;
     location = null;
   }
-  if ( locations ) {
-    publicLocations = locations.filter((loc) => loc.is_public === true)
-  } 
-  return { locations, lat, lon, location, publicLocations };
+  if (locations) {
+    publicLocations = locations.filter((loc) => loc.is_public === true);
+  }
+  return { locations, lat, lon, location, publicLocations, events };
 }
 
 export default function Mappa() {
   // Elenco delle locations... come filtrare quelle che deve visualizzare l'utente?
   const { locations } = useLoaderData();
   const { publicLocations } = useLoaderData();
+
+  // Location per la tenda dell'utente
+  const { user } = useUser();
+  const tentLocationUuid = user?.scout_group?.line?.location;
+  const tentLocation = tentLocationUuid
+    ? locations.find((loc) => loc.uuid === tentLocationUuid)
+    : undefined;
+
+  // Location degli eventi a cui l'utente è registrato
+  const { events } = useLoaderData();
+  const { registrations } = useEventRegistrations();
+  const eventLocations = useMemo(() => {
+    const regUuid = registrations.map((reg) => reg.event);
+    return events
+      .filter((ev) => regUuid.includes(ev.uuid))
+      .map((ev) => locations.find((l) => l.uuid === ev.location));
+  }, [events, registrations, locations]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -69,14 +91,12 @@ export default function Mappa() {
   // Poligono relaativo alla location, se presente
   const { polygon } = useLoaderData();
   // TODO: Posizione centrale della mappa di default
-  const center = lat && lon 
-  ? [lat, lon]
-  : [45.419743, 11.040704]
+  const center = lat && lon ? [lat, lon] : [45.419743, 11.040704];
 
   const [centerTo, setCenterTo] = useState();
   const centerMap = () => {
-    setCenterTo(center)
-  }
+    setCenterTo(center);
+  };
   return (
     <>
       <Typography
@@ -119,8 +139,11 @@ export default function Mappa() {
             margin: "16px",
           }}
         >
-          <Stack direction="row" spacing="8px" alignItems="center" >
-            <PlaceIcon sx={{ fontSize: 22, color: "#666A66" }} onClick={centerMap}/>
+          <Stack direction="row" spacing="8px" alignItems="center">
+            <PlaceIcon
+              sx={{ fontSize: 22, color: "#666A66" }}
+              onClick={centerMap}
+            />
             <Typography
               onClick={centerMap}
               fontSize="16px"
@@ -131,7 +154,8 @@ export default function Mappa() {
             </Typography>
           </Stack>
           {/* <DirectionsButton position={`${lat},${lon}`}/> */}
-        </Box>)}
+        </Box>
+      )}
     </>
   );
 }
