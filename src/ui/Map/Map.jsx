@@ -27,32 +27,27 @@ export const Map = ({ position, location, centerTo, publicLocations }) => {
 
   useEffect(() => {
     map.whenReady(() => {
-      const layer = leafletLayer({ url: VeronaPmtiles, theme: "light" });
+      const layer = leafletLayer({ url: VeronaPmtiles, theme: "light", bounds: [[45.46, 10.98],[45.4, 11.06]] });
       layer.addTo(map);
     });
   }, [map]);
-
+  const startLocatePosition = location ? false : true
   return (
     <>
-      {/* <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      <TileLayer
+        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      /> */}
+      />
       {Boolean(publicLocations) &&
         publicLocations.map((loc, i) => (
           <LocationInMap key={i} location={loc} />
         ))}
       {Boolean(location) && <LocationInMap location={location} />}
       <LocateControl
+        start={startLocatePosition}
         position={"bottomright"}
-        setView={false}
         flyTo={true}
         showPopup={false}
-        clickBehavior={{
-          inView: "start",
-          inViewNotFollowing: "stop",
-          outOfView: "setView",
-        }}
         locateOptions={{ watch: true, enableHighAccuracy: true }}
       />
     </>

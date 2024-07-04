@@ -10,7 +10,7 @@ export default function CustomPin({ icon, color }) {
       ></div>
       {Boolean(icon) && (
         <i className="marker-custom-icon">
-          <FontAwesomeIcon icon={["fas", icon]} />
+          <FontAwesomeIcon icon={["fas", icon]} style={{ color: `${color ? color : "orange"}` }} />
         </i>
       )}
     </>

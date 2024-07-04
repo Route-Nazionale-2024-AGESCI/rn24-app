@@ -7,7 +7,8 @@ export const getIcon = (color, icon) => {
   const iconMarkup = renderToStaticMarkup(pin);
   const customMarketIcon = divIcon({ 
         html: iconMarkup,
-        iconAnchor: [6.5, 28]
+        iconAnchor: [6.5, 28],
+        popupAnchor: [0.5, -28]
     });
   return customMarketIcon;
 };

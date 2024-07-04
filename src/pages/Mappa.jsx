@@ -100,7 +100,7 @@ export default function Mappa() {
           center={center}
           zoom={14}
           minZoom={13}
-          maxZoom={23}
+          maxZoom={18}
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
         >
