@@ -6,12 +6,13 @@ import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
 import { MapContainer } from "react-leaflet";
 import { useState } from "react";
-import { Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import { useUser } from "../lib/cacheManager/user";
 import { useEventRegistrations } from "../lib/cacheManager/events";
 import { getEventList } from "../lib/cacheManager/events";
 import { DirectionsButton } from "../ui/Map/LocationInfo";
+import HtmlWithRouterLinks from "../lib/htmlParser";
 
 /* 
   
@@ -110,10 +111,10 @@ export default function Mappa() {
         sx={{
           background: "white",
           borderRadius: "16px",
-          height: "50vh",
-          minHeight: `250px`,
+          height: "calc(100vh - 330px)",
+          minHeight: `270px`,
           overflow: "hidden",
-          margin: "0 16px",
+          marginX: "16px",
         }}
       >
         <MapContainer
@@ -130,30 +131,61 @@ export default function Mappa() {
             locations={locations}
             centerTo={centerTo}
             publicLocations={publicLocations}
+            eventLocations={eventLocations}
+            tentLocation={tentLocation}
           />
         </MapContainer>
       </Box>
       {location && (
         <Box
           sx={{
+            background: "white",
+            borderRadius: "16px",
+            paddingX: "16px",
             margin: "16px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
           }}
         >
-          <Stack direction="row" spacing="8px" alignItems="center">
-            <PlaceIcon
-              sx={{ fontSize: 22, color: "#666A66" }}
-              onClick={centerMap}
-            />
-            <Typography
-              onClick={centerMap}
-              fontSize="16px"
-              variant="body1"
-              fontWeight={600}
+          <Grid item xs={6}>
+            <Stack
+              direction="row"
+              spacing="8px"
+              marginY="16px"
+              alignItems="center"
             >
-              {location.name}
-            </Typography>
-          </Stack>
-          {/* <DirectionsButton position={`${lat},${lon}`}/> */}
+              <PlaceIcon
+                sx={{ fontSize: 22, color: "#666A66" }}
+                onClick={centerMap}
+              />
+              <Typography
+                onClick={centerMap}
+                fontSize="16px"
+                variant="body1"
+                fontWeight={600}
+              >
+                {location.name}
+              </Typography>
+            </Stack>
+          </Grid>
+          {location.description && (
+            <Grid item xs={6}>
+              <Stack
+                direction="row"
+                spacing="8px"
+                paddingBottom="16px"
+                alignItems="center"
+              >
+                <Typography fontSize="14px" fontWeight={600}>
+                  Descrizione:
+                </Typography>
+                <div className="description-container">
+                  <HtmlWithRouterLinks htmlString={location.description} />
+                </div>
+              </Stack>
+            </Grid>
+          )}
         </Box>
       )}
     </>
