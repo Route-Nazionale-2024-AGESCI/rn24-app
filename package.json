@@ -22,7 +22,7 @@
     "html-react-parser": "^5.1.10",
     "leaflet": "^1.9.4",
     "leaflet.locatecontrol": "^0.81.1",
-    "leaflet.offline": "^3.0.1",
+    "protomaps-leaflet": "^3.1.2",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -46,11 +46,11 @@
     "workbox-streams": "^6.6.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-server": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "NODE_ENV=test react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "start-server": "BROWSER=none react-app-rewired",
+    "build": "react-app-rewired build",
+    "test": "NODE_ENV=test react-app-rewired test",
+    "eject": "react-app-rewired eject"
   },
   "eslintConfig": {
     "extends": [
@@ -71,6 +71,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "react-app-rewired": "^2.2.1"
   }
 }
