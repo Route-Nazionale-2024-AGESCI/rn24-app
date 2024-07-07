@@ -4,8 +4,6 @@ import { TileLayer, useMap } from "react-leaflet";
 import "leaflet.offline";
 import "leaflet/dist/leaflet.css";
 import { LocateControl } from "./LocateControl";
-import { leafletLayer } from "protomaps-leaflet";
-import VeronaPmtiles from "../../../public/verona.pmtiles";
 import { LocationInMap } from "./LocationInMap";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -25,12 +23,6 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
     }
   }, [centerTo]);
 
-  useEffect(() => {
-    map.whenReady(() => {
-      const layer = leafletLayer({ url: VeronaPmtiles, theme: "light", bounds: [[45.46, 10.98],[45.4, 11.06]] });
-      layer.addTo(map);
-    });
-  }, [map]);
   const startLocatePosition = location ? false : true
   return (
     <>
