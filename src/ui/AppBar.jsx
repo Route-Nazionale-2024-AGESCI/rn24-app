@@ -115,6 +115,8 @@ export default function AppBar() {
             justifyContent: "space-between",
             mx: "24px",
             height: "40px",
+            zIndex: 410,
+            position: "relative"
           }}
         >
           <RnLogo />

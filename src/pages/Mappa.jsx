@@ -100,21 +100,22 @@ export default function Mappa() {
   };
   return (
     <>
-      <Typography
+      {/* <Typography
         fontSize="25px"
         fontWeight={900}
         sx={{ margin: "16px", color: "#2B2D2B" }}
       >
         Mappa
-      </Typography>
+      </Typography> */}
       <Box
         sx={{
           background: "white",
-          borderRadius: "16px",
-          height: "calc(100vh - 330px)",
+          borderRadius: "0  0 16px 16px",
+          height: "calc(100vh - 166px)",
           minHeight: `270px`,
           overflow: "hidden",
-          marginX: "16px",
+          
+          marginTop: "-116px"
         }}
       >
         <MapContainer
@@ -124,6 +125,7 @@ export default function Mappa() {
           maxZoom={18}
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
+          zoomControl={false}
         >
           <Map
             position={center}
