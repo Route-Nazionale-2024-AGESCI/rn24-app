@@ -37,7 +37,7 @@ export async function loader({ request }) {
       lat = null;
       lon = null;
     } else {
-      [lat, lon] = location?.coords.coordinates;
+      [lon, lat] = location?.coords.coordinates;
     }
   } else if (url.searchParams.get("lat") && url.searchParams.get("lon")) {
     // Found latitude and longitude in request
