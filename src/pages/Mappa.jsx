@@ -6,13 +6,14 @@ import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
 import { MapContainer } from "react-leaflet";
 import { useState } from "react";
-import { Grid, Stack } from "@mui/material";
-import PlaceIcon from "@mui/icons-material/Place";
 import { useUser } from "../lib/cacheManager/user";
 import { useEventRegistrations } from "../lib/cacheManager/events";
 import { getEventList } from "../lib/cacheManager/events";
 import { DirectionsButton } from "../ui/Map/LocationInfo";
-import HtmlWithRouterLinks from "../lib/htmlParser";
+import FilterLocation, { FilterLocationButton } from "../ui/Map/FilterLocation";
+import LocationCard from "../ui/LocationCard";
+import { Button } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 /* 
   
@@ -75,12 +76,27 @@ export default function Mappa() {
   // Location degli eventi a cui l'utente è registrato
   const { events } = useLoaderData();
   const { registrations } = useEventRegistrations();
-  const eventLocations = useMemo(() => {
+  const userEvents = useMemo(() => {
     const regUuid = registrations.map((reg) => reg.event);
-    return events
-      .filter((ev) => regUuid.includes(ev.uuid))
+    return events.filter((ev) => regUuid.includes(ev.uuid));
+  }, [events, registrations]);
+
+  const eventLocations = useMemo(() => {
+    return userEvents.map((ev) =>
+      locations.find((l) => l.uuid === ev.location)
+    );
+  }, [userEvents, locations]);
+
+  const nextEventsLocations = useMemo(() => {
+    return userEvents
+      .filter((ev) => {
+        const endDt = new Date(ev.ends_at);
+        const now = new Date();
+        return endDt >= now;
+      })
+      .slice(0, 2)
       .map((ev) => locations.find((l) => l.uuid === ev.location));
-  }, [events, registrations, locations]);
+  }, [userEvents, locations]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -95,26 +111,37 @@ export default function Mappa() {
   const center = lat && lon ? [lat, lon] : [45.419743, 11.040704];
 
   const [centerTo, setCenterTo] = useState();
-  const centerMap = () => {
-    setCenterTo(center);
+  const centerMap = (location) => {
+    setCenterTo([
+      location.coords.coordinates[1],
+      location.coords.coordinates[0],
+    ]);
+    setOpenFilterDrawer(false);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
+
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+
   return (
     <>
-      <Typography
+      {/* <Typography
         fontSize="25px"
         fontWeight={900}
         sx={{ margin: "16px", color: "#2B2D2B" }}
       >
         Mappa
-      </Typography>
+      </Typography> */}
       <Box
         sx={{
           background: "white",
-          borderRadius: "16px",
-          height: "calc(100vh - 330px)",
+          height: "calc(100vh - 266px)",
           minHeight: `270px`,
           overflow: "hidden",
-          marginX: "16px",
+          marginTop: "-116px",
         }}
       >
         <MapContainer
@@ -124,6 +151,7 @@ export default function Mappa() {
           maxZoom={18}
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
+          zoomControl={false}
         >
           <Map
             position={center}
@@ -134,60 +162,92 @@ export default function Mappa() {
             eventLocations={eventLocations}
             tentLocation={tentLocation}
           />
+          <Box
+            sx={{
+              zIndex: 410,
+              position: "absolute",
+              left: "24px",
+              bottom: "35px",
+            }}
+          >
+            <FilterLocationButton
+              onClick={() => {
+                setOpenFilterDrawer(true);
+              }}
+            />
+          </Box>
         </MapContainer>
       </Box>
-      {location && (
-        <Box
-          sx={{
-            background: "white",
-            borderRadius: "16px",
-            paddingX: "16px",
-            margin: "16px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-          }}
-        >
-          <Grid item xs={6}>
-            <Stack
-              direction="row"
-              spacing="8px"
-              marginY="16px"
-              alignItems="center"
-            >
-              <PlaceIcon
-                sx={{ fontSize: 22, color: "#666A66" }}
-                onClick={centerMap}
+
+      <Box
+        sx={{
+          background: "white",
+          borderRadius: "16px 16px 0 0",
+          paddingX: "24px",
+          marginY: "16px",
+          paddingBottom: "16px",
+          marginY: "-16px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          position: "relative",
+          boxShadow: "1px 1px 6px 0px #777",
+        }}
+      >
+        {location && (
+          <LocationCard
+            location={location}
+            onLocationClick={centerMap}
+            showBorder={false}
+            events={userEvents}
+          />
+        )}
+        {Boolean(nextEventsLocations && nextEventsLocations.length) && (
+          <>
+            <Typography fontSize="18px" fontWeight={800} mt="24px">
+              Location dei prossimi eventi
+            </Typography>
+            {nextEventsLocations.map((location, i) => (
+              <LocationCard
+                key={i}
+                location={location}
+                onLocationClick={centerMap}
+                events={userEvents}
               />
-              <Typography
-                onClick={centerMap}
-                fontSize="16px"
-                variant="body1"
-                fontWeight={600}
-              >
-                {location.name}
-              </Typography>
-            </Stack>
-          </Grid>
-          {location.description && (
-            <Grid item xs={6}>
-              <Stack
-                direction="row"
-                spacing="8px"
-                paddingBottom="16px"
-                alignItems="center"
-              >
-                <Typography fontSize="14px" fontWeight={600}>
-                  Descrizione:
-                </Typography>
-                <div className="description-container">
-                  <HtmlWithRouterLinks htmlString={location.description} />
-                </div>
-              </Stack>
-            </Grid>
-          )}
-        </Box>
-      )}
+            ))}
+            <Button
+              variant="text"
+              onClick={() => {
+                setOpenFilterDrawer(true);
+              }}
+              endIcon={<ArrowForwardIosIcon />}
+            >
+              Vedi tutti
+            </Button>
+          </>
+        )}
+        <Typography fontSize="18px" fontWeight={800} mt="24px">
+          La tua tenda
+        </Typography>
+        {Boolean(tentLocation) && (
+          <LocationCard
+            location={tentLocation}
+            onLocationClick={centerMap}
+            events={events}
+          />
+        )}
+      </Box>
+      <FilterLocation
+        open={openFilterDrawer}
+        onClose={() => {
+          setOpenFilterDrawer(false);
+        }}
+        centerMap={centerMap}
+        publicLocations={publicLocations}
+        eventLocations={eventLocations}
+        tentLocation={tentLocation}
+        events={userEvents}
+      />
     </>
   );
 }

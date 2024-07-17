@@ -9,7 +9,12 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { italianMonth } from "../lib/italianDate";
 import getEventColor from "../lib/eventColor";
 
-export default function EventSummaryCard({ event, location }) {
+export default function EventSummaryCard({ 
+  event, 
+  location,
+  small = false,
+  showLocation = true
+ }) {
   const startDT = new Date(event.starts_at);
   const endDT = new Date(event.ends_at);
   const title = event.name;
@@ -17,15 +22,17 @@ export default function EventSummaryCard({ event, location }) {
   return (
     <Button
       sx={{
-        maxWidth: "300px",
-        width: "300px",
-        height: "96px",
+        maxWidth: `${small ? "200px" : "300px"}`,
+        width: `${small ? "200px" : "300px"}`,
+        height: `${small ? "68px" : "96px"}`,
         borderRadius: "8px",
         textTransform: "none",
         p: "12px",
         justifyContent: "start",
         flex: "0 0 auto",
+        backgroundColor: `${small ? getEventColor(event.kind).bg : "none"}`
       }}
+      className="event-summary-card-container"
       component={RouterLink}
       to={`/eventi/${event.uuid}`}
       variant="contained"
@@ -35,9 +42,9 @@ export default function EventSummaryCard({ event, location }) {
       <Stack direction="row" spacing="16px">
         <Box
           sx={{
-            bgcolor: getEventColor(event.kind).bg, //"#E2DCEA",
-            width: "56px",
-            height: "72px",
+            bgcolor: `${small ? "none" : getEventColor(event.kind).bg}`, //"#E2DCEA",
+            width: `${small ? "34px" : "56px"}`,
+            height: `${small ? "68px" : "72px"}`,
             borderRadius: "8px",
             display: "flex",
             flexDirection: "column",
@@ -68,14 +75,14 @@ export default function EventSummaryCard({ event, location }) {
             {italianMonth[startDT.getMonth()].substring(0, 3)}
           </Typography>
         </Box>
-        <Stack direction="column" maxWidth="204px">
+        <Stack direction="column" maxWidth="204px" alignItems="flex-start" justifyContent="center">
           <Typography
             variant="subtitle1"
             fontSize="12px"
             lineHeight="15px"
             fontWeight={600}
             textAlign="left"
-            mb="8px"
+            mb={`${small ? "0" : "8px"}`}
             //Limitare il numero di righe visualizzate a 2, per titoli troppo lunghi
             sx={{
               display: "-webkit-box",
@@ -102,7 +109,7 @@ export default function EventSummaryCard({ event, location }) {
               {endDT.getMinutes().toString().padStart(2, "0")}
             </Typography>
           </Stack>
-          <Stack direction="row" spacing="8px" alignItems="center">
+          {showLocation && <Stack direction="row" spacing="8px" alignItems="center">
             <PlaceIcon sx={{ fontSize: 12, color: "#959695" }} />
             <Typography
               variant="subtitle2"
@@ -114,7 +121,7 @@ export default function EventSummaryCard({ event, location }) {
             >
               {standName}
             </Typography>
-          </Stack>
+          </Stack>}
         </Stack>
       </Stack>
     </Button>
