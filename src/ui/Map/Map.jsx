@@ -55,8 +55,8 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
         eventLocations.map((loc, i) => (
           <LocationInMap key={i} location={loc} />
         ))}
-      {Boolean(tentLocation) && <LocationInMap location={tentLocation} icon={"campground"} />}
-      {Boolean(location) && <LocationInMap location={location} />}
+      {Boolean(tentLocation) && <LocationInMap location={tentLocation} />}
+      {Boolean(location) && <LocationInMap location={location} big/>}
       <LocateControl
         start={startLocatePosition}
         position={"bottomright"}

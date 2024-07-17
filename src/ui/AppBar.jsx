@@ -115,15 +115,27 @@ export default function AppBar() {
             justifyContent: "space-between",
             mx: "24px",
             height: "40px",
-            zIndex: 410,
             position: "relative"
           }}
         >
-          <RnLogo />
-          <Stack direction="row" spacing="16px">
-            {/* <NotifyButton /> */}
-            <Menu onClick={() => setOpenDrawer(!openDrawer)} />
-          </Stack>
+          <Box
+            sx={{
+              zIndex: 410,
+            }}
+          >
+            <RnLogo />
+          </Box>
+
+          <Box
+            sx={{
+              zIndex: 410,
+            }}
+          >
+            <Stack direction="row" spacing="16px">
+              {/* <NotifyButton /> */}
+              <Menu onClick={() => setOpenDrawer(!openDrawer)} />
+            </Stack>
+          </Box>
         </Box>
         <Drawer
           open={openDrawer}
