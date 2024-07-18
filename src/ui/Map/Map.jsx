@@ -45,16 +45,9 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
       <LocateControl
         start={startLocatePosition}
         position={"bottomright"}
-        flyTo={true}
         showPopup={false}
         initialZoomLevel={17}
         locateOptions={{ watch: true, enableHighAccuracy: true }}
-        clickBehavior={{
-          inView: 'stop',
-          inViewNotFollowing: 'setView',
-          outOfView: 'setView',
-        }}
-        setView={"untilPan"}
       />
       <TileLayer
         // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
