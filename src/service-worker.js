@@ -56,7 +56,10 @@ registerRoute(
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({ url }) =>
-    url.origin === self.location.origin && url.pathname.endsWith(".png"), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+    url.origin === self.location.origin &&
+    url.pathname.endsWith(".png") &&
+    !url.pathname.startsWith("/api/media") &&
+    !url.pathname.startsWith("/api/static"), // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
     cacheName: "images",
     plugins: [
@@ -72,6 +75,7 @@ registerRoute(
     url.pathname.startsWith("/api/media") ||
     url.pathname.startsWith("/api/static"),
   new CacheFirst({
+    // TODO: or StaleWhileRevalidate??
     cacheName: "api-media-static",
     plugins: [new ExpirationPlugin({ maxEntries: 100 })],
   })
@@ -86,3 +90,4 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
+// TODO: precache on pm tiles??
