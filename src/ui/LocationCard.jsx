@@ -58,7 +58,23 @@ export default function LocationCard({
       }}
       // color={location.color}
     >
-      <Stack direction={"row"} gap="10px" mb="8px" alignItems={"center"}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        sx={{
+          width: "100%",
+        }}
+      >
+        <Typography
+          fontSize="14px"
+          fontWeight={600}
+          textTransform="capitalize"
+          color={location.color}
+        >
+          {location.category}
+        </Typography>
+      </Stack>
+      <Stack direction={"row"} gap="10px" mt="16px" alignItems={"center"}>
         <Box
           sx={{
             backgroundColor: `${location.color}20`,
@@ -102,7 +118,7 @@ export default function LocationCard({
         </Typography>
       </Stack>
 
-      <Stack direction="row" spacing="8px" alignItems="center">
+      <Stack direction="row" spacing="8px" mt="12px" alignItems="center">
         <Typography
           variant="subtitle2"
           fontSize="14px"
@@ -111,22 +127,6 @@ export default function LocationCard({
           mb="4px"
           sx={{ color: "#666A66" }}
         >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            sx={{
-              width: "100%",
-            }}
-          >
-            <Typography
-              fontSize="14px"
-              fontWeight={600}
-              textTransform="capitalize"
-              color={location.color}
-            >
-              {location.category}
-            </Typography>
-          </Stack>
           {location.description}
         </Typography>
       </Stack>

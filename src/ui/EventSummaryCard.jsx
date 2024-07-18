@@ -78,7 +78,7 @@ export default function EventSummaryCard({
         <Stack direction="column" maxWidth="204px" alignItems="flex-start" justifyContent="center">
           <Typography
             variant="subtitle1"
-            fontSize="12px"
+            fontSize="14px"
             lineHeight="15px"
             fontWeight={600}
             textAlign="left"
@@ -89,6 +89,7 @@ export default function EventSummaryCard({
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
               WebkitLineClamp: 2,
+              color: "#2B2D2B"
             }}
           >
             {title}

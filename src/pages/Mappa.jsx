@@ -178,7 +178,7 @@ export default function Mappa() {
           </Box>
         </MapContainer>
       </Box>
-
+      
       <Box
         sx={{
           background: "white",
@@ -191,7 +191,7 @@ export default function Mappa() {
           flexDirection: "column",
           justifyContent: "space-around",
           position: "relative",
-          boxShadow: "1px 1px 6px 0px #777",
+          boxShadow: "0px -4px 9px -6px #777",
         }}
       >
         {location && (
@@ -204,7 +204,12 @@ export default function Mappa() {
         )}
         {Boolean(nextEventsLocations && nextEventsLocations.length) && (
           <>
-            <Typography fontSize="18px" fontWeight={800} mt="24px">
+            <Typography
+              fontSize="20px"
+              fontWeight={900}
+              mt="24px"
+              sx={{ color: "agesciPurple.main" }}
+            >
               Location dei prossimi eventi
             </Typography>
             {nextEventsLocations.map((location, i) => (
@@ -220,13 +225,24 @@ export default function Mappa() {
               onClick={() => {
                 setOpenFilterDrawer(true);
               }}
-              endIcon={<ArrowForwardIosIcon />}
+              endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
             >
-              Vedi tutti
+              <Typography
+                fontSize="16px"
+                fontWeight={600}
+                sx={{ color: "#2B2D2B", textTransform: "none" }}
+              >
+                Vedi tutti
+              </Typography>
             </Button>
           </>
         )}
-        <Typography fontSize="18px" fontWeight={800} mt="24px">
+        <Typography
+          fontSize="20px"
+          fontWeight={900}
+          mt="24px"
+          sx={{ color: "agesciPurple.main" }}
+        >
           La tua tenda
         </Typography>
         {Boolean(tentLocation) && (
