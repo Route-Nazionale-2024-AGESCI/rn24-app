@@ -36,7 +36,8 @@ registerRoute(
     if (
       url.pathname.startsWith("/_") ||
       url.pathname.startsWith("/static") ||
-      url.pathname.startsWith("/api/v1")
+      url.pathname.startsWith("/api/v1") ||
+      url.pathname.startsWith("/api/admin")
     ) {
       return false;
     } // If this looks like a URL for a resource, because it contains // a file extension, skip.
