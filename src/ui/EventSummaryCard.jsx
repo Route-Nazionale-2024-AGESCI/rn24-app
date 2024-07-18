@@ -27,7 +27,7 @@ export default function EventSummaryCard({
         height: `${small ? "68px" : "96px"}`,
         borderRadius: "8px",
         textTransform: "none",
-        p: "12px",
+        p: `${small ? "4px" : "12px"}`,
         justifyContent: "start",
         flex: "0 0 auto",
         backgroundColor: `${small ? getEventColor(event.kind).bg : "none"}`
@@ -39,13 +39,14 @@ export default function EventSummaryCard({
       disableElevation
       color="white"
     >
-      <Stack direction="row" spacing="16px">
+      <Stack direction="row" spacing={`${small ? "12px" : "16px"}`} justifyContent="flex-start">
         <Box
           sx={{
-            bgcolor: `${small ? "none" : getEventColor(event.kind).bg}`, //"#E2DCEA",
+            bgcolor: `${small ? "#fff" : getEventColor(event.kind).bg}`, //"#E2DCEA",
             width: `${small ? "34px" : "56px"}`,
-            height: `${small ? "68px" : "72px"}`,
-            borderRadius: "8px",
+            height: `${small ? "60px" : "72px"}`,
+            paddingX: `${small ? "8px" : "0"}`,
+            borderRadius: `${small ? "5px" : "8px"}`,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -55,6 +56,7 @@ export default function EventSummaryCard({
           <Typography
             variant="subtitle1"
             fontSize="20px"
+            lineHeight={`${small ? "1.5" : undefined}`}
             fontWeight={600}
             sx={{
               color: getEventColor(event.kind).main, //"#6D5095"
@@ -95,14 +97,14 @@ export default function EventSummaryCard({
             {title}
           </Typography>
           <Stack direction="row" spacing="8px" alignItems="center">
-            <AccessTimeIcon sx={{ fontSize: 12, color: "#959695" }} />
+            <AccessTimeIcon sx={{ fontSize: 12, color: `${small ? "#666A66" : "#959695"}` }} />
             <Typography
               variant="subtitle2"
               fontSize="12px"
               fontWeight={400}
               textAlign="left"
               mb="4px"
-              sx={{ color: "#959695" }}
+              sx={{ color: `${small ? "#666A66" : "#959695"}` }}
             >
               {startDT.getHours().toString().padStart(2, "0")}:
               {startDT.getMinutes().toString().padStart(2, "0")} -{" "}

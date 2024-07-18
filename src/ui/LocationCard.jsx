@@ -37,7 +37,7 @@ export default function LocationCard({
       />
     ));
   };
-
+ 
   return (
     <Button
       disabled={disabled}
@@ -45,11 +45,11 @@ export default function LocationCard({
       onClick={() => {
         onLocationClick(location);
       }}
+      to={`/mappa/?location=${location.uuid}`}
       sx={{
         border: `${showBorder ? "1px solid #E2DCEA" : "none"}`,
         borderRadius: "8px",
-        paddingY: "12px",
-        paddingX: `${showBorder ? "12px" : "0"}`,
+        padding: `${showBorder ? "12px" : "0"}`,
         display: "flex",
         flexDirection: "column",
         alignItems: "start",

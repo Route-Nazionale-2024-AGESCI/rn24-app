@@ -159,8 +159,12 @@
   margin-right: 24px;
 }
 
+#root .leaflet-bottom .leaflet-bar:last-child {
+  margin-bottom: 40px;
+}
+
 #root .leaflet-bottom.leaflet-right .leaflet-control-attribution {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   margin-right: 6px;
   border-radius: 16px;
 }

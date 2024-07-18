@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import L from "leaflet";
-import { TileLayer, useMap, ZoomControl } from "react-leaflet";
+import { AttributionControl, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LocateControl } from "./LocateControl";
 import { LocationInMap } from "./LocationInMap";
@@ -42,11 +42,25 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
   const startLocatePosition = location ? false : true
   return (
     <>
+      <LocateControl
+        start={startLocatePosition}
+        position={"bottomright"}
+        flyTo={true}
+        showPopup={false}
+        initialZoomLevel={17}
+        locateOptions={{ watch: true, enableHighAccuracy: true }}
+        clickBehavior={{
+          inView: 'stop',
+          inViewNotFollowing: 'setView',
+          outOfView: 'setView',
+        }}
+        setView={"untilPan"}
+      />
       <TileLayer
         // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <ZoomControl position="bottomright" />
+      <AttributionControl position="topright" />
       {Boolean(publicLocations) &&
         publicLocations.map((loc, i) => (
           <LocationInMap key={i} location={loc} />
@@ -57,14 +71,7 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
         ))}
       {Boolean(tentLocation) && <LocationInMap location={tentLocation} />}
       {Boolean(location) && <LocationInMap location={location} big/>}
-      <LocateControl
-        start={startLocatePosition}
-        position={"bottomright"}
-        flyTo={true}
-        showPopup={false}
-        initialZoomLevel={17}
-        locateOptions={{ watch: true, enableHighAccuracy: true }}
-      />
+      <ZoomControl position="bottomright" />
     </>
   );
 };

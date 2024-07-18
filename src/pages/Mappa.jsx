@@ -141,7 +141,7 @@ export default function Mappa() {
           height: "calc(100vh - 266px)",
           minHeight: `270px`,
           overflow: "hidden",
-          marginTop: "-116px",
+          marginTop: "-112px",
         }}
       >
         <MapContainer
@@ -152,6 +152,7 @@ export default function Mappa() {
           scrollWheelZoom={true}
           style={{ width: "100%", height: "100%", zIndex: 0 }}
           zoomControl={false}
+          attributionControl={false}
         >
           <Map
             position={center}
@@ -167,7 +168,7 @@ export default function Mappa() {
               zIndex: 410,
               position: "absolute",
               left: "24px",
-              bottom: "35px",
+              bottom: "28px",
             }}
           >
             <FilterLocationButton
@@ -194,6 +195,25 @@ export default function Mappa() {
           boxShadow: "0px -4px 9px -6px #777",
         }}
       >
+        <Box
+        sx={{
+          width: "100%",
+          borderRadius: "16px 16px 0 0",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          paddingTop: "8px",
+          marginBottom: "0px"
+        }}>
+          <Box 
+          sx={{
+            backgroundColor: "#E2DCEA",
+            borderRadius: "50px",
+            height: "4px",
+            width: "32px"
+          }}
+          ></Box>
+        </Box>
         {location && (
           <LocationCard
             location={location}
