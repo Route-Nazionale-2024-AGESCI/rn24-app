@@ -69,8 +69,8 @@ registerRoute(
 
 registerRoute(
   ({ url }) =>
-    url.pathname.startsWith("/api/v1/media") ||
-    url.pathname.startsWith("/api/v1/static"),
+    url.pathname.startsWith("/api/media") ||
+    url.pathname.startsWith("/api/static"),
   new CacheFirst({
     cacheName: "api-media-static",
     plugins: [new ExpirationPlugin({ maxEntries: 100 })],
