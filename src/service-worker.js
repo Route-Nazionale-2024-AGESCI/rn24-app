@@ -83,6 +83,15 @@ registerRoute(
   })
 );
 
+// Prefetch /api/static/verona.pmtiles on the first visit to the home page
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open("api-media-static").then((cache) => {
+      return cache.add("/api/static/verona.pmtiles");
+    })
+  );
+});
+
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener("message", (event) => {
