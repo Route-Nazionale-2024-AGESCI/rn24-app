@@ -105,69 +105,6 @@ registerRoute(
   })
 );
 
-// Prefetch /api/static/verona.pmtiles on the first visit to the home page
-// self.addEventListener("install", (event) => {
-//   event.waitUntil(
-//     caches.open("api-media-static").then((cache) => {
-//       return cache.add("/api/static/verona.pmtiles");
-//     })
-//   );
-// });
-
-// Handle range requests for /api/static/verona.pmtiles
-// registerRoute(
-//   ({ url }) => url.pathname === "/api/static/verona.pmtiles",
-//   new CacheFirst({
-//     cacheName: "api-media-static",
-//     plugins: [
-//       new RangeRequestsPlugin(), // Add support for range requests
-//       new ExpirationPlugin({ maxEntries: 1 }),
-//     ],
-//   })
-// );
-
-// Manually handle range requests for /api/static/verona.pmtiles
-// self.addEventListener("fetch", (event) => {
-//   if (event.request.url.endsWith("/api/static/verona.pmtiles")) {
-//     event.respondWith(
-//       caches.open("api-media-static").then(async (cache) => {
-//         const cachedResponse = await cache.match(event.request);
-//         if (!cachedResponse) {
-//           return fetch(event.request);
-//         }
-//         const rangeHeader = event.request.headers.get("range");
-//         if (!rangeHeader) {
-//           return cachedResponse;
-//         }
-//         const size = parseInt(cachedResponse.headers.get("content-length"), 10);
-//         const rangeMatch = rangeHeader.match(/^bytes=(\d+)-(\d+)?$/);
-//         if (!rangeMatch) {
-//           return cachedResponse;
-//         }
-//         const start = parseInt(rangeMatch[1], 10);
-//         const end = rangeMatch[2] ? parseInt(rangeMatch[2], 10) : size - 1;
-
-//         if (start >= size || end >= size) {
-//           return new Response("", {
-//             status: 416,
-//             statusText: "Requested Range Not Satisfiable",
-//             headers: [["Content-Range", `bytes */${size}`]],
-//           });
-//         }
-//         const responseBody = await cachedResponse.arrayBuffer();
-//         return new Response(responseBody.slice(start, end + 1), {
-//           status: 206,
-//           statusText: "Partial Content",
-//           headers: [
-//             ["Content-Range", `bytes ${start}-${end}/${size}`],
-//             ["Content-Length", end - start + 1],
-//             ["Content-Type", "application/octet-stream"],
-//           ],
-//         });
-//       })
-//     );
-//   }
-// });
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener("message", (event) => {
