@@ -31,8 +31,9 @@ registerRoute(
     // If this isn't a navigation, skip.
     if (request.mode !== "navigate") {
       return false;
-    } // If this is a URL that starts with /_, skip.
+    }
 
+    // If this is a URL that starts with /_, skip.
     if (
       url.pathname.startsWith("/_") ||
       url.pathname.startsWith("/static") ||
@@ -40,8 +41,10 @@ registerRoute(
       url.pathname.startsWith("/api/admin")
     ) {
       return false;
-    } // If this looks like a URL for a resource, because it contains // a file extension, skip.
+    }
 
+    // If this looks like a URL for a resource, because it contains
+    // a file extension, skip.
     if (url.pathname.match(fileExtensionRegexp)) {
       return false;
     } // Return true to signal that we want to use the handler.
@@ -59,7 +62,7 @@ registerRoute(
     url.origin === self.location.origin &&
     url.pathname.endsWith(".png") &&
     !url.pathname.startsWith("/api/media") &&
-    !url.pathname.startsWith("/api/static"), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+    !url.pathname.startsWith("/api/static"),
   new StaleWhileRevalidate({
     cacheName: "images",
     plugins: [
@@ -74,8 +77,7 @@ registerRoute(
   ({ url }) =>
     url.pathname.startsWith("/api/media") ||
     url.pathname.startsWith("/api/static"),
-  new CacheFirst({
-    // TODO: or StaleWhileRevalidate??
+  new StaleWhileRevalidate({
     cacheName: "api-media-static",
     plugins: [new ExpirationPlugin({ maxEntries: 100 })],
   })
