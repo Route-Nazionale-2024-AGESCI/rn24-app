@@ -12,6 +12,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
+import { RangeRequestsPlugin } from "workbox-range-requests";
 
 clientsClaim();
 
@@ -91,6 +92,18 @@ self.addEventListener("install", (event) => {
     })
   );
 });
+
+// Handle range requests for /api/static/verona.pmtiles
+registerRoute(
+  ({ url }) => url.pathname === "/api/static/verona.pmtiles",
+  new CacheFirst({
+    cacheName: "api-media-static",
+    plugins: [
+      new RangeRequestsPlugin(), // Add support for range requests
+      new ExpirationPlugin({ maxEntries: 1 }),
+    ],
+  })
+);
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
