@@ -96,7 +96,7 @@ self.addEventListener("install", (event) => {
 // Handle range requests for /api/static/verona.pmtiles
 registerRoute(
   ({ url }) => url.pathname === "/api/static/verona.pmtiles",
-  new CacheFirst({
+  new StaleWhileRevalidate({
     cacheName: "verona-pmtiles-cache",
     plugins: [
       new RangeRequestsPlugin(), // Add support for range requests
