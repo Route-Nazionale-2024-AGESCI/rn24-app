@@ -54,6 +54,7 @@ export default function LogoutModal({ open, onClose }) {
             maxWidth: "400px",
           }}
           onClick={() => {
+            localStorage.removeItem("thanksShown");
             logOut();
           }}
           autoFocus

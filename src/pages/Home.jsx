@@ -1,7 +1,13 @@
 import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
 import {
   AddContactButton,
   BookletButton,
@@ -9,6 +15,7 @@ import {
   RoutePlannerButton,
 } from "../ui/CardButton";
 import EventSummaryCard from "../ui/EventSummaryCard";
+import AccessButton from "../ui/AccessButton";
 
 import {
   getEventList,
@@ -27,10 +34,64 @@ export async function loader() {
   return { events, locations };
 }
 
+const ThanksModal = ({ open, onClose }) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="thanks-dialog-title"
+      slotProps={{
+        backdrop: { style: { backgroundColor: "rgba(109, 80, 149, 0.3)" } },
+      }}
+    >
+      <DialogTitle id="thanks-dialog-title" textAlign={"center"}>
+        <Typography fontSize={"20px"} fontWeight={600}>
+          Grazie!
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText
+          sx={{ fontSize: "16px", color: "#000000", textAlign: "center" }}
+        >
+          Ringraziamo il nostro super sponsor per la connessione a Villa Buri!
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <AccessButton
+          sx={{
+            marginY: "16px",
+            color: "agesciPurple.main",
+            borderColor: "agesciPurple.main",
+            width: "85%",
+            maxWidth: "400px",
+          }}
+          onClick={onClose}
+          autoFocus
+        >
+          <Typography
+            fontSize="16px"
+            fontWeight={600}
+            color="agesciPurple.main"
+          >
+            Grazie!
+          </Typography>
+        </AccessButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export default function Home() {
   const { user } = useUser();
   const { events, locations } = useLoaderData();
   const { registrations } = useEventRegistrations();
+  const [thanksShown, setThanksShown] = useState(
+    localStorage.getItem("thanksShown") === "true"
+  );
+  const handleThanksClose = () => {
+    setThanksShown(true);
+    localStorage.setItem("thanksShown", "true");
+  };
   useEventInvitations(); // caching locally
   const name = getLocalStorageFirstName() ?? user.first_name ?? "";
   // Nelle eventCards l'utente vede l'elenco degli eventi a cui parteciperà, presenti in registrations
@@ -89,6 +150,9 @@ export default function Home() {
       </Typography>
       <RoutePlannerButton />
       <Box sx={{ height: "40px" }} />
+      {!thanksShown && (
+        <ThanksModal open={!thanksShown} onClose={handleThanksClose} />
+      )}
     </Box>
   );
 }
