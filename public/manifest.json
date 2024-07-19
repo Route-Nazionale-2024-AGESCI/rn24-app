@@ -1,6 +1,7 @@
 {
-  "short_name": "RN24 App",
-  "name": "App di supporto per la Route Nazionale Capi 2024",
+  "short_name": "RN24",
+  "name": "RN24 App",
+  "description": "Applicazione di supporto per la Route Nazionale Capi 2024",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +9,209 @@
       "type": "image/x-icon"
     },
     {
-      "src": "Logo40.png",
+      "src": "16.png",
       "type": "image/png",
-      "sizes": "40x40"
+      "sizes": "16x16",
+      "purpose": "maskable"
     },
     {
-      "src": "Logo160.png",
+      "src": "20.png",
       "type": "image/png",
-      "sizes": "160x160"
+      "sizes": "20x20",
+      "purpose": "maskable"
+    },
+    {
+      "src": "29.png",
+      "type": "image/png",
+      "sizes": "29x29",
+      "purpose": "maskable"
+    },
+    {
+      "src": "32.png",
+      "type": "image/png",
+      "sizes": "32x32",
+      "purpose": "maskable"
+    },
+    {
+      "src": "40.png",
+      "type": "image/png",
+      "sizes": "40x40",
+      "purpose": "maskable"
+    },
+    {
+      "src": "50.png",
+      "type": "image/png",
+      "sizes": "50x50",
+      "purpose": "maskable"
+    },
+    {
+      "src": "57.png",
+      "type": "image/png",
+      "sizes": "57x57",
+      "purpose": "maskable"
+    },
+    {
+      "src": "58.png",
+      "type": "image/png",
+      "sizes": "58x58",
+      "purpose": "maskable"
+    },
+    {
+      "src": "60.png",
+      "type": "image/png",
+      "sizes": "60x60",
+      "purpose": "maskable"
+    },
+    {
+      "src": "64.png",
+      "type": "image/png",
+      "sizes": "64x64",
+      "purpose": "maskable"
+    },
+    {
+      "src": "72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "76.png",
+      "type": "image/png",
+      "sizes": "76x76",
+      "purpose": "maskable"
+    },
+    {
+      "src": "80.png",
+      "type": "image/png",
+      "sizes": "80x80",
+      "purpose": "maskable"
+    },
+    {
+      "src": "87.png",
+      "type": "image/png",
+      "sizes": "87x87",
+      "purpose": "maskable"
+    },
+    {
+      "src": "100.png",
+      "type": "image/png",
+      "sizes": "100x100",
+      "purpose": "maskable"
+    },
+    {
+      "src": "114.png",
+      "type": "image/png",
+      "sizes": "114x114",
+      "purpose": "maskable"
+    },
+    {
+      "src": "120.png",
+      "type": "image/png",
+      "sizes": "120x120",
+      "purpose": "maskable"
+    },
+    {
+      "src": "128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "maskable"
+    },
+    {
+      "src": "144.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "152.png",
+      "type": "image/png",
+      "sizes": "152x152",
+      "purpose": "maskable"
+    },
+    {
+      "src": "167.png",
+      "type": "image/png",
+      "sizes": "167x167",
+      "purpose": "maskable"
+    },
+    {
+      "src": "180.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "maskable"
+    },
+    {
+      "src": "192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "256.png",
+      "type": "image/png",
+      "sizes": "256x256",
+      "purpose": "maskable"
+    },
+    {
+      "src": "512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "maskable"
+    },
+    {
+      "src": "512_rounded.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "android-launchericon-48-48.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-launchericon-72-72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-launchericon-96-96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-launchericon-144-144.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-launchericon-192-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-launchericon-512-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#6D5095",
+  "background_color": "#f6e7d4",
+  "orientation": "portrait",
+  "dir": "auto",
+  "lang": "it-IT"
 }
