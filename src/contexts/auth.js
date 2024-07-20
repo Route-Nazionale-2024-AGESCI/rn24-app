@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNetworkState } from "@uidotdev/usehooks";
 
 import axios from "../lib/api";
 import { getUser } from "../lib/dataManager/user";
@@ -41,33 +42,36 @@ export const AuthIsNotLoggedIn = ({ children }) => {
 };
 
 const getInitialTokens = () => {
-    const query = new URLSearchParams(window.location.search);
+  const query = new URLSearchParams(window.location.search);
 
-    const impersonateToken = query.get('at');
-    const impersonateCsrfToken = query.get('ct');
+  const impersonateToken = query.get("at");
+  const impersonateCsrfToken = query.get("ct");
 
-    if (
-        impersonateToken
-        && impersonateToken.match(/^[a-f0-9]{40}$/)
-        && impersonateCsrfToken
-    ) {
-        return [impersonateToken, impersonateCsrfToken];
-    }
+  if (
+    impersonateToken &&
+    impersonateToken.match(/^[a-f0-9]{40}$/) &&
+    impersonateCsrfToken
+  ) {
+    return [impersonateToken, impersonateCsrfToken];
+  }
 
-    return [
-        localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY),
-        localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY)
-    ];
+  return [
+    localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY),
+    localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY),
+  ];
 };
 
 const AuthProvider = ({ children }) => {
   const [localToken, localCsrfToken] = getInitialTokens();
+  const networkState = useNetworkState();
   const [status, setStatus] = useState(
     localToken && localCsrfToken ? AuthStatus.Loading : AuthStatus.LoggedOut
   );
   const [token, setToken] = useState(localToken);
   const [csrfToken, setCsrfToken] = useState(localCsrfToken);
   const [user, setUser] = useState(null);
+
+  const onLine = networkState.online;
 
   useEffect(() => {
     if (token && csrfToken) {
@@ -85,22 +89,21 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
       localStorage.setItem(LOCAL_STORAGE_CSRF_TOKEN_KEY, csrfToken);
 
-      getUser().then((res) => {
-        setUser(res);
+      if (onLine) {
+        getUser().then((res) => {
+          setUser(res);
+          setStatus(AuthStatus.LoggedIn);
+        });
+      } else {
+        setUser(JSON.parse(localStorage.getItem("user")) ?? {});
         setStatus(AuthStatus.LoggedIn);
-      });
+      }
       return () => {
         axios.interceptors.request.eject(interceptor);
         localStorage.clear();
       };
     }
-    // else{
-    //   setUser(null);
-    //   setStatus(AuthStatus.LoggedOut);
-    //   setToken(null);
-    //   setCsrfToken(null);
-    // }
-  }, [token, csrfToken]);
+  }, [token, csrfToken, onLine]);
 
   const loginAction = async ({ username, password }) => {
     try {
@@ -126,7 +129,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const isLoaded = AuthStatus.Loading !== status;
-  if (!isLoaded) return "Caricamento...";
+  if (!isLoaded) return <h4>Loading...</h4>;
 
   return (
     <AuthContext.Provider
