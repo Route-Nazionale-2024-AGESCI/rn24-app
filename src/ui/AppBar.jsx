@@ -133,7 +133,7 @@ export default function AppBar() {
           >
             <Stack direction="row" spacing="16px">
               {/* <NotifyButton /> */}
-              <Menu onClick={() => setOpenDrawer(!openDrawer)} />
+              <Menu onClick={() => setOpenDrawer(!openDrawer)} aria-label="menu"/>
             </Stack>
           </Box>
         </Box>
