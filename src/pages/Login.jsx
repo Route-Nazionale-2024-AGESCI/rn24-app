@@ -15,9 +15,17 @@ import Fade from "@mui/material/Fade";
 import ToS from "./ToS";
 import CheckBox from "../ui/CheckBox";
 import TextField from "../ui/TextField";
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AccessButton from "../ui/AccessButton";
 
 import { useAuth, AuthStatus } from "../contexts/auth";
+import { styled } from '@mui/material/styles';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+
 
 const ErrorAlert = ({ errorMsg, onClose }) => (
   <Fade in={errorMsg !== null}>
@@ -49,6 +57,31 @@ export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const enableSubmit = username !== "" && password !== "" && tos;
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+  const handleTooltipOpen = () => {
+    setOpen(!open);
+  };
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      // 
+      padding: "12px",
+      maxWidth: 230,
+      fontSize: theme.typography.pxToRem(12),
+      border: '1px solid #dadde9',
+    },
+  }));
 
   useEffect(() => {
     if (status !== AuthStatus.LoggedOut) {
@@ -118,7 +151,7 @@ export default function Login() {
           }}
         >
           <FormControl color="agesciPurple">
-            <Typography fontSize="14px" fontWeight={600}>
+            <Typography id="codice-label" fontSize="14px" fontWeight={600}>
               Codice socio / Alias
             </Typography>
             <TextField
@@ -133,10 +166,11 @@ export default function Login() {
                 mt: "8px",
                 mb: "24px",
               }}
+              inputProps={{ "aria-labelledby": "codice-label" }}
             />
           </FormControl>
           <FormControl color="agesciPurple">
-            <Typography fontSize="14px" fontWeight={600}>
+            <Typography id="password-label" fontSize="14px" fontWeight={600}>
               Password
             </Typography>
             <TextField
@@ -146,11 +180,32 @@ export default function Login() {
               onChange={(ev) => {
                 setPassword(ev.target.value);
               }}
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
+              endAdornment={
+                <InputAdornment
+                  position="end"
+                  sx={{
+                    position: "absolute",
+                    right: "20px",
+                  }}
+                >
+                  <IconButton
+                    aria-label={
+                      showPassword ? "Nascondi password" : "Mostra password"
+                    }
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
               sx={{
                 mt: "8px",
               }}
+              inputProps={{ "aria-labelledby": "password-label" }}
             />
           </FormControl>
 
@@ -197,21 +252,55 @@ export default function Login() {
               }
             />
           </FormGroup>
-          <AccessButton
-            onClick={handleSubmit}
-            disabled={!enableSubmit || loading}
-            sx={{ opacity: enableSubmit && !loading ? 1.0 : 0.5 }}
+          <ClickAwayListener
+            onClickAway={handleTooltipClose}
           >
-            <Typography fontSize="16px" fontWeight={600}>
-              Accedi
-            </Typography>
-            {loading && (
-              <CircularProgress
-                size="20px"
-                sx={{ marginLeft: "12px", color: "#000000" }}
-              />
-            )}
-          </AccessButton>
+            <Box 
+              onClick={handleTooltipOpen} 
+              sx={{
+                display: "flex"
+              }}
+            >
+              <HtmlTooltip
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                arrow
+                onClose={handleTooltipClose}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title={Boolean(!enableSubmit) &&
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={600}
+                  >
+                    Per accedere
+                    {username == "" && <div>inserisci il Codice socio o Alias</div>}
+                    {password == "" && <div>inserisci la Password</div>}
+                    {!tos && <div>accetta le condizioni di utilizzo</div>}
+                  </Typography>
+                }
+                >
+                <AccessButton
+                  onClick={handleSubmit}
+                  disabled={!enableSubmit || loading}
+                  sx={{ opacity: enableSubmit && !loading ? 1.0 : 0.5 }}
+                >
+                  <Typography fontSize="16px" fontWeight={600}>
+                    Accedi
+                  </Typography>
+                  {loading && (
+                    <CircularProgress
+                      size="20px"
+                      sx={{ marginLeft: "12px", color: "#000000" }}
+                    />
+                  )}
+                </AccessButton>
+              </HtmlTooltip>
+            </Box>
+          </ClickAwayListener>
         </Box>
       </Form>
       <ErrorAlert errorMsg={error} onClose={() => setError(null)} />

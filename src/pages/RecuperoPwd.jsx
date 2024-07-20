@@ -80,7 +80,7 @@ export default function RecuperoPwd() {
         }}
       >
         <FormControl color="agesciPurple">
-          <Typography fontSize="14px" fontWeight={600}>
+          <Typography id="codice-label" fontSize="14px" fontWeight={600}>
             Codice socio / Alias
           </Typography>
           <TextField
@@ -93,10 +93,11 @@ export default function RecuperoPwd() {
             sx={{
               mt: "8px",
             }}
+            inputProps={{ "aria-labelledby": "codice-label" }}
           />
         </FormControl>
         <FormControl color="agesciPurple" sx={{ mt: "20px" }}>
-          <Typography fontSize="14px" fontWeight={600}>
+          <Typography id="email-label" fontSize="14px" fontWeight={600}>
             Email
           </Typography>
           <TextField
@@ -109,6 +110,7 @@ export default function RecuperoPwd() {
             sx={{
               mt: "8px",
             }}
+            inputProps={{ "aria-labelledby": "email-label" }}
           />
         </FormControl>
         {/* <Link component={RouterLink} to="/recuperoCodice" underline="none">
