@@ -11,6 +11,17 @@ import WhitePaper from "../ui/WhitePaper";
 
 import { useUser } from "../lib/cacheManager/user";
 
+const formatDate = (date) =>
+  date
+    ? new Date(date)
+        .toLocaleDateString("it-IT", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        })
+        .replace(/\//g, "-")
+    : "-";
+
 const UserInfo = ({
   title,
   children,
@@ -140,6 +151,70 @@ export default function Profilo() {
                 ))}
               </UserInfo>
             )}
+            <UserInfo title="Tipo documento">
+              {user?.personal_data?.identity_document_type}
+            </UserInfo>
+            <UserInfo title="Numero documento">
+              {user?.personal_data?.identity_document_number}
+            </UserInfo>
+            <UserInfo title="Data rilascio documento">
+              {formatDate(user?.personal_data?.identity_document_issue_date)}
+            </UserInfo>
+            <UserInfo title="Data scadenza documento">
+            {formatDate(user?.personal_data?.identity_document_expiry_date)}
+            </UserInfo>
+            <UserInfo title="Sedia a rotelle">
+              {user?.personal_data?.accessibility_has_wheelchair ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Viaggia con accompagnatore non iscritto?">
+              {user?.personal_data?.accessibility_has_caretaker_not_registered ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Pernotto in tenda">
+              {user?.personal_data?.sleeping_is_sleeping_in_tent ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Richieste per il pernotto" fullWidth>
+              {user?.personal_data?.sleeping_requests}
+            </UserInfo>
+            <UserInfo title="Per motivi di disabilità/patologie ho bisogno di dormire" fullWidth>
+              {user?.personal_data?.sleeping_place}
+            </UserInfo>
+            <UserInfo title="Altre richieste pernotto" fullWidth>
+              {user?.personal_data?.sleeping_requests_2}
+            </UserInfo>
+            <UserInfo title="Dieta Vegana">
+              {user?.personal_data?.food_is_vegan ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Allergie/intolleranze ad alimenti da segnalare" fullWidth>
+              {user?.personal_data?.food_diet_needed}
+            </UserInfo>
+            <UserInfo title="Elenco allergie/intolleranze alimentari" fullWidth>
+              {user?.personal_data?.food_allergies}
+            </UserInfo>
+            <UserInfo title="Problemi negli spostamenti a piedi"  fullWidth>
+              {user?.personal_data?.transportation_has_problems_moving_on_foot ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Necessita di trasporto" fullWidth>
+              {user?.personal_data?.transportation_need_transport}
+            </UserInfo>
+
+            <UserInfo title="Allergie">
+              {user?.personal_data?.health_has_allergies ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Descrizione allergie" fullWidth>
+              {user?.personal_data?.health_allergies}
+            </UserInfo>
+            <UserInfo title="Disturbi motori">
+              {user?.personal_data?.health_has_movement_disorders ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Descrizione disturbi motori" fullWidth>
+              {user?.personal_data?.health_movement_disorders}
+            </UserInfo>
+            <UserInfo title="Patologie cardiovascolari/respiratorie/neurologiche">
+              {user?.personal_data?.health_has_patologies ? "Si" : "No"}
+            </UserInfo>
+            <UserInfo title="Patologie accertate" fullWidth>
+              {user?.personal_data?.health_patologies}
+            </UserInfo>
           </Grid>
         </Box>
         <Box sx={{ height: "40px" }} />
