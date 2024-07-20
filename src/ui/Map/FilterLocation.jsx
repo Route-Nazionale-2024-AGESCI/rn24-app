@@ -3,7 +3,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

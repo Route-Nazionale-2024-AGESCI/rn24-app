@@ -23,7 +23,7 @@ import AccessButton from "../ui/AccessButton";
 
 import { useAuth, AuthStatus } from "../contexts/auth";
 import { styled } from '@mui/material/styles';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 
@@ -277,8 +277,8 @@ export default function Login() {
                     fontWeight={600}
                   >
                     Per accedere
-                    {username == "" && <div>inserisci il Codice socio o Alias</div>}
-                    {password == "" && <div>inserisci la Password</div>}
+                    {username === "" && <div>inserisci il Codice socio o Alias</div>}
+                    {password === "" && <div>inserisci la Password</div>}
                     {!tos && <div>accetta le condizioni di utilizzo</div>}
                   </Typography>
                 }
