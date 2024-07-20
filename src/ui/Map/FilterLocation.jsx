@@ -1,5 +1,5 @@
 import ButtonBase from "@mui/material/ButtonBase";
-import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import Typography from "@mui/material/Typography";
@@ -64,7 +64,7 @@ export default function FilterLocation({
   events,
 }) {
   return (
-    <Drawer open={open} onClose={onClose}>
+    <SwipeableDrawer disableSwipeToOpen={true} open={open} onClose={onClose}>
       <Box sx={{ width: "300px" }}>
         <Typography
           fontSize="20px"
@@ -106,7 +106,7 @@ export default function FilterLocation({
           )}
         </FilterAccordion>
       </Box>
-    </Drawer>
+    </SwipeableDrawer>
   );
 }
 
