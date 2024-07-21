@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 import * as React from "react";
+import { useNetworkState } from "@uidotdev/usehooks";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 import { QRCodeSVG } from "qrcode.react";
 
 import WhitePaper from "../ui/WhitePaper";
 
 import { useUser } from "../lib/cacheManager/user";
+import { notifyAvailabilityForExtraServices } from "../lib/dataManager/user";
 
 const formatDate = (date) =>
   date
@@ -50,7 +53,8 @@ const UserInfo = ({
 );
 
 export default function Profilo() {
-  const { user } = useUser();
+  const { user, mutate } = useUser();
+  const networkState = useNetworkState();
   let happinessPath = (user?.scout_group?.happiness_path ?? "")
     .replace(/_/g, " ")
     .toLowerCase();
@@ -142,10 +146,51 @@ export default function Profilo() {
               {user?.phone}
             </UserInfo>
             {user.squads && user.squads.length > 0 && (
-              <UserInfo title="Pattuglie" fullWidth>
+              <UserInfo title="Pattuglie" fullWidth autoFormat={false}>
                 {user.squads.map((s) => (
                   <React.Fragment key={s}>
-                    {s.name}
+                    <Link to={`/pages/${s.page}`}>
+                      <Typography
+                        variant="subtitle2"
+                        fontSize="12px"
+                        fontWeight={600}
+                        sx={{
+                          color: "agesciPurple.main",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {s.name}
+                      </Typography>
+                    </Link>
+
+                    {networkState.online && s.name === "Tangram Team" && (
+                      <>
+                        <Typography
+                          variant="subtitle2"
+                          fontSize="12px"
+                          fontWeight={400}
+                        >
+                          {user.is_available_for_extra_service
+                            ? "Sei disponibile a fare dei servizi aggiuntivi. Vuoi ritirare la tua disponibilità?"
+                            : "Sei disponibile a fare dei servizi aggiuntivi?"}
+                        </Typography>
+                        <Button
+                          variant="outlined"
+                          color="agesciPurple"
+                          size="small"
+                          sx={{ maxWidth: "80px" }}
+                          onClick={() =>
+                            notifyAvailabilityForExtraServices(
+                              !user.is_available_for_extra_service
+                            ).then(() => mutate())
+                          }
+                        >
+                          {user.is_available_for_extra_service
+                            ? "Ritira"
+                            : "Si"}
+                        </Button>
+                      </>
+                    )}
                     <br />
                   </React.Fragment>
                 ))}
@@ -161,13 +206,15 @@ export default function Profilo() {
               {formatDate(user?.personal_data?.identity_document_issue_date)}
             </UserInfo>
             <UserInfo title="Data scadenza documento">
-            {formatDate(user?.personal_data?.identity_document_expiry_date)}
+              {formatDate(user?.personal_data?.identity_document_expiry_date)}
             </UserInfo>
             <UserInfo title="Sedia a rotelle">
               {user?.personal_data?.accessibility_has_wheelchair ? "Si" : "No"}
             </UserInfo>
             <UserInfo title="Viaggia con accompagnatore non iscritto?">
-              {user?.personal_data?.accessibility_has_caretaker_not_registered ? "Si" : "No"}
+              {user?.personal_data?.accessibility_has_caretaker_not_registered
+                ? "Si"
+                : "No"}
             </UserInfo>
             <UserInfo title="Pernotto in tenda">
               {user?.personal_data?.sleeping_is_sleeping_in_tent ? "Si" : "No"}
@@ -175,7 +222,10 @@ export default function Profilo() {
             <UserInfo title="Richieste per il pernotto" fullWidth>
               {user?.personal_data?.sleeping_requests}
             </UserInfo>
-            <UserInfo title="Per motivi di disabilità/patologie ho bisogno di dormire" fullWidth>
+            <UserInfo
+              title="Per motivi di disabilità/patologie ho bisogno di dormire"
+              fullWidth
+            >
               {user?.personal_data?.sleeping_place}
             </UserInfo>
             <UserInfo title="Altre richieste pernotto" fullWidth>
@@ -184,14 +234,19 @@ export default function Profilo() {
             <UserInfo title="Dieta Vegana">
               {user?.personal_data?.food_is_vegan ? "Si" : "No"}
             </UserInfo>
-            <UserInfo title="Allergie/intolleranze ad alimenti da segnalare" fullWidth>
+            <UserInfo
+              title="Allergie/intolleranze ad alimenti da segnalare"
+              fullWidth
+            >
               {user?.personal_data?.food_diet_needed}
             </UserInfo>
             <UserInfo title="Elenco allergie/intolleranze alimentari" fullWidth>
               {user?.personal_data?.food_allergies}
             </UserInfo>
-            <UserInfo title="Problemi negli spostamenti a piedi"  fullWidth>
-              {user?.personal_data?.transportation_has_problems_moving_on_foot ? "Si" : "No"}
+            <UserInfo title="Problemi negli spostamenti a piedi" fullWidth>
+              {user?.personal_data?.transportation_has_problems_moving_on_foot
+                ? "Si"
+                : "No"}
             </UserInfo>
             <UserInfo title="Necessita di trasporto" fullWidth>
               {user?.personal_data?.transportation_need_transport}

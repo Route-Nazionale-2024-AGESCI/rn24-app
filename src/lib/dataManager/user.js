@@ -40,7 +40,14 @@ import axios from "../api";
 
 */
 export async function getUser() {
-  const response = await axios.get('profile/');
+  const response = await axios.get("profile/");
 
-  return response.data
+  return response.data;
+}
+
+export async function notifyAvailabilityForExtraServices(availability) {
+  const response = await axios.patch("profile/", {
+    is_available_for_extra_service: availability,
+  });
+  return response.data;
 }
