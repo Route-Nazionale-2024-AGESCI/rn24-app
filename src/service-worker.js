@@ -61,7 +61,7 @@ registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({ url }) =>
     url.origin === self.location.origin &&
-    url.pathname.endsWith(".png") &&
+    (url.pathname.endsWith(".png") || url.pathname.endsWith(".svg")) &&
     !url.pathname.startsWith("/api/media") &&
     !url.pathname.startsWith("/api/static"),
   new StaleWhileRevalidate({

@@ -6,7 +6,7 @@ export default function RnLogo() {
     <Link to="/">
       <img
         alt="Logo Route Nazionale 2024"
-        src="/256_transparent.png"
+        src="/Logo_RN.svg"
         width={40}
         height={40}
       />
