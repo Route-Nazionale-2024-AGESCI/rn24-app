@@ -16,7 +16,8 @@ export default function getEventColor(kind) {
     case "PASTI":
       return {
         main: "agesciYellow.main",
-        bg: "#F5E7D3",
+        //bg: "#F5E7D3",
+        bg: "#FBF6EE",
       };
     case "DOCCIA":
       return {
