@@ -46,14 +46,46 @@ const ThanksModal = ({ open, onClose }) => {
     >
       <DialogTitle id="thanks-dialog-title" textAlign={"center"}>
         <Typography fontSize={"20px"} fontWeight={600}>
-          Grazie!
+          La connettività durante l'evento Arena Rn24 è offerta da AGSM AIM
         </Typography>
       </DialogTitle>
+      <Box height="36px" />
       <DialogContent>
-        <DialogContentText
-          sx={{ fontSize: "16px", color: "#000000", textAlign: "center" }}
-        >
-          Ringraziamo il nostro super sponsor per la connessione a Villa Buri!
+        <a href="https://www.agsmaim.it/" target="_blank" rel="noreferrer">
+          <img
+            alt="Logo AGSM AIM"
+            src="/AGSMAIM.png"
+            style={{
+              width: "90%",
+              maxWidth: "300px",
+              height: "auto",
+              marginRight: "auto",
+              marginLeft: "auto",
+              display: "block",
+            }}
+          />
+        </a>
+        <Box height="36px" />
+        <DialogContentText sx={{ textAlign: "center" }}>
+          {/* <Typography fontSize="16px" fontWeight={600} color="#000000">
+            La connettività durante l'evento Arena Rn24 è offerta da AGSM AIM
+          </Typography>
+          <Box height="16px" /> */}
+          <Typography fontSize="16px" fontWeight={400} color="#000000">
+            Grazie al prezioso supporto di{" "}
+            <a
+              href="https://www.agsmaim.it/"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#6D5095",
+                fontWeight: 600,
+              }}
+            >
+              AGSM AIM
+            </a>{" "}
+            la connettività è gratuita
+          </Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
