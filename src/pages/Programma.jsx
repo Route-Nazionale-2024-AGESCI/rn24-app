@@ -136,7 +136,7 @@ export default function Programma() {
       .map((ev) => <EventCard event={ev} />);
     return (
       <>
-        <Box sx={{ marginLeft: "24px" }}>
+        <Box sx={{ marginX: "24px" }}>
           <Typography
             fontSize="20px"
             fontWeight={900}
@@ -215,7 +215,7 @@ export default function Programma() {
   const AnotherDayView = ({ filterButtonOnClick }) => {
     return (
       <>
-        <Box sx={{ marginLeft: "24px" }}>
+        <Box sx={{ marginX: "24px" }}>
           <Typography
             fontSize="20px"
             fontWeight={900}
