@@ -74,7 +74,7 @@ export default function FilterLocation({
         </Typography>
 
         <FilterAccordion title="Location degli eventi">
-          {Boolean(eventLocations) &&
+          {Boolean(eventLocations && eventLocations.length) ? (
             eventLocations.map((location, i) => (
               <LocationCard
                 key={i}
@@ -82,7 +82,12 @@ export default function FilterLocation({
                 onLocationClick={centerMap}
                 events={events}
               />
-            ))}
+            ))
+          ) : (
+            <Typography fontSize="16px" mt="12px" mb="24px">
+              Troverai qui le location degli eventi a cui sei iscritto
+            </Typography>
+          )}
         </FilterAccordion>
         <FilterAccordion title="Luoghi d'interesse">
           {Boolean(publicLocations) &&
@@ -96,12 +101,16 @@ export default function FilterLocation({
             ))}
         </FilterAccordion>
         <FilterAccordion title="La tua tenda">
-          {Boolean(tentLocation) && (
+          {Boolean(tentLocation) ? (
             <LocationCard
               location={tentLocation}
               onLocationClick={centerMap}
               events={events}
             />
+          ) : (
+            <Typography fontSize="16px" mt="12px" mb="24px">
+              Troverai qui la location della tua tenda
+            </Typography>
           )}
         </FilterAccordion>
       </Box>

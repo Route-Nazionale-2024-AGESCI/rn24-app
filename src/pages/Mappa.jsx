@@ -179,14 +179,14 @@ export default function Mappa() {
           </Box>
         </MapContainer>
       </Box>
-      
+
       <Box
         sx={{
           background: "white",
           borderRadius: "16px 16px 0 0",
           paddingX: "24px",
           marginY: "16px",
-          paddingBottom: "16px",
+          paddingBottom: "48px",
           marginY: "-16px",
           display: "flex",
           flexDirection: "column",
@@ -196,22 +196,23 @@ export default function Mappa() {
         }}
       >
         <Box
-        sx={{
-          width: "100%",
-          borderRadius: "16px 16px 0 0",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          paddingTop: "8px",
-          marginBottom: "0px"
-        }}>
-          <Box 
           sx={{
-            backgroundColor: "#E2DCEA",
-            borderRadius: "50px",
-            height: "4px",
-            width: "32px"
+            width: "100%",
+            borderRadius: "16px 16px 0 0",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            paddingTop: "8px",
+            marginBottom: "0px",
           }}
+        >
+          <Box
+            sx={{
+              backgroundColor: "#E2DCEA",
+              borderRadius: "50px",
+              height: "4px",
+              width: "32px",
+            }}
           ></Box>
         </Box>
         {location && (
@@ -240,21 +241,6 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
-            <Button
-              variant="text"
-              onClick={() => {
-                setOpenFilterDrawer(true);
-              }}
-              endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
-            >
-              <Typography
-                fontSize="16px"
-                fontWeight={600}
-                sx={{ color: "#2B2D2B", textTransform: "none" }}
-              >
-                Vedi tutti
-              </Typography>
-            </Button>
           </>
         )}
         <Typography
@@ -265,13 +251,33 @@ export default function Mappa() {
         >
           La tua tenda
         </Typography>
-        {Boolean(tentLocation) && (
+        {Boolean(tentLocation) ? (
           <LocationCard
             location={tentLocation}
             onLocationClick={centerMap}
             events={events}
           />
+        ) : (
+          <Typography fontSize="16px" mt="12px" mb="24px">
+            Troverai qui la location della tua tenda
+          </Typography>
         )}
+        <Button
+          variant="text"
+          onClick={() => {
+            setOpenFilterDrawer(true);
+          }}
+          endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
+          sx={{mt: "12px"}}
+        >
+          <Typography
+            fontSize="16px"
+            fontWeight={600}
+            sx={{ color: "#2B2D2B", textTransform: "none" }}
+          >
+            Vedi tutti
+          </Typography>
+        </Button>
       </Box>
       <FilterLocation
         open={openFilterDrawer}
