@@ -14,6 +14,7 @@ import AuthProvider, { useAuth } from "./contexts/auth";
 // solo quelle utilizzate da noi e configurazione service worker
 import { library } from "@fortawesome/fontawesome-svg-core";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
+import { register } from "./serviceWorkerRegistration";
 
 const iconList = Object.keys(Icons)
   .filter((key) => key !== "fas" && key !== "prefix")
@@ -86,6 +87,21 @@ function Router() {
 }
 
 function App() {
+  React.useEffect(() => {
+    register({
+      onUpdate: (registration) => {
+        if (registration && registration.waiting)
+          if (
+            window.confirm(
+              "Nuova versione disponibile. Ti consigliamo vivamente di aggiornare l'App! Procedere?"
+            )
+          ) {
+            registration.waiting.postMessage({ type: "SKIP_WAITING" });
+            window.location.reload();
+          }
+      },
+    });
+  }, []);
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
