@@ -46,7 +46,7 @@ export default function CardButton({ text, icon, bgColor, to = undefined }) {
 export function AddContactButton() {
   return (
     <CardButton
-      text="Contatti XXX"
+      text="Contatti"
       bgColor="agesciPurple"
       to="/contatti"
       icon={<PersonAddAlt1Icon sx={{ mr: "16px" }} />}
