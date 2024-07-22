@@ -34,10 +34,10 @@ export default function IncontriPlanner() {
           e.kind === "INCONTRI" &&
           invUuid.includes(e.uuid) &&
           (isAlfiere
-            ? e.happiness_path === user.scout_group.happiness_path
+            ? e.happiness_path === user.scout_group?.happiness_path
             : true)
       ),
-    [events, isAlfiere, user.scout_group.happiness_path, invUuid]
+    [events, isAlfiere, user.scout_group?.happiness_path, invUuid]
   );
 
   const idAccadimento = useMemo(() => {
