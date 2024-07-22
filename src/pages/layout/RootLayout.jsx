@@ -3,17 +3,17 @@ import React from "react";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { register } from "../../serviceWorkerRegistration";
+import useServiceWorker from "../../hooks/sw";
 
 export default function RootLayout() {
-  const [waitingWorker, setWaitingWorker] = React.useState(null);
+  //const [waitingWorker, setWaitingWorker] = React.useState(null);
+  const waitingWorker = useServiceWorker();
+  const [updateAvailable, setUpdateAvailable] = React.useState(false);
   React.useEffect(() => {
-    register({
-      onUpdate: (registration) => {
-        if (registration && registration.waiting)
-          setWaitingWorker(registration.waiting);
-      },
-    });
-  }, []);
+    if (waitingWorker !== null) {
+      setUpdateAvailable(true);
+    }
+  }, [waitingWorker]);
 
   const reloadPage = () => {
     if (waitingWorker) {
@@ -27,7 +27,7 @@ export default function RootLayout() {
   };
   return (
     <>
-      {waitingWorker !== null && (
+      {updateAvailable && (
         <Alert
           severity="success"
           action={
