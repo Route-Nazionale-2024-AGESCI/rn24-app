@@ -66,26 +66,33 @@ const ThanksModal = ({ open, onClose }) => {
           />
         </a>
         <Box height="36px" />
-        <DialogContentText sx={{ textAlign: "center" }}>
+        <DialogContentText
+          sx={{
+            textAlign: "center",
+            fontSize: "16px",
+            fontWeight: 400,
+            color: "#000000",
+          }}
+        >
           {/* <Typography fontSize="16px" fontWeight={600} color="#000000">
             La connettività durante l'evento Arena Rn24 è offerta da AGSM AIM
           </Typography>
           <Box height="16px" /> */}
-          <Typography fontSize="16px" fontWeight={400} color="#000000">
-            Grazie al prezioso supporto di{" "}
-            <a
-              href="https://www.agsmaim.it/"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#6D5095",
-                fontWeight: 600,
-              }}
-            >
-              AGSM AIM
-            </a>{" "}
-            la connettività è gratuita
-          </Typography>
+          {/* <Typography fontSize="16px" fontWeight={400} color="#000000"> */}
+          Grazie al prezioso supporto di{" "}
+          <a
+            href="https://www.agsmaim.it/"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "#6D5095",
+              fontWeight: 600,
+            }}
+          >
+            AGSM AIM
+          </a>{" "}
+          la connettività è gratuita
+          {/* </Typography> */}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
