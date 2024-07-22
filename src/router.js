@@ -1,5 +1,6 @@
 import { Outlet, Navigate, useParams } from "react-router-dom";
 
+import RootLayout from "./pages/layout/RootLayout";
 import Home, { loader as homeLoader } from "./pages/Home";
 import Avvisi, { loader as avvisiLoader } from "./pages/Avvisi";
 import Mappa, { loader as mappaLoader } from "./pages/Mappa";
@@ -78,6 +79,7 @@ const AccessControlWrapper = ({ Layout }) => {
 export const router = [
   {
     path: "/",
+    element: <RootLayout />,
     errorElement: <RootError />,
     children: [
       {

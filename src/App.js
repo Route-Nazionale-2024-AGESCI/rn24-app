@@ -1,7 +1,5 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
 import {
   ThemeProvider,
   createTheme,
@@ -16,7 +14,6 @@ import AuthProvider, { useAuth } from "./contexts/auth";
 // solo quelle utilizzate da noi e configurazione service worker
 import { library } from "@fortawesome/fontawesome-svg-core";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
-import { register } from "./serviceWorkerRegistration";
 
 const iconList = Object.keys(Icons)
   .filter((key) => key !== "fas" && key !== "prefix")
@@ -89,44 +86,10 @@ function Router() {
 }
 
 function App() {
-  const [waitingWorker, setWaitingWorker] = React.useState(null);
-  React.useEffect(() => {
-    register({
-      onUpdate: (registration) => {
-        if (registration && registration.waiting)
-          setWaitingWorker(registration.waiting);
-      },
-    });
-  }, []);
-
-  const reloadPage = () => {
-    if (waitingWorker) {
-      waitingWorker.postMessage({ type: "SKIP_WAITING" });
-      waitingWorker.addEventListener("statechange", (event) => {
-        if (event.target.state === "activated") {
-          window.location.reload();
-        }
-      });
-    }
-  };
-
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
         <Router />
-        {waitingWorker !== null && (
-          <Alert
-            severity="success"
-            action={
-              <Button color="inherit" size="small" onClick={reloadPage}>
-                Aggiorna
-              </Button>
-            }
-          >
-            È disponibile un aggiornamento. Clicca su "Aggiorna" per
-            installarlo.
-          </Alert>
-        )}
       </ThemeProvider>
     </AuthProvider>
   );

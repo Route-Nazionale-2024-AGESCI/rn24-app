@@ -52,9 +52,13 @@ export function register(config) {
       }
     });
   }
-  setInterval(() => {
-    checkForUpdates(config);
-  }, 60 * 60 * 1000);
+  setInterval(
+    () => {
+      checkForUpdates(config);
+    },
+    60 * 1000
+    // 60 * 60 * 1000
+  );
 }
 
 function checkForUpdates(config) {
