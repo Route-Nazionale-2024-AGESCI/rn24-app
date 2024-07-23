@@ -45,11 +45,23 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-push-image
     steps:
-      - name: executing remote ssh commands using ssh key
+      - name: deploy SSH dev server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
           port: 22
+          script: deploy.sh
+      - name: deploy SSH PROD server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: 22
+          proxy_host: ${{ secrets.SSH_HOST }}
+          proxy_username: root
+          proxy_port: 22
+          proxy_key: ${{ secrets.SSH_KEY }}
           script: deploy.sh
