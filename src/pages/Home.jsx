@@ -46,7 +46,7 @@ const ThanksModal = ({ open, onClose }) => {
     >
       <DialogTitle id="thanks-dialog-title" textAlign={"center"}>
         <Typography fontSize={"20px"} fontWeight={600}>
-          La connettività durante l'evento Arena Rn24 è offerta da AGSM AIM
+          La connettività durante l'evento Arena24 è offerta da AGSM AIM
         </Typography>
       </DialogTitle>
       <Box height="36px" />
