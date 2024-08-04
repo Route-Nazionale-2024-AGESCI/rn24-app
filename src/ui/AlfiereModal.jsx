@@ -18,7 +18,7 @@ export default function AlfiereModal({ open, onClose, onYes, onNo }) {
     >
       <DialogTitle id="alfiere-dialog-title" textAlign={"center"}>
         <Typography fontSize={"20px"} fontWeight={600}>
-          Sei l'alfiere della tua Comunità Capi?
+          Sei l'artigiano di futuro della tua Comunità Capi?
         </Typography>
       </DialogTitle>
 
