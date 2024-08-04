@@ -1,13 +1,12 @@
 import axios from "axios";
 import { redirect } from "react-router-dom";
 
-if (process.env.NODE_ENV === "production") {
-  axios.defaults.baseURL = "/api/v1/";
-  // axios.defaults.baseURL = "https://rn24-app-dev.agesci.it/api/v1/";
-} else {
-  // TODO: leggere questo valore da .env, non inserito dentro git
-  axios.defaults.baseURL = "https://rn24-app-dev.agesci.it/api/v1/";
-}
+//if (process.env.NODE_ENV === "production") {
+// axios.defaults.baseURL = "/api/v1/";
+//} else {
+//axios.defaults.baseURL = "https://rn24-app-dev.agesci.it/api/v1/";
+//}
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const instance = axios.create({
   headers: {
