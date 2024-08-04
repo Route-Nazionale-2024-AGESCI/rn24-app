@@ -39,6 +39,7 @@ registerRoute(
       url.pathname.startsWith("/_") ||
       url.pathname.startsWith("/static") ||
       url.pathname.startsWith("/api/v1") ||
+      url.pathname.startsWith("/api/cms") ||
       url.pathname.startsWith("/api/admin")
     ) {
       return false;
