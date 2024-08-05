@@ -229,7 +229,7 @@ export default function Mappa() {
               fontSize="20px"
               fontWeight={900}
               mt="24px"
-              sx={{ color: "agesciPurple.main" }}
+              sx={{ color: "#2B2D2B" }}
             >
               Location dei prossimi eventi
             </Typography>
@@ -247,7 +247,7 @@ export default function Mappa() {
           fontSize="20px"
           fontWeight={900}
           mt="24px"
-          sx={{ color: "agesciPurple.main" }}
+          sx={{ color: "#2B2D2B" }}
         >
           La tua tenda
         </Typography>

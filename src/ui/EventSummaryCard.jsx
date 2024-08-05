@@ -56,10 +56,9 @@ export default function EventSummaryCard({
           <Typography
             variant="subtitle1"
             fontSize="20px"
-            lineHeight={`${small ? "1.5" : undefined}`}
             fontWeight={600}
             sx={{
-              color: getEventColor(event.kind).main, //"#6D5095"
+              color: `${small ? "#666A66" : getEventColor(event.kind).main}`, //"#6D5095"
             }}
           >
             {startDT.getDate().toString().padStart(2, "0")}
@@ -70,7 +69,7 @@ export default function EventSummaryCard({
             fontWeight={600}
             textTransform="uppercase"
             sx={{
-              color: getEventColor(event.kind).main,
+              color: `${small ? "#666A66" : getEventColor(event.kind).main}`,
               //"#6D5095"
             }}
           >
@@ -84,7 +83,7 @@ export default function EventSummaryCard({
             lineHeight="15px"
             fontWeight={600}
             textAlign="left"
-            mb={`${small ? "0" : "8px"}`}
+            mb={`${small ? "4px" : "8px"}`}
             //Limitare il numero di righe visualizzate a 2, per titoli troppo lunghi
             sx={{
               display: "-webkit-box",
@@ -97,7 +96,7 @@ export default function EventSummaryCard({
             {title}
           </Typography>
           <Stack direction="row" spacing="8px" alignItems="center">
-            <AccessTimeIcon sx={{ fontSize: 12, color: `${small ? "#666A66" : "#959695"}` }} />
+            <AccessTimeIcon sx={{ fontSize: 12, color: "#666A66" }} />
             <Typography
               variant="subtitle2"
               fontSize="12px"
@@ -113,7 +112,7 @@ export default function EventSummaryCard({
             </Typography>
           </Stack>
           {showLocation && <Stack direction="row" spacing="8px" alignItems="center">
-            <PlaceIcon sx={{ fontSize: 12, color: "#959695" }} />
+            <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
             <Typography
               variant="subtitle2"
               fontSize="12px"
