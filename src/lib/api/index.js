@@ -22,9 +22,10 @@ instance.interceptors.response.use(
     const status = error.response?.status;
     if (
       status === 401 ||
-      (status === 403 &&
-        error.response.data.detail ===
-          "Non sono state immesse le credenziali di autenticazione.")
+      status === 403
+      // &&
+      // error.response.data.detail ===
+      //   "Non sono state immesse le credenziali di autenticazione."
     ) {
       return redirect("/login");
     }
