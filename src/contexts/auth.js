@@ -42,6 +42,7 @@ export const AuthIsNotLoggedIn = ({ children }) => {
 };
 
 const getInitialTokens = () => {
+  // TODO: transform this in a hook, syncing with query params
   const query = new URLSearchParams(window.location.search);
 
   const impersonateToken = query.get("at");
@@ -55,6 +56,7 @@ const getInitialTokens = () => {
     return [impersonateToken, impersonateCsrfToken];
   }
 
+  // TODO: use a hook to sync with localStorage
   return [
     localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY),
     localStorage.getItem(LOCAL_STORAGE_CSRF_TOKEN_KEY),
