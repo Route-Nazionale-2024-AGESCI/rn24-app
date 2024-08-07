@@ -13,7 +13,7 @@ export async function loader({ params }) {
   const parentList = [page];
   while (parentList[parentList.length - 1].parent !== null) {
     const p = await getPage(parentList[parentList.length - 1].parent);
-    if (p.slug === "rn24") break;
+    if (p.slug === "rn24-root") break;
     parentList.push(p);
   }
   parentList.reverse();
@@ -69,7 +69,7 @@ export default function Pagina() {
         </div>
         {page.show_in_menus &&
           ((parent &&
-            parent.slug !== "rn24" &&
+            parent.slug !== "rn24-root" &&
             page.slug !== "sicurezza" &&
             page.slug !== "libretto") ||
             children.length > 0) && <Divider />}
@@ -77,7 +77,7 @@ export default function Pagina() {
           parent &&
           page.slug !== "sicurezza" &&
           page.slug !== "libretto" &&
-          parent.slug !== "rn24" && (
+          parent.slug !== "rn24-root" && (
             <>
               <Box height={28} />
               <Typography variant="body2">

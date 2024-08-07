@@ -62,7 +62,7 @@ export default function AppBar() {
         (page) =>
           page.show_in_menus &&
           page.slug !== "sicurezza" &&
-          page.slug !== "eventi" &&
+          page.slug !== "rn24-events-root" &&
           page.slug !== "libretto"
       )
       .map((page) => ({
@@ -115,7 +115,7 @@ export default function AppBar() {
             justifyContent: "space-between",
             mx: "24px",
             height: "40px",
-            position: "relative"
+            position: "relative",
           }}
         >
           <Box
@@ -133,7 +133,10 @@ export default function AppBar() {
           >
             <Stack direction="row" spacing="16px">
               {/* <NotifyButton /> */}
-              <Menu onClick={() => setOpenDrawer(!openDrawer)} aria-label="menu"/>
+              <Menu
+                onClick={() => setOpenDrawer(!openDrawer)}
+                aria-label="menu"
+              />
             </Stack>
           </Box>
         </Box>
@@ -160,6 +163,7 @@ export default function AppBar() {
                     {filteredPages[0]?.children?.map((page) =>
                       renderTree(page)
                     )}
+                    {console.log(filteredPages[0])}
                   </SimpleTreeView>
                 }
               </>
