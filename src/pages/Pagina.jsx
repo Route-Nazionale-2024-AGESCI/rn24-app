@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import WhitePaper from "../ui/WhitePaper";
 import { getPage } from "../lib/cacheManager/pages";
 import { useLoaderData, Link as RouterLink } from "react-router-dom";
@@ -6,6 +7,8 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import HtmlWithRouterLinks from "../lib/htmlParser";
+import { usePersonalPages } from "../contexts/personalPages";
+
 export async function loader({ params }) {
   const page = await getPage(params.pageId);
   const parent = await getPage(page.parent);
@@ -23,6 +26,13 @@ export async function loader({ params }) {
 export default function Pagina() {
   const { page, parent, parentList } = useLoaderData();
   const children = page.children.filter((c) => c.show_in_menus);
+  const { personalPages, addPersonalPageUuid } = usePersonalPages();
+  const personalPagesUuid = personalPages.map((p) => p.uuid);
+  useEffect(() => {
+    if (!personalPagesUuid.includes(page.uuid) && !page.show_in_menus) {
+      addPersonalPageUuid(page.uuid);
+    }
+  }, []);
   return (
     <>
       <Typography

@@ -57,6 +57,7 @@ import AccadimentoPlanner, {
 } from "./pages/planner/AccadimentoPlanner";
 
 import { FilterProvider } from "./contexts/filter";
+import { PersonalPagesProvider } from "./contexts/personalPages";
 import { useAuth } from "./contexts/auth";
 
 const AuthMiddleware = () => {
@@ -67,8 +68,12 @@ const AuthMiddleware = () => {
   return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-const FilterMiddleware = () => {
-  return <FilterProvider>{<Outlet />}</FilterProvider>;
+const ContextsMiddleware = () => {
+  return (
+    <FilterProvider>
+      <PersonalPagesProvider>{<Outlet />}</PersonalPagesProvider>
+    </FilterProvider>
+  );
 };
 
 const AccessControlWrapper = ({ Layout }) => {
@@ -110,7 +115,7 @@ export const router = [
             errorElement: <SegmentedError />,
             children: [
               {
-                element: <FilterMiddleware />,
+                element: <ContextsMiddleware />,
                 children: [
                   {
                     element: <NavBarLayout />,

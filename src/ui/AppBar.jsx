@@ -26,6 +26,7 @@ import Menu from "./Menu";
 import { usePages } from "../lib/cacheManager/pages";
 import { useAuth } from "../contexts/auth";
 import { useRefreshData } from "../lib/dataManager/version";
+import { usePersonalPages } from "../contexts/personalPages";
 
 const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
   ({ theme }) => ({
@@ -52,8 +53,10 @@ const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
 export default function AppBar() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const { personalPages } = usePersonalPages();
   const { user } = useAuth();
   const pages = usePages();
+
   useRefreshData();
 
   const filterPages = (pages) => {
@@ -165,6 +168,47 @@ export default function AppBar() {
                     )}
                   </SimpleTreeView>
                 }
+                {personalPages.length > 0 && (
+                  <>
+                    <Box sx={{ height: "24px" }} />
+                    <Divider color="#aaaaaa" />
+                    <Box sx={{ height: "24px" }} />
+                    <Typography
+                      fontSize="18px"
+                      fontWeight={600}
+                      marginBottom={2}
+                    >
+                      Le mie pagine
+                    </Typography>
+                    {
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                          marginLeft: 1,
+                        }}
+                      >
+                        {personalPages.map((page, i) => (
+                          <Typography
+                            component={Link}
+                            key={i}
+                            to={`/pages/${page.uuid}`}
+                            onClick={() => setOpenDrawer(false)}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {page.title}
+                          </Typography>
+                        ))}
+                      </Box>
+                    }
+                  </>
+                )}
               </>
             </Box>
             <Divider color="#aaaaaa" />
