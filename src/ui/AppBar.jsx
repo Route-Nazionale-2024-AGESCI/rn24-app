@@ -163,7 +163,6 @@ export default function AppBar() {
                     {filteredPages[0]?.children?.map((page) =>
                       renderTree(page)
                     )}
-                    {console.log(filteredPages[0])}
                   </SimpleTreeView>
                 }
               </>
