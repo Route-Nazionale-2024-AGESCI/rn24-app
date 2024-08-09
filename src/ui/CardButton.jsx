@@ -5,13 +5,22 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import RouteIcon from "@mui/icons-material/Route";
 
-export default function CardButton({ text, icon, bgColor, to = undefined }) {
+export default function CardButton({
+  text,
+  icon,
+  bgColor,
+  to = undefined,
+  target = undefined,
+  rel = undefined,
+}) {
   const linkProps =
     to === undefined
       ? {}
       : {
           component: RouterLink,
           to,
+          target,
+          rel,
         };
 
   const style = {
@@ -71,7 +80,9 @@ export function BookletButton() {
       text="Consulta il Libretto"
       bgColor="agesciGreen"
       icon={<MenuBookIcon sx={{ mr: "8px" }} />}
-      to="/libretto"
+      to="https://new.express.adobe.com/webpage/dGOBbZrfjhWt7"
+      target="_blank"
+      rel="noopener noreferrer"
     />
   );
 }
