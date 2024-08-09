@@ -26,7 +26,7 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
   useEffect(() => {
     map.whenReady(() => {
       const layer = leafletLayer({
-        url: "https://rn24-app-dev.agesci.it/api/static/verona.pmtiles",
+        url: "/api/static/verona.pmtiles",
         theme: "light",
         bounds: [
           [45.46, 10.98],
