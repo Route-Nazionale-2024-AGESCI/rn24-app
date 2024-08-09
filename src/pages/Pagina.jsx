@@ -42,6 +42,7 @@ export default function Pagina() {
                   <RouterLink
                     to={`/pages/${page.uuid}`}
                     style={{ textDecoration: "none" }}
+                    key={index}
                   >
                     <Typography
                       fontSize={"14px"}
