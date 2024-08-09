@@ -22,7 +22,11 @@ instance.interceptors.response.use(
       // error.response.data.detail ===
       //   "Non sono state immesse le credenziali di autenticazione."
     ) {
-      return redirect("/login");
+      //return redirect("/login");
+      localStorage.removeItem("atoken");
+      localStorage.removeItem("csrftoken");
+      window.location.replace("/login");
+      return Promise.reject(error);
     }
     return Promise.reject(error);
   }
