@@ -37,6 +37,9 @@ export default function LocationCard({
       />
     ));
   };
+  if (!location?.coords?.coordinates) return(
+    <></>
+  )
  
   return (
     <Button

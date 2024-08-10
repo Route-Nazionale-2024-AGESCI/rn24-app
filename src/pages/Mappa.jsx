@@ -33,7 +33,7 @@ export async function loader({ request }) {
   if (url.searchParams.get("location")) {
     // Found location uuid in request
     location = await getLocation(url.searchParams.get("location"));
-    if (location === undefined) {
+    if (location === undefined || !location?.coords?.coordinates) {
       location = null;
       lat = null;
       lon = null;
@@ -187,6 +187,7 @@ export default function Mappa() {
           paddingX: "24px",
           marginY: "16px",
           paddingBottom: "48px",
+          minHeight: "180px",
           marginY: "-16px",
           display: "flex",
           flexDirection: "column",
@@ -241,6 +242,22 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
+            <Button
+              variant="text"
+              onClick={() => {
+                setOpenFilterDrawer(true);
+              }}
+              endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
+              sx={{ mt: "12px" }}
+            >
+              <Typography
+                fontSize="16px"
+                fontWeight={600}
+                sx={{ color: "#2B2D2B", textTransform: "none" }}
+              >
+                Vedi tutti
+              </Typography>
+            </Button>
           </>
         )}
         <Typography
@@ -262,22 +279,6 @@ export default function Mappa() {
             Troverai qui la location della tua tenda
           </Typography>
         )}
-        <Button
-          variant="text"
-          onClick={() => {
-            setOpenFilterDrawer(true);
-          }}
-          endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
-          sx={{mt: "12px"}}
-        >
-          <Typography
-            fontSize="16px"
-            fontWeight={600}
-            sx={{ color: "#2B2D2B", textTransform: "none" }}
-          >
-            Vedi tutti
-          </Typography>
-        </Button>
       </Box>
       <FilterLocation
         open={openFilterDrawer}

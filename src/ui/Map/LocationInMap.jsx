@@ -20,17 +20,19 @@ export const LocationInMap = ({ location, icon, big = false }) => {
   };
   return (
     <>
-      <Marker
-        className={"prova"}
-        position={coords}
-        icon={getIcon(location.color, icon ? icon : location.icon, big)}
-        pane={big ? "popupPane" : "markerPane"}
-        eventHandlers={{
-          click: () => {
-            onClick();
-          },
-        }}
-      ></Marker>
+      {Boolean(coords) && (
+        <Marker
+          className={"prova"}
+          position={coords}
+          icon={getIcon(location.color, icon ? icon : location.icon, big)}
+          pane={big ? "popupPane" : "markerPane"}
+          eventHandlers={{
+            click: () => {
+              onClick();
+            },
+          }}
+        ></Marker>
+      )}
       {Boolean(location.path) && (
         <Polyline pathOptions={colorOption} positions={pathCoords} />
       )}
