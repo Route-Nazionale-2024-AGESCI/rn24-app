@@ -112,7 +112,7 @@ export default function NotifyButton() {
   //if (dataNeedRefresh) refreshData();
   return (
     <>
-      <Button
+      {/* <Button
         disableElevation
         sx={{
           borderRadius: "8px",
@@ -197,7 +197,7 @@ export default function NotifyButton() {
         >
           Si è verificato un problema... riprova più tardi
         </Alert>
-      </Fade>
+      </Fade> */}
     </>
   );
 }

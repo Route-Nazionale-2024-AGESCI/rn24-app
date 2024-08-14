@@ -8,7 +8,9 @@ import Programma, { loader as programmaLoader } from "./pages/Programma";
 import Tracce, { loader as tracceLoader } from "./pages/Tracce";
 import Libretto, { loader as librettoLoader } from "./pages/Libretto";
 import NavBarLayout from "./pages/layout/NavBarLayout";
-import AppBarLayout from "./pages/layout/AppBarLayout";
+import AppBarLayout, {
+  loader as appBarLoader,
+} from "./pages/layout/AppBarLayout";
 import FullScreenBadge from "./pages/FullScreenBadge";
 import FabLayout from "./pages/layout/FabLayout";
 import AccessLayout from "./pages/layout/AccessLayout";
@@ -123,6 +125,7 @@ export const router = [
                     children: [
                       {
                         element: <AppBarLayout />,
+                        loader: appBarLoader,
                         errorElement: <SegmentedError />,
                         children: [
                           {

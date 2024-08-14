@@ -23,7 +23,7 @@ import LogoutModal from "./LogoutModal";
 import RnLogo from "./RnLogo";
 // import NotifyButton from "./NotifyButton";
 import Menu from "./Menu";
-import { usePages } from "../lib/cacheManager/pages";
+import { usePages, getPages } from "../lib/cacheManager/pages";
 import { useAuth } from "../contexts/auth";
 import { useRefreshData } from "../lib/dataManager/version";
 import { usePersonalPages } from "../contexts/personalPages";
@@ -50,12 +50,13 @@ const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
   })
 );
 
-export default function AppBar() {
+export default function AppBar({ pages }) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const { personalPages } = usePersonalPages();
   const { user } = useAuth();
-  const pages = usePages();
+  //const pages = usePages();
+  //const { pages } = useLoaderData();
 
   useRefreshData();
 
