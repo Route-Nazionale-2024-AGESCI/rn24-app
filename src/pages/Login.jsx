@@ -15,17 +15,16 @@ import Fade from "@mui/material/Fade";
 import ToS from "./ToS";
 import CheckBox from "../ui/CheckBox";
 import TextField from "../ui/TextField";
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccessButton from "../ui/AccessButton";
 
 import { useAuth, AuthStatus } from "../contexts/auth";
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-
+import { styled } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 const ErrorAlert = ({ errorMsg, onClose }) => (
   <Fade in={errorMsg !== null}>
@@ -75,11 +74,11 @@ export default function Login() {
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      // 
+      //
       padding: "12px",
       maxWidth: 230,
       fontSize: theme.typography.pxToRem(12),
-      border: '1px solid #dadde9',
+      border: "1px solid #dadde9",
     },
   }));
 
@@ -218,6 +217,15 @@ export default function Login() {
               Password dimenticata?
             </Typography>
           </Link>
+          <Link href="mailto:supporto.it@rn24.agesci.it" underline="none">
+            <Typography
+              fontSize="14px"
+              fontWeight={600}
+              sx={{ mt: "8px", textAlign: "right", color: "#000000" }}
+            >
+              Ti serve aiuto?
+            </Typography>
+          </Link>
           <FormGroup sx={{ mt: "40px" }}>
             <FormControlLabel
               control={
@@ -252,13 +260,11 @@ export default function Login() {
               }
             />
           </FormGroup>
-          <ClickAwayListener
-            onClickAway={handleTooltipClose}
-          >
-            <Box 
-              onClick={handleTooltipOpen} 
+          <ClickAwayListener onClickAway={handleTooltipClose}>
+            <Box
+              onClick={handleTooltipOpen}
               sx={{
-                display: "flex"
+                display: "flex",
               }}
             >
               <HtmlTooltip
@@ -271,18 +277,19 @@ export default function Login() {
                 disableFocusListener
                 disableHoverListener
                 disableTouchListener
-                title={Boolean(!enableSubmit) &&
-                  <Typography
-                    fontSize="14px"
-                    fontWeight={600}
-                  >
-                    Per accedere
-                    {username === "" && <div>inserisci il Codice socio o Alias</div>}
-                    {password === "" && <div>inserisci la Password</div>}
-                    {!tos && <div>accetta le condizioni di utilizzo</div>}
-                  </Typography>
+                title={
+                  Boolean(!enableSubmit) && (
+                    <Typography fontSize="14px" fontWeight={600}>
+                      Per accedere
+                      {username === "" && (
+                        <div>inserisci il Codice socio o Alias</div>
+                      )}
+                      {password === "" && <div>inserisci la Password</div>}
+                      {!tos && <div>accetta le condizioni di utilizzo</div>}
+                    </Typography>
+                  )
                 }
-                >
+              >
                 <AccessButton
                   onClick={handleSubmit}
                   disabled={!enableSubmit || loading}
