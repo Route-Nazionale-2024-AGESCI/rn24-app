@@ -36,7 +36,7 @@ export default function SguardiPlanner() {
       </Typography>
       <WhitePaper sx={{ px: "24px" }}>
         {sguardi.map((e) => (
-          <EventCard key={e.uuid} event={e} />
+          <EventCard key={e.uuid} event={e} showDate/>
         ))}
       </WhitePaper>
     </>
