@@ -321,9 +321,7 @@ export default function Profilo() {
                   title="Necessità di un accompagnatore fornito dall'organizzazione durante l'evento"
                   fullWidth
                 >
-                  {user?.personal_data?.transportation_need_transport
-                    ? "Si"
-                    : "No"}
+                  {user?.personal_data?.transportation_need_transport}
                 </UserInfo>
               </Grid>
               <TabTitle>Salute</TabTitle>
