@@ -9,12 +9,12 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { italianMonth } from "../lib/italianDate";
 import getEventColor from "../lib/eventColor";
 
-export default function EventSummaryCard({ 
-  event, 
+export default function EventSummaryCard({
+  event,
   location,
   small = false,
-  showLocation = true
- }) {
+  showLocation = true,
+}) {
   const startDT = new Date(event.starts_at);
   const endDT = new Date(event.ends_at);
   const title = event.name;
@@ -30,7 +30,7 @@ export default function EventSummaryCard({
         p: `${small ? "4px" : "12px"}`,
         justifyContent: "start",
         flex: "0 0 auto",
-        backgroundColor: `${small ? getEventColor(event.kind).bg : "none"}`
+        backgroundColor: `${small ? getEventColor(event.kind).bg : "none"}`,
       }}
       className="event-summary-card-container"
       component={RouterLink}
@@ -39,7 +39,11 @@ export default function EventSummaryCard({
       disableElevation
       color="white"
     >
-      <Stack direction="row" spacing={`${small ? "12px" : "16px"}`} justifyContent="flex-start">
+      <Stack
+        direction="row"
+        spacing={`${small ? "12px" : "16px"}`}
+        justifyContent="flex-start"
+      >
         <Box
           sx={{
             bgcolor: `${small ? "#fff" : getEventColor(event.kind).bg}`, //"#E2DCEA",
@@ -76,7 +80,12 @@ export default function EventSummaryCard({
             {italianMonth[startDT.getMonth()].substring(0, 3)}
           </Typography>
         </Box>
-        <Stack direction="column" maxWidth="204px" alignItems="flex-start" justifyContent="center">
+        <Stack
+          direction="column"
+          maxWidth="204px"
+          alignItems="flex-start"
+          justifyContent="center"
+        >
           <Typography
             variant="subtitle1"
             fontSize="14px"
@@ -90,7 +99,7 @@ export default function EventSummaryCard({
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
               WebkitLineClamp: 2,
-              color: "#2B2D2B"
+              color: "#2B2D2B",
             }}
           >
             {title}
@@ -111,19 +120,27 @@ export default function EventSummaryCard({
               {endDT.getMinutes().toString().padStart(2, "0")}
             </Typography>
           </Stack>
-          {showLocation && <Stack direction="row" spacing="8px" alignItems="center">
-            <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
-            <Typography
-              variant="subtitle2"
-              fontSize="12px"
-              fontWeight={400}
-              textAlign="left"
-              mb="4px"
-              sx={{ color: "#959695" }}
-            >
-              {standName}
-            </Typography>
-          </Stack>}
+          {showLocation && (
+            <Stack direction="row" spacing="8px" alignItems="center">
+              <PlaceIcon sx={{ fontSize: 12, color: "#666A66" }} />
+              <Typography
+                variant="subtitle2"
+                fontSize="12px"
+                fontWeight={400}
+                textAlign="left"
+                mb="4px"
+                sx={{
+                  color: "#959695",
+                  display: "-webkit-box",
+                  overflow: "hidden",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                }}
+              >
+                {standName}
+              </Typography>
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Button>
