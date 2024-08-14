@@ -90,20 +90,28 @@ const AuthProvider = ({ children }) => {
 
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
       localStorage.setItem(LOCAL_STORAGE_CSRF_TOKEN_KEY, csrfToken);
+      setStatus(AuthStatus.LoggedIn);
 
+      return () => {
+        axios.interceptors.request.eject(interceptor);
+        //console.log("Clearing whole local storage...");
+        //localStorage.clear();
+      };
+    }
+  }, [token, csrfToken]);
+
+  useEffect(() => {
+    if (token && csrfToken) {
       if (onLine) {
         getUser().then((res) => {
           setUser(res);
-          setStatus(AuthStatus.LoggedIn);
+          localStorage.setItem("user", JSON.stringify(res));
         });
       } else {
         setUser(JSON.parse(localStorage.getItem("user")) ?? {});
-        setStatus(AuthStatus.LoggedIn);
       }
-      return () => {
-        axios.interceptors.request.eject(interceptor);
-        localStorage.clear();
-      };
+    } else {
+      localStorage.removeItem("user");
     }
   }, [token, csrfToken, onLine]);
 
