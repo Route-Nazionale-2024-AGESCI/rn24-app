@@ -190,7 +190,7 @@ export default function Profilo() {
                         textDecoration: "underline",
                       }}
                     >
-                      {user?.scout_group?.line?.subdistrict?.name} -{" "}
+                      {/* {user?.scout_group?.line?.subdistrict?.name} -{" "} */}
                       {user?.scout_group?.line?.name}
                     </Typography>
                   </Link>
