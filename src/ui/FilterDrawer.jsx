@@ -110,7 +110,7 @@ export default function FilterDrawer({ open, onClose }) {
   const { filters, updateFilter } = useFilters();
   const [name, setName] = useState(filters.name);
   const [kind, setKind] = useState(filters.kind);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState("");
   const navigate = useNavigate();
   // const [aperturaIscrizioni, setAperturaIscrizioni] = useState(
   //   filters.aperturaIscrizioni
@@ -118,7 +118,12 @@ export default function FilterDrawer({ open, onClose }) {
   // const [isRegistered, setIsRegistered] = useState(filters.isRegistered);
 
   return (
-    <SwipeableDrawer open={open} onClose={onClose}>
+    <SwipeableDrawer
+      open={open}
+      onClose={onClose}
+      disableSwipeToOpen={true}
+      onOpen={() => {}}
+    >
       <Box sx={{ width: "300px" }}>
         <Typography
           fontSize="20px"
@@ -286,7 +291,8 @@ export default function FilterDrawer({ open, onClose }) {
             sx={{ width: "100%" }}
           />
           <AccessButton
-            sx={{ m: 0, mt: "24px" }}
+            sx={{ m: 0, mt: "24px", opacity: id === "" ? 0.5 : 1 }}
+            disabled={id === ""}
             onClick={(ev) => {
               onClose();
               navigate(`/eventi/${id}`);
