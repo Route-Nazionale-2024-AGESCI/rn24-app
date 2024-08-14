@@ -134,7 +134,7 @@ export default function EventSummaryCard({
                   display: "-webkit-box",
                   overflow: "hidden",
                   WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: 1,
                 }}
               >
                 {standName}
