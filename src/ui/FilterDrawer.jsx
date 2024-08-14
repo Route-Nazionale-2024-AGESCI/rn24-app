@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonBase from "@mui/material/ButtonBase";
 import InputBase from "@mui/material/InputBase";
-import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
 import TuneIcon from "@mui/icons-material/Tune";
 import Typography from "@mui/material/Typography";
@@ -118,7 +118,7 @@ export default function FilterDrawer({ open, onClose }) {
   // const [isRegistered, setIsRegistered] = useState(filters.isRegistered);
 
   return (
-    <Drawer open={open} onClose={onClose}>
+    <SwipeableDrawer open={open} onClose={onClose}>
       <Box sx={{ width: "300px" }}>
         <Typography
           fontSize="20px"
@@ -298,7 +298,7 @@ export default function FilterDrawer({ open, onClose }) {
           </AccessButton>
         </Box>
       </Box>
-    </Drawer>
+    </SwipeableDrawer>
   );
 }
 
