@@ -70,6 +70,7 @@ export default function NavBar() {
         }}
         value={destinazione}
         onChange={handleDestinationChange}
+        showLabels
       >
         <BottomNavigationAction
           label={<Label text="Home" />}
