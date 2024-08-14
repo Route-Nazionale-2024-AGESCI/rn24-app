@@ -75,6 +75,7 @@ export default function EventCard({
             backgroundColor: getEventColor(event.kind).bg,
             height: inProgress ? "64px" : "32px",
             width: inProgress ? "64px" : "32px",
+            minWidth: inProgress ? "64px" : "32px",
             borderRadius: "8px",
             display: "flex",
             justifyContent: "center",
