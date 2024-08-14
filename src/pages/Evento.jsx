@@ -74,11 +74,20 @@ export default function Evento() {
   );
   const { check_in } = data ?? { check_in: null };
 
-  if (event === null) {
-    throw new Error(
-      "Evento non trovato... Assicurati di aver inserito l'ID corretto"
-    );
-  }
+  //if (event === null) {
+  // throw new Error(
+  //   "Evento non trovato... Assicurati di aver inserito l'ID corretto"
+  // );
+
+  //}
+
+  useEffect(() => {
+    if (event === null) {
+      setError(
+        "Evento non trovato... Assicurati di aver inserito l'ID corretto"
+      );
+    }
+  }, [event]);
 
   useEffect(() => {
     if (error !== null) {
@@ -124,7 +133,7 @@ export default function Evento() {
         fontWeight={900}
         sx={{ margin: "16px", color: "#2B2D2B" }}
       >
-        {event.name}
+        {event?.name}
       </Typography>
       <WhitePaper
         sx={{
@@ -133,54 +142,60 @@ export default function Evento() {
           justifyContent: "space-between",
         }}
       >
-        <Box
-          sx={{
-            marginX: "24px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-          }}
-        >
-          <Grid container rowSpacing={"24px"}>
-            <Grid item xs={6}>
-              <Stack direction="column">
-                <Typography fontSize="14px" fontWeight={600}>
-                  Modulo:
-                </Typography>
-                <Typography
-                  fontSize="16px"
-                  fontWeight={600}
-                  textTransform="capitalize"
-                  color={getEventColor(event.kind).main}
-                >
-                  {event.kind.toLowerCase()}
-                </Typography>
-              </Stack>
-            </Grid>
-            <Grid item xs={6}>
-              {event.is_registration_required &&
-                event.registration_limit !== null && (
+        {event !== null ? (
+          <>
+            <Box
+              sx={{
+                marginX: "24px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-around",
+              }}
+            >
+              <Grid container rowSpacing={"24px"}>
+                <Grid item xs={6}>
                   <Stack direction="column">
                     <Typography fontSize="14px" fontWeight={600}>
-                      Numero Iscritti:
+                      Modulo:
                     </Typography>
-                    <Stack direction={"row"} alignItems={"center"} gap="4px">
-                      <Typography
-                        fontSize="14px"
-                        fontWeight={600}
-                        color="agesciPurple.main"
-                      >
-                        {event.personal_registrations_count}/
-                        {event.registration_limit}
-                      </Typography>
-                      <PersonIcon
-                        color="agesciPurple"
-                        sx={{ fontSize: "14px" }}
-                      />
-                    </Stack>
+                    <Typography
+                      fontSize="16px"
+                      fontWeight={600}
+                      textTransform="capitalize"
+                      color={getEventColor(event.kind).main}
+                    >
+                      {event.kind.toLowerCase()}
+                    </Typography>
                   </Stack>
-                )}
-              {/* {((event.registration_limit &&
+                </Grid>
+                <Grid item xs={6}>
+                  {event.is_registration_required &&
+                    event.registration_limit !== null && (
+                      <Stack direction="column">
+                        <Typography fontSize="14px" fontWeight={600}>
+                          Numero Iscritti:
+                        </Typography>
+                        <Stack
+                          direction={"row"}
+                          alignItems={"center"}
+                          gap="4px"
+                        >
+                          <Typography
+                            fontSize="14px"
+                            fontWeight={600}
+                            color="agesciPurple.main"
+                          >
+                            {event.personal_registrations_count}/
+                            {event.registration_limit}
+                          </Typography>
+                          <PersonIcon
+                            color="agesciPurple"
+                            sx={{ fontSize: "14px" }}
+                          />
+                        </Stack>
+                      </Stack>
+                    )}
+                  {/* {((event.registration_limit &&
                   event.registration_limit < 30000) ||
                   (event.registration_limit_from_same_scout_group &&
                     event.registration_limit_from_same_scout_group <
@@ -219,61 +234,19 @@ export default function Evento() {
                       stesso gruppo
                     </Typography>
                   )} */}
-            </Grid>
-            <Grid item xs={6}>
-              <Stack direction="column">
-                <Typography fontSize="14px" fontWeight={600}>
-                  Data:
-                </Typography>
-                <Stack direction="row" spacing="8px" alignItems="center">
-                  <CalendarMonthIcon
-                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -1px" }}
-                  />
-                  <Typography
-                    variant="subtitle2"
-                    fontSize="12px"
-                    fontWeight={400}
-                    sx={{ color: "#666A66" }}
-                  >
-                    {startDT.getDate()} {italianMonth[startDT.getMonth()]}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Grid>
-            <Grid item xs={6}>
-              <Stack direction="column">
-                <Typography fontSize="14px" fontWeight={600}>
-                  Orario:
-                </Typography>
-
-                <Stack direction="row" spacing="8px" alignItems="center">
-                  <AccessTimeIcon
-                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -1px" }}
-                  />
-                  <Typography
-                    variant="subtitle2"
-                    fontSize="12px"
-                    fontWeight={400}
-                    sx={{ color: "#666A66" }}
-                  >
-                    {startDT.getHours().toString().padStart(2, "0")}:
-                    {startDT.getMinutes().toString().padStart(2, "0")} -{" "}
-                    {endDT.getHours().toString().padStart(2, "0")}:
-                    {endDT.getMinutes().toString().padStart(2, "0")}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Grid>
-            {registrationDT !== undefined ? (
-              <>
+                </Grid>
                 <Grid item xs={6}>
                   <Stack direction="column">
                     <Typography fontSize="14px" fontWeight={600}>
-                      Apertura iscrizioni:
+                      Data:
                     </Typography>
                     <Stack direction="row" spacing="8px" alignItems="center">
                       <CalendarMonthIcon
-                        sx={{ fontSize: 12, color: "#666A66" }}
+                        sx={{
+                          fontSize: 12,
+                          color: "#666A66",
+                          translate: "0 -1px",
+                        }}
                       />
                       <Typography
                         variant="subtitle2"
@@ -281,8 +254,7 @@ export default function Evento() {
                         fontWeight={400}
                         sx={{ color: "#666A66" }}
                       >
-                        {registrationDT.getDate()}{" "}
-                        {italianMonth[registrationDT.getMonth()]}
+                        {startDT.getDate()} {italianMonth[startDT.getMonth()]}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -290,93 +262,108 @@ export default function Evento() {
                 <Grid item xs={6}>
                   <Stack direction="column">
                     <Typography fontSize="14px" fontWeight={600}>
-                      Orario iscrizioni:
+                      Orario:
                     </Typography>
+
                     <Stack direction="row" spacing="8px" alignItems="center">
-                      <AccessTimeIcon sx={{ fontSize: 12, color: "#666A66" }} />
+                      <AccessTimeIcon
+                        sx={{
+                          fontSize: 12,
+                          color: "#666A66",
+                          translate: "0 -1px",
+                        }}
+                      />
                       <Typography
                         variant="subtitle2"
                         fontSize="12px"
                         fontWeight={400}
                         sx={{ color: "#666A66" }}
                       >
-                        {registrationDT.getHours().toString().padStart(2, "0")}:
-                        {registrationDT
-                          .getMinutes()
-                          .toString()
-                          .padStart(2, "0")}
+                        {startDT.getHours().toString().padStart(2, "0")}:
+                        {startDT.getMinutes().toString().padStart(2, "0")} -{" "}
+                        {endDT.getHours().toString().padStart(2, "0")}:
+                        {endDT.getMinutes().toString().padStart(2, "0")}
                       </Typography>
                     </Stack>
                   </Stack>
                 </Grid>
-              </>
-            ) : null}
+                {registrationDT !== undefined ? (
+                  <>
+                    <Grid item xs={6}>
+                      <Stack direction="column">
+                        <Typography fontSize="14px" fontWeight={600}>
+                          Apertura iscrizioni:
+                        </Typography>
+                        <Stack
+                          direction="row"
+                          spacing="8px"
+                          alignItems="center"
+                        >
+                          <CalendarMonthIcon
+                            sx={{ fontSize: 12, color: "#666A66" }}
+                          />
+                          <Typography
+                            variant="subtitle2"
+                            fontSize="12px"
+                            fontWeight={400}
+                            sx={{ color: "#666A66" }}
+                          >
+                            {registrationDT.getDate()}{" "}
+                            {italianMonth[registrationDT.getMonth()]}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Stack direction="column">
+                        <Typography fontSize="14px" fontWeight={600}>
+                          Orario iscrizioni:
+                        </Typography>
+                        <Stack
+                          direction="row"
+                          spacing="8px"
+                          alignItems="center"
+                        >
+                          <AccessTimeIcon
+                            sx={{ fontSize: 12, color: "#666A66" }}
+                          />
+                          <Typography
+                            variant="subtitle2"
+                            fontSize="12px"
+                            fontWeight={400}
+                            sx={{ color: "#666A66" }}
+                          >
+                            {registrationDT
+                              .getHours()
+                              .toString()
+                              .padStart(2, "0")}
+                            :
+                            {registrationDT
+                              .getMinutes()
+                              .toString()
+                              .padStart(2, "0")}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Grid>
+                  </>
+                ) : null}
 
-            <Grid item xs={6}>
-              <Stack direction="column" marginY={"24px"}>
-                <Typography fontSize="14px" fontWeight={600}>
-                  Luogo:
-                </Typography>
-                <Stack direction="row" spacing="8px" alignItems="center">
-                  <PlaceIcon
-                    sx={{ fontSize: 12, color: "#666A66", translate: "0 -2px" }}
-                  />
-
-                  {location === undefined ? (
-                    <Typography
-                      variant="subtitle2"
-                      fontSize="12px"
-                      fontWeight={400}
-                      textAlign="left"
-                      mb="4px"
-                      sx={{ color: "#666A66" }}
-                    >
-                      standName
-                    </Typography>
-                  ) : (
-                    <Link
-                      to={`/mappa/?location=${location.uuid}`}
-                      //style={{ textDecoration: "none" }}
-                    >
-                      <Typography
-                        variant="subtitle2"
-                        fontSize="12px"
-                        fontWeight={600}
-                        textAlign="left"
-                        mb="4px"
-                        sx={{
-                          color: "agesciPurple.main",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        {standName}
-                      </Typography>
-                    </Link>
-                  )}
-                </Stack>
-              </Stack>
-            </Grid>
-
-            {user?.permissions?.can_scan_qr &&
-              event.is_registration_required && (
                 <Grid item xs={6}>
                   <Stack direction="column" marginY={"24px"}>
                     <Typography fontSize="14px" fontWeight={600}>
-                      Elenco partecipanti:
+                      Luogo:
                     </Typography>
-                    {attendees.length === 0 ? (
-                      <Typography
-                        variant="subtitle2"
-                        fontSize="12px"
-                        fontWeight={400}
-                        textAlign="left"
-                        mb="4px"
-                        sx={{ color: "#666A66" }}
-                      >
-                        Non disponibile
-                      </Typography>
-                    ) : (
-                      <>
+                    <Stack direction="row" spacing="8px" alignItems="center">
+                      <PlaceIcon
+                        sx={{
+                          fontSize: 12,
+                          color: "#666A66",
+                          translate: "0 -2px",
+                        }}
+                      />
+
+                      {location === undefined ? (
                         <Typography
                           variant="subtitle2"
                           fontSize="12px"
@@ -385,9 +372,13 @@ export default function Evento() {
                           mb="4px"
                           sx={{ color: "#666A66" }}
                         >
-                          Disponibile anche offline
+                          standName
                         </Typography>
-                        <Link to="partecipanti">
+                      ) : (
+                        <Link
+                          to={`/mappa/?location=${location.uuid}`}
+                          //style={{ textDecoration: "none" }}
+                        >
                           <Typography
                             variant="subtitle2"
                             fontSize="12px"
@@ -399,80 +390,150 @@ export default function Evento() {
                               textDecoration: "underline",
                             }}
                           >
-                            Visualizza
+                            {standName}
                           </Typography>
                         </Link>
-                      </>
-                    )}
+                      )}
+                    </Stack>
                   </Stack>
                 </Grid>
-              )}
-          </Grid>
-          {description && (
-            <Stack direction="column">
-              <Typography fontSize="14px" fontWeight={600}>
-                Descrizione:
-              </Typography>
-              <div className="description-container">
-                <HtmlWithRouterLinks htmlString={description.body} />
-              </div>
-            </Stack>
-          )}
-        </Box>
-        <Box sx={{ height: "20px" }} />
-        <Box>
-          <Outlet />
-          <Box sx={{ height: "20px" }} />
-          {event.kind === "TRACCE" &&
-            networkState.online &&
-            check_in !== null && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <AccessButton
-                  sx={{ opacity: loading ? "50%" : "100%", m: 0 }}
-                  disabled={loading}
-                  onClick={handleSubmit}
-                >
-                  <Typography fontSize="16px" fontWeight={600}>
-                    {check_in === false
-                      ? "Inizia il Servizio"
-                      : "Segna come non iniziato"}
-                  </Typography>
-                  {loading && (
-                    <CircularProgress
-                      size="20px"
-                      sx={{ marginLeft: "12px", color: "#000000" }}
-                    />
+
+                {user?.permissions?.can_scan_qr &&
+                  event.is_registration_required && (
+                    <Grid item xs={6}>
+                      <Stack direction="column" marginY={"24px"}>
+                        <Typography fontSize="14px" fontWeight={600}>
+                          Elenco partecipanti:
+                        </Typography>
+                        {attendees.length === 0 ? (
+                          <Typography
+                            variant="subtitle2"
+                            fontSize="12px"
+                            fontWeight={400}
+                            textAlign="left"
+                            mb="4px"
+                            sx={{ color: "#666A66" }}
+                          >
+                            Non disponibile
+                          </Typography>
+                        ) : (
+                          <>
+                            <Typography
+                              variant="subtitle2"
+                              fontSize="12px"
+                              fontWeight={400}
+                              textAlign="left"
+                              mb="4px"
+                              sx={{ color: "#666A66" }}
+                            >
+                              Disponibile anche offline
+                            </Typography>
+                            <Link to="partecipanti">
+                              <Typography
+                                variant="subtitle2"
+                                fontSize="12px"
+                                fontWeight={600}
+                                textAlign="left"
+                                mb="4px"
+                                sx={{
+                                  color: "agesciPurple.main",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                Visualizza
+                              </Typography>
+                            </Link>
+                          </>
+                        )}
+                      </Stack>
+                    </Grid>
                   )}
-                </AccessButton>
-              </Box>
-            )}
-        </Box>
-        <Box sx={{ height: "20px" }} />
-        {user?.permissions?.can_scan_qr &&
-          attendees.length > 0 &&
-          event.is_registration_required && (
-            <>
-              <Box sx={{ height: "80px" }}></Box>
-              <Fab
-                color="agesciPurple"
-                style={{
-                  position: "fixed",
-                  right: "24px",
-                  bottom: "100px",
-                }}
-                LinkComponent={Link}
-                to={`/controlloAccessi/${event.uuid}`}
-              >
-                <QrCodeIcon sx={{ color: "#FFFFFF" }} />
-              </Fab>
-            </>
-          )}
+              </Grid>
+              {description && (
+                <Stack direction="column">
+                  <Typography fontSize="14px" fontWeight={600}>
+                    Descrizione:
+                  </Typography>
+                  <div className="description-container">
+                    <HtmlWithRouterLinks htmlString={description.body} />
+                  </div>
+                </Stack>
+              )}
+            </Box>
+            <Box sx={{ height: "20px" }} />
+            <Box>
+              <Outlet />
+              <Box sx={{ height: "20px" }} />
+              {event.kind === "TRACCE" &&
+                networkState.online &&
+                check_in !== null && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <AccessButton
+                      sx={{ opacity: loading ? "50%" : "100%", m: 0 }}
+                      disabled={loading}
+                      onClick={handleSubmit}
+                    >
+                      <Typography fontSize="16px" fontWeight={600}>
+                        {check_in === false
+                          ? "Inizia il Servizio"
+                          : "Segna come non iniziato"}
+                      </Typography>
+                      {loading && (
+                        <CircularProgress
+                          size="20px"
+                          sx={{ marginLeft: "12px", color: "#000000" }}
+                        />
+                      )}
+                    </AccessButton>
+                  </Box>
+                )}
+            </Box>
+            <Box sx={{ height: "20px" }} />
+            {user?.permissions?.can_scan_qr &&
+              attendees.length > 0 &&
+              event.is_registration_required && (
+                <>
+                  <Box sx={{ height: "80px" }}></Box>
+                  <Fab
+                    color="agesciPurple"
+                    style={{
+                      position: "fixed",
+                      right: "24px",
+                      bottom: "100px",
+                    }}
+                    LinkComponent={Link}
+                    to={`/controlloAccessi/${event.uuid}`}
+                  >
+                    <QrCodeIcon sx={{ color: "#FFFFFF" }} />
+                  </Fab>
+                </>
+              )}
+          </>
+        ) : (
+          <Box
+            sx={{
+              marginX: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+            }}
+          >
+            <Typography
+              variant="h6"
+              fontSize="16px"
+              fontWeight={500}
+              sx={{ margin: "16px", color: "#2B2D2B", textAlign: "center" }}
+            >
+              Sembra non esserci nulla...
+            </Typography>
+          </Box>
+        )}
         <ErrorAlert errorMsg={error} onClose={() => setError(null)} />
       </WhitePaper>
     </>
