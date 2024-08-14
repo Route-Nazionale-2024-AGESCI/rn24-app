@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
@@ -143,7 +143,7 @@ export default function AppBar() {
             </Stack>
           </Box>
         </Box>
-        <Drawer
+        <SwipeableDrawer
           open={openDrawer}
           onClose={() => setOpenDrawer(false)}
           PaperProps={{ sx: { backgroundColor: "#2B2D2B", color: "#ffffff" } }}
@@ -266,7 +266,7 @@ export default function AppBar() {
               </ListItem>
             </List>
           </Box>
-        </Drawer>
+        </SwipeableDrawer>
       </Container>
       <LogoutModal open={openModal} onClose={() => setOpenModal(false)} />
     </>
