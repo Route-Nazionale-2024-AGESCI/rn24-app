@@ -68,7 +68,7 @@
 
 .description-container img,
 .page-container img {
-  max-width: 360px;
+  max-width: min(100%, 360px);
   height: auto;
   border-radius: 8px;
 }
