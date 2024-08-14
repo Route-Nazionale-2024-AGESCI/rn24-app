@@ -122,7 +122,7 @@ export default function Pagina() {
             <ul>
               {children.map((c) => (
                 <li key={c.uuid}>
-                  <Typography variant="body2" fontWeight={600}>
+                  <Typography variant="body2" fontWeight={600} mt={1}>
                     <RouterLink
                       to={`/pagine/${c.uuid}`}
                       style={{
