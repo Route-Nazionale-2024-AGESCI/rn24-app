@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import HtmlWithRouterLinks from "../lib/htmlParser";
 import { usePersonalPages } from "../contexts/personalPages";
+import { useUser } from "../lib/cacheManager/user";
 
 export async function loader({ params }) {
   const page = await getPage(params.pageId);
@@ -28,8 +29,16 @@ export default function Pagina() {
   const children = page.children.filter((c) => c.show_in_menus);
   const { personalPages, addPersonalPageUuid } = usePersonalPages();
   const personalPagesUuid = personalPages.map((p) => p.uuid);
+  const parentSlugs = parentList.map((p) => p.slug);
+  const { user } = useUser();
+  const squadsPagesUuids = user.squads?.map((s) => s.page) || [];
   useEffect(() => {
-    if (!personalPagesUuid.includes(page.uuid) && !page.show_in_menus) {
+    if (
+      !personalPagesUuid.includes(page.uuid) &&
+      !page.show_in_menus &&
+      !parentSlugs.includes("rn24-events-root") &&
+      !squadsPagesUuids.includes(page.uuid)
+    ) {
       addPersonalPageUuid(page.uuid);
     }
   }, []);
