@@ -80,9 +80,10 @@ export function BookletButton() {
       text="Consulta il Libretto"
       bgColor="agesciGreen"
       icon={<MenuBookIcon sx={{ mr: "8px" }} />}
-      to="https://new.express.adobe.com/webpage/dGOBbZrfjhWt7"
-      target="_blank"
-      rel="noopener noreferrer"
+      to="/libretto"
+      //to="https://new.express.adobe.com/webpage/dGOBbZrfjhWt7"
+      //target="_blank"
+      //rel="noopener noreferrer"
     />
   );
 }
