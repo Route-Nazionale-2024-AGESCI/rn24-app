@@ -26,9 +26,20 @@ export const PersonalPagesProvider = ({ children }) => {
     });
   };
 
+  const removePersonalPageUuid = (uuid) => {
+    setPersonalPagesUuid((prev) => {
+      if (!prev.includes(uuid)) return prev;
+      localStorage.setItem(
+        "personalPagesUuid",
+        JSON.stringify(prev.filter((p) => p !== uuid))
+      );
+      return prev.filter((p) => p !== uuid);
+    });
+  };
+
   return (
     <PersonalPagesContext.Provider
-      value={{ personalPages, addPersonalPageUuid }}
+      value={{ personalPages, addPersonalPageUuid, removePersonalPageUuid }}
     >
       {children}
     </PersonalPagesContext.Provider>

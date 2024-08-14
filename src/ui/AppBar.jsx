@@ -7,6 +7,8 @@ import Divider from "@mui/material/Divider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import DeleteRounded from "@mui/icons-material/DeleteRounded";
+import IconButton from "@mui/material/IconButton";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -53,7 +55,7 @@ const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
 export default function AppBar({ pages }) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { personalPages } = usePersonalPages();
+  const { personalPages, removePersonalPageUuid } = usePersonalPages();
   const { user } = useAuth();
   //const pages = usePages();
   //const { pages } = useLoaderData();
@@ -146,6 +148,8 @@ export default function AppBar({ pages }) {
         </Box>
         <SwipeableDrawer
           open={openDrawer}
+          disableSwipeToOpen={true}
+          onOpen={() => setOpenDrawer(true)}
           onClose={() => setOpenDrawer(false)}
           PaperProps={{ sx: { backgroundColor: "#2B2D2B", color: "#ffffff" } }}
         >
@@ -191,20 +195,36 @@ export default function AppBar({ pages }) {
                         }}
                       >
                         {personalPages.map((page, i) => (
-                          <Typography
-                            component={Link}
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
                             key={i}
-                            to={`/pages/${page.uuid}`}
-                            onClick={() => setOpenDrawer(false)}
-                            style={{
-                              textDecoration: "none",
-                              color: "inherit",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
                           >
-                            {page.title}
-                          </Typography>
+                            <Typography
+                              component={Link}
+                              to={`/pages/${page.uuid}`}
+                              onClick={() => setOpenDrawer(false)}
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {page.title}
+                            </Typography>
+                            <IconButton
+                              size="small"
+                              onClick={() => removePersonalPageUuid(page.uuid)}
+                            >
+                              <DeleteRounded
+                                style={{
+                                  color: "#ffffff",
+                                  translate: "0 -5px",
+                                }}
+                              />
+                            </IconButton>
+                          </Stack>
                         ))}
                       </Box>
                     }
