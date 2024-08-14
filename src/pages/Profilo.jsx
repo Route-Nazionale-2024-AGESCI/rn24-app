@@ -66,11 +66,11 @@ export default function Profilo() {
   const { user, mutate } = useUser();
   const [tab, setTab] = React.useState(0);
   const networkState = useNetworkState();
-  let happinessPath = (user?.scout_group?.happiness_path ?? "")
-    .replace(/_/g, " ")
-    .toLowerCase();
-  happinessPath =
-    happinessPath.charAt(0).toUpperCase() + happinessPath.slice(1);
+  let happinessPath = user?.scout_group?.happiness_path ?? "";
+  //   .replace(/_/g, " ")
+  //   .toLowerCase();
+  // happinessPath =
+  //   happinessPath.charAt(0).toUpperCase() + happinessPath.slice(1);
 
   return (
     <>
