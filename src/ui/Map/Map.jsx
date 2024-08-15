@@ -55,19 +55,25 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <AttributionControl position="topright" />
-      <MarkerClusterGroup chunkedLoading disableClusteringAtZoom={18} maxClusterRadius={40}>
+      <MarkerClusterGroup
+        chunkedLoading
+        disableClusteringAtZoom={18}
+        maxClusterRadius={40}
+        zoomToBoundsOnClick={18}
+        spiderfyOnMaxZoom={false}
+      >
         {Boolean(publicLocations) &&
           publicLocations.map((loc, i) => (
             <LocationInMap key={i} location={loc} />
           ))}
-      
-      {Boolean(eventLocations) &&
-        eventLocations.map((loc, i) => (
-          <LocationInMap key={i} location={loc} />
-        ))}
+
+        {Boolean(eventLocations) &&
+          eventLocations.map((loc, i) => (
+            <LocationInMap key={i} location={loc} />
+          ))}
       </MarkerClusterGroup>
       {Boolean(tentLocation) && <LocationInMap location={tentLocation} />}
-      {Boolean(location) && <LocationInMap location={location} big/>}
+      {Boolean(location) && <LocationInMap location={location} big />}
       <ZoomControl position="bottomright" />
     </>
   );
