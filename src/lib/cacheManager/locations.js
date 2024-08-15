@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import { getLocationList as APIgetLocationList } from "../dataManager/locations";
+import { getData, saveData } from "../idb";
 
 async function getLocationList() {
   let locations, version;
-  if (
-    localStorage.getItem("locations") !== null &&
-    localStorage.getItem("locationsVersion") !== null
-  ) {
-    locations = JSON.parse(localStorage.getItem("locations"));
+  const localData = await getData("locations");
+  if (localData !== null && localStorage.getItem("locationsVersion") !== null) {
+    locations = localData;
     version = JSON.parse(localStorage.getItem("locationsVersion"));
   } else {
     ({ locations, version } = await APIgetLocationList());
-    locations.length > 0 &&
-      localStorage.setItem("locations", JSON.stringify(locations));
+    locations.length > 0 && saveData("locations", locations);
     version !== null &&
       localStorage.setItem("locationsVersion", JSON.stringify(version));
   }
@@ -21,8 +19,7 @@ async function getLocationList() {
 
 async function refreshLocationList() {
   const { locations, version } = await APIgetLocationList();
-  locations.length > 0 &&
-    localStorage.setItem("locations", JSON.stringify(locations));
+  locations.length > 0 && saveData("locations", locations);
   version !== null &&
     localStorage.setItem("locationsVersion", JSON.stringify(version));
   return { locations, version };
