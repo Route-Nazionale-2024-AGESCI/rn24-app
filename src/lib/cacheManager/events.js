@@ -7,18 +7,17 @@ import {
 } from "../dataManager/events";
 import { useUser } from "./user";
 import isValidUUID, { isValidId } from "../uuid";
+import { getData, saveData } from "../idb";
 
 async function getEventList() {
   let events, version;
-  if (
-    localStorage.getItem("events") !== null &&
-    localStorage.getItem("eventsVersion") !== null
-  ) {
-    events = JSON.parse(localStorage.getItem("events"));
+  const localData = await getData("events");
+  if (localData !== null && localStorage.getItem("eventsVersion") !== null) {
+    events = localData;
     version = JSON.parse(localStorage.getItem("eventsVersion"));
   } else {
     ({ events, version } = await APIgetEventList());
-    events.length > 0 && localStorage.setItem("events", JSON.stringify(events));
+    events.length > 0 && saveData("events", events);
     version !== null &&
       localStorage.setItem("eventsVersion", JSON.stringify(version));
   }
@@ -27,7 +26,7 @@ async function getEventList() {
 
 async function refreshEventList() {
   const { events, version } = await APIgetEventList();
-  events.length > 0 && localStorage.setItem("events", JSON.stringify(events));
+  events.length > 0 && saveData("events", events);
   version !== null &&
     localStorage.setItem("eventsVersion", JSON.stringify(version));
   return { events, version };
