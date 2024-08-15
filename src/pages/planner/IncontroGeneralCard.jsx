@@ -8,18 +8,21 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Diversity1RoundedIcon from "@mui/icons-material/Diversity1Rounded";
 import HexagonRoundedIcon from "@mui/icons-material/HexagonRounded"; // incontri
 
-//import PersonIcon from "@mui/icons-material/Person";
-
 export default function IncontroGeneralCard({
   title,
   happinessPath,
   date,
   idAccadimento,
+  eventUuid,
 }) {
   return (
     <Button
       component={RouterLink}
-      to={`/progetta-route/incontri/${idAccadimento}`}
+      to={
+        idAccadimento !== ""
+          ? `/progetta-route/incontri/${idAccadimento}`
+          : `/eventi/${eventUuid}`
+      }
       sx={{
         border: "1px solid #E2DCEA",
         borderRadius: "8px",

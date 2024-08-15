@@ -44,7 +44,7 @@ export default function IncontriPlanner() {
 
   const idAccadimento = useMemo(() => {
     const id = incontri.reduce((ids, e) => {
-      if (e.correlation_id && !ids.includes(e.correlation_id)) {
+      if (!ids.includes(e.correlation_id)) {
         ids.push(e.correlation_id);
       }
       return ids;
@@ -76,6 +76,7 @@ export default function IncontriPlanner() {
             }
             title={e.name}
             idAccadimento={e.correlation_id}
+            eventUuid={e.uuid}
           />
         )),
     [idAccadimento, incontri]
