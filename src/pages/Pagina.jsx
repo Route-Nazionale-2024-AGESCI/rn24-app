@@ -36,7 +36,7 @@ export default function Pagina() {
     if (
       !personalPagesUuid.includes(page.uuid) &&
       !page.show_in_menus &&
-      !parentSlugs.includes("rn24-events-root") &&
+      //!parentSlugs.includes("rn24-events-root") &&
       !squadsPagesUuids.includes(page.uuid)
     ) {
       addPersonalPageUuid(page.uuid);
