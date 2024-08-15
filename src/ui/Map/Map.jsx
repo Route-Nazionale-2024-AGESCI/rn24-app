@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { LocateControl } from "./LocateControl";
 import { LocationInMap } from "./LocationInMap";
 import { leafletLayer } from "protomaps-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -54,14 +55,17 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <AttributionControl position="topright" />
-      {Boolean(publicLocations) &&
-        publicLocations.map((loc, i) => (
-          <LocationInMap key={i} location={loc} />
-        ))}
+      <MarkerClusterGroup chunkedLoading disableClusteringAtZoom={18} maxClusterRadius={40}>
+        {Boolean(publicLocations) &&
+          publicLocations.map((loc, i) => (
+            <LocationInMap key={i} location={loc} />
+          ))}
+      
       {Boolean(eventLocations) &&
         eventLocations.map((loc, i) => (
           <LocationInMap key={i} location={loc} />
         ))}
+      </MarkerClusterGroup>
       {Boolean(tentLocation) && <LocationInMap location={tentLocation} />}
       {Boolean(location) && <LocationInMap location={location} big/>}
       <ZoomControl position="bottomright" />
