@@ -1,17 +1,16 @@
 import { getPages as APIgetPages } from "../dataManager/pages";
 import { useEffect, useState } from "react";
+import { getData, saveData } from "../idb";
 
 async function getPages() {
   let pages, version;
-  if (
-    localStorage.getItem("pages") !== null &&
-    localStorage.getItem("pagesVersion") !== null
-  ) {
-    pages = JSON.parse(localStorage.getItem("pages"));
+  const localData = await getData("pages");
+  if (localData !== null && localStorage.getItem("pagesVersion") !== null) {
+    pages = localData;
     version = JSON.parse(localStorage.getItem("pagesVersion"));
   } else {
     ({ pages, version } = await APIgetPages());
-    pages.length > 0 && localStorage.setItem("pages", JSON.stringify(pages));
+    pages.length > 0 && saveData("pages", pages);
     version !== null &&
       localStorage.setItem("pagesVersion", JSON.stringify(version));
   }
@@ -20,7 +19,7 @@ async function getPages() {
 
 async function refreshPages() {
   const { pages, version } = await APIgetPages();
-  pages.length > 0 && localStorage.setItem("pages", JSON.stringify(pages));
+  pages.length > 0 && saveData("pages", pages);
   version !== null &&
     localStorage.setItem("pagesVersion", JSON.stringify(version));
   return { pages, version };
@@ -110,4 +109,4 @@ export {
   refreshPages,
   searchBySlug,
   usePages,
-}; //, getMenu };
+};
