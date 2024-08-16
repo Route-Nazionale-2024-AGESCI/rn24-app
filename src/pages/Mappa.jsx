@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { getLocationList, getLocation } from "../lib/cacheManager/locations";
 import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
@@ -14,6 +14,8 @@ import FilterLocation, { FilterLocationButton } from "../ui/Map/FilterLocation";
 import LocationCard from "../ui/LocationCard";
 import { Button } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useFilters, applyFilter } from "../contexts/locationFilter";
+
 
 /* 
   
@@ -87,16 +89,23 @@ export default function Mappa() {
     );
   }, [userEvents, locations]);
 
-  const nextEventsLocations = useMemo(() => {
+  // Location dei prossimi eventi da visualizzare
+  const [evtLocsToShow, setEvtLocsToShow] = useState(2)
+
+  const nextEvents = useMemo(() => {
     return userEvents
       .filter((ev) => {
         const endDt = new Date(ev.ends_at);
         const now = new Date();
         return endDt >= now;
       })
-      .slice(0, 2)
+  }, [userEvents]);
+
+  const nextEventsLocations = useMemo(() => {
+    return nextEvents
+      .slice(0, evtLocsToShow)
       .map((ev) => locations.find((l) => l.uuid === ev.location));
-  }, [userEvents, locations]);
+  }, [nextEvents, locations, evtLocsToShow]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -125,6 +134,19 @@ export default function Mappa() {
   };
 
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const { filters } = useFilters();
+  const filteredPublicLocations = applyFilter(
+    publicLocations,
+    filters
+  );
+  
+  const [hasFilters, setHasFilters] = useState(false) 
+
+  useEffect(()=>{
+    let f = false;
+    if (filters.category !== "") f = true;
+    setHasFilters(f)
+  }, [filters])
 
   return (
     <>
@@ -159,9 +181,9 @@ export default function Mappa() {
             location={location}
             locations={locations}
             centerTo={centerTo}
-            publicLocations={publicLocations}
-            eventLocations={eventLocations}
-            tentLocation={tentLocation}
+            publicLocations={filteredPublicLocations}
+            eventLocations={!hasFilters ? eventLocations : []}
+            tentLocation={!hasFilters ? tentLocation : []}
           />
           <Box
             sx={{
@@ -242,22 +264,25 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
-            <Button
-              variant="text"
-              onClick={() => {
-                setOpenFilterDrawer(true);
-              }}
-              endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
-              sx={{ mt: "12px" }}
-            >
-              <Typography
-                fontSize="16px"
-                fontWeight={600}
-                sx={{ color: "#2B2D2B", textTransform: "none" }}
+            {Boolean(nextEvents.length > evtLocsToShow) && (
+              <Button
+                variant="text"
+                onClick={() => {
+                  // setOpenFilterDrawer(true);
+                  setEvtLocsToShow(evtLocsToShow + 2)
+                }}
+                endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
+                sx={{ mt: "12px" }}
               >
-                Vedi tutti
-              </Typography>
-            </Button>
+                <Typography
+                  fontSize="16px"
+                  fontWeight={600}
+                  sx={{ color: "#2B2D2B", textTransform: "none" }}
+                >
+                  Vedi altri
+                </Typography>
+              </Button>
+            )}
           </>
         )}
         <Typography
