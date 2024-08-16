@@ -58,9 +58,10 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
       <MarkerClusterGroup
         chunkedLoading
         disableClusteringAtZoom={18}
-        maxClusterRadius={40}
+        maxClusterRadius={10}
         zoomToBoundsOnClick={18}
         spiderfyOnMaxZoom={false}
+        removeOutsideVisibleBounds={false}
       >
         {Boolean(publicLocations) &&
           publicLocations.map((loc, i) => (
