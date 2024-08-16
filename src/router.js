@@ -61,6 +61,7 @@ import AccadimentoPlanner, {
 import { FilterProvider } from "./contexts/filter";
 import { PersonalPagesProvider } from "./contexts/personalPages";
 import { useAuth } from "./contexts/auth";
+import { LocationFilterProvider } from "./contexts/locationFilter";
 
 const AuthMiddleware = () => {
   const { isLoaded, user } = useAuth();
@@ -73,7 +74,9 @@ const AuthMiddleware = () => {
 const ContextsMiddleware = () => {
   return (
     <FilterProvider>
-      <PersonalPagesProvider>{<Outlet />}</PersonalPagesProvider>
+      <LocationFilterProvider>
+        <PersonalPagesProvider>{<Outlet />}</PersonalPagesProvider>
+      </LocationFilterProvider>
     </FilterProvider>
   );
 };

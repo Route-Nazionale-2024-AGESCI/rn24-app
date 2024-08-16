@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { useLoaderData } from "react-router-dom";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { getLocationList, getLocation } from "../lib/cacheManager/locations";
 import { Map } from "../ui/Map/Map";
 import Box from "@mui/material/Box";
@@ -14,6 +14,8 @@ import FilterLocation, { FilterLocationButton } from "../ui/Map/FilterLocation";
 import LocationCard from "../ui/LocationCard";
 import { Button } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useFilters, applyFilter } from "../contexts/locationFilter";
+
 
 /* 
   
@@ -132,6 +134,19 @@ export default function Mappa() {
   };
 
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const { filters } = useFilters();
+  const filteredPublicLocations = applyFilter(
+    publicLocations,
+    filters
+  );
+  
+  const [hasFilters, setHasFilters] = useState(false) 
+
+  useEffect(()=>{
+    let f = false;
+    if (filters.category !== "") f = true;
+    setHasFilters(f)
+  }, [filters])
 
   return (
     <>
@@ -166,9 +181,9 @@ export default function Mappa() {
             location={location}
             locations={locations}
             centerTo={centerTo}
-            publicLocations={publicLocations}
-            eventLocations={eventLocations}
-            tentLocation={tentLocation}
+            publicLocations={filteredPublicLocations}
+            eventLocations={!hasFilters ? eventLocations : []}
+            tentLocation={!hasFilters ? tentLocation : []}
           />
           <Box
             sx={{
