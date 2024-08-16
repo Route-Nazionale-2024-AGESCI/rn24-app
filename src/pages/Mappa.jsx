@@ -87,16 +87,23 @@ export default function Mappa() {
     );
   }, [userEvents, locations]);
 
-  const nextEventsLocations = useMemo(() => {
+  // Location dei prossimi eventi da visualizzare
+  const [evtLocsToShow, setEvtLocsToShow] = useState(2)
+
+  const nextEvents = useMemo(() => {
     return userEvents
       .filter((ev) => {
         const endDt = new Date(ev.ends_at);
         const now = new Date();
         return endDt >= now;
       })
-      .slice(0, 2)
+  }, [userEvents]);
+
+  const nextEventsLocations = useMemo(() => {
+    return nextEvents
+      .slice(0, evtLocsToShow)
       .map((ev) => locations.find((l) => l.uuid === ev.location));
-  }, [userEvents, locations]);
+  }, [nextEvents, locations, evtLocsToShow]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -242,22 +249,25 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
-            <Button
-              variant="text"
-              onClick={() => {
-                setOpenFilterDrawer(true);
-              }}
-              endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
-              sx={{ mt: "12px" }}
-            >
-              <Typography
-                fontSize="16px"
-                fontWeight={600}
-                sx={{ color: "#2B2D2B", textTransform: "none" }}
+            {Boolean(nextEvents.length > evtLocsToShow) && (
+              <Button
+                variant="text"
+                onClick={() => {
+                  // setOpenFilterDrawer(true);
+                  setEvtLocsToShow(evtLocsToShow + 2)
+                }}
+                endIcon={<ArrowForwardIosIcon sx={{ color: "#2B2D2B" }} />}
+                sx={{ mt: "12px" }}
               >
-                Vedi tutti
-              </Typography>
-            </Button>
+                <Typography
+                  fontSize="16px"
+                  fontWeight={600}
+                  sx={{ color: "#2B2D2B", textTransform: "none" }}
+                >
+                  Vedi altri
+                </Typography>
+              </Button>
+            )}
           </>
         )}
         <Typography
