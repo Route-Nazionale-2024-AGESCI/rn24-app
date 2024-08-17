@@ -70,7 +70,7 @@ export default function Mappa() {
 
   // Location per la tenda dell'utente
   const { user } = useUser();
-  const { district } = user?.scout_group?.line?.subdistrict
+  const district = user?.scout_group?.line?.subdistrict?.district;
   const tentLocationUuid = user?.scout_group?.line?.location;
   const tentLocation = tentLocationUuid
     ? locations.find((loc) => loc.uuid === tentLocationUuid)
