@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import React from "react";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -27,6 +27,7 @@ export default function RootLayout() {
   };
   return (
     <>
+    <ScrollRestoration />
       {updateAvailable && (
         <Alert
           severity="success"
