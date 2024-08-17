@@ -15,17 +15,19 @@ import IncontroGeneralCard from "./IncontroGeneralCard";
 export async function loader({ request }) {
   const url = new URL(request.url);
   const isAlfiere = url.searchParams.get("alfiere") === "true";
+  const freeEvent = url.searchParams.get("registrationRequired") !== "true";
   const { events } = await getEventList();
-  return { isAlfiere, events };
+  return { isAlfiere, events, freeEvent };
 }
 export default function IncontriPlanner() {
-  const { isAlfiere, events } = useLoaderData();
+  const { isAlfiere, events, freeEvent } = useLoaderData();
   const { user } = useUser();
   const { invitations } = useEventInvitations();
   const invUuid = useMemo(
     () => invitations.map((inv) => inv.uuid),
     [invitations]
   );
+  console.log(freeEvent);
 
   const incontri = useMemo(
     () =>
@@ -33,6 +35,7 @@ export default function IncontriPlanner() {
         (e) =>
           e.kind === "INCONTRI" &&
           invUuid.includes(e.uuid) &&
+          e.is_registration_required !== freeEvent &&
           (isAlfiere
             ? //? e.happiness_path === user.scout_group?.happiness_path
               //: true

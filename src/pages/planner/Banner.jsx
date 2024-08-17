@@ -73,13 +73,35 @@ export default function Banner({ type, event }) {
             {event !== undefined ? "Modifica Evento" : "Seleziona Evento"}
           </Typography>
         </AccessButton>
+        {type === "incontri" && (
+          <AccessButton
+            sx={{
+              py: "8px",
+              mt: "16px",
+              width: "100%",
+              maxWidth: "400px",
+              border: 0,
+            }}
+            onClick={() =>
+              navigate("incontri?alfiere=false&registrationRequired=false")
+            }
+          >
+            <Typography fontSize="16px" fontWeight={600}>
+              Visualizza Incontri senza prenotazione
+            </Typography>
+          </AccessButton>
+        )}
       </Card>
       {type === "incontri" && (
         <AlfiereModal
           open={open}
           onClose={() => setOpen(false)}
-          onYes={() => navigate("incontri?alfiere=true")}
-          onNo={() => navigate("incontri?alfiere=false")}
+          onYes={() =>
+            navigate("incontri?alfiere=true&registrationRequired=true")
+          }
+          onNo={() =>
+            navigate("incontri?alfiere=false&registrationRequired=true")
+          }
         />
       )}
     </>
