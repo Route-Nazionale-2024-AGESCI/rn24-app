@@ -162,7 +162,7 @@ export default function Mappa() {
       <Box
         sx={{
           background: "white",
-          height: "calc(100vh - 266px)",
+          height: "calc(100vh - 200px)",
           minHeight: `270px`,
           overflow: "hidden",
           marginTop: "-112px",

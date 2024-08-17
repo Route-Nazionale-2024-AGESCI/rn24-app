@@ -34,7 +34,7 @@ export const applyFilter = (locations, filters, userDistrict) => {
     const districtMatch = ignoreDistrict || !userDistrict || !location.district || location.district === userDistrict
     
     // Filtra per categoria
-    const categoryMatch = category === "" || location.category && location.category.toLowerCase().includes(category.toLowerCase());
+    const categoryMatch = category === "" || (location.category && location.category.toLowerCase().includes(category.toLowerCase()));
     
     // Soddisfa i filtri o è una location senza marker (solo path o plygon)
     return ( districtMatch && categoryMatch ) || !(location.coords?.coordinates);

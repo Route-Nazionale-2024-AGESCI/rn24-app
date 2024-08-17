@@ -115,7 +115,7 @@ export default function FilterLocation({
 
   return (
     <SwipeableDrawer disableSwipeToOpen={true} open={open} onClose={onClose}>
-      <Box sx={{ width: "300px", px: "16px" }}>
+      <Box sx={{ width: "266px", px: "16px" }}>
         <Typography
           fontSize="20px"
           fontWeight={900}
@@ -230,12 +230,14 @@ export default function FilterLocation({
           flexDirection: "column",
           mt: "auto",
           p: "16px",
-          maxWidth: "300px",
+          mb: "24px",
+          maxWidth: "266px",
         }}
       >
         <FormControlLabel
           sx={{
             fontSize: "10px",
+            ml: "0px"
           }}
           control={
             <Switch
@@ -245,14 +247,15 @@ export default function FilterLocation({
                 updateFilter("ignoreDistrict", !ignoreDistrict);
               }}
               inputProps={{ "aria-label": "controlled" }}
-              size="small"
+              // size="small"
             />
           }
           label={
-            <Typography sx={{  fontSize: "12px", }}>
+            <Typography sx={{  fontSize: "14px", }}>
               Nascondi luoghi degli altri sottocampi (consigliato)
             </Typography>
           }
+          labelPlacement="start"
         />
       </Box>
     </SwipeableDrawer>

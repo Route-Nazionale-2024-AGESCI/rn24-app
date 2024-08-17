@@ -115,6 +115,7 @@ export default function LocationCard({
             WebkitBoxOrient: "vertical",
             WebkitLineClamp: 2,
             color: "#2B2D2B",
+            flexShrink: 15,
           }}
         >
           {location.name}
