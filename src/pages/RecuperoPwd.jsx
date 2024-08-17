@@ -137,6 +137,10 @@ export default function RecuperoPwd() {
             />
           )}
         </AccessButton>
+        <Box sx={{height: '24px'}} />
+        <Typography fontSize="14px" fontWeight={500}>
+          Ricorda: per poter accedere o recuperare la tua password, devi prima aver effettuato l'accesso almeno una volta all'App AGESCI
+        </Typography>
       </Box>
     </Form>
   );
