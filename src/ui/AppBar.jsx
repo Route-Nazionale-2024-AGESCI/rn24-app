@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -16,6 +16,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem, treeItemClasses } from "@mui/x-tree-view/TreeItem";
 
@@ -57,6 +58,7 @@ export default function AppBar({ pages }) {
   const [openModal, setOpenModal] = useState(false);
   const { personalPages, removePersonalPageUuid } = usePersonalPages();
   const { user } = useAuth();
+  const navigate = useNavigate();
   //const pages = usePages();
   //const { pages } = useLoaderData();
 
@@ -119,18 +121,28 @@ export default function AppBar({ pages }) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            mx: "24px",
+            mr: "24px",
+            ml: "8px",
             height: "40px",
             position: "relative",
           }}
         >
-          <Box
-            sx={{
-              zIndex: 410,
-            }}
-          >
-            <RnLogo />
-          </Box>
+          <Stack direction="row">
+            <IconButton
+              aria-label="back"
+              onClick={() => navigate(-1)}
+              sx={{ zIndex: 410 }}
+            >
+              <ArrowBackIosIcon sx={{ color: "#2B2D2B" }} />
+            </IconButton>
+            <Box
+              sx={{
+                zIndex: 410,
+              }}
+            >
+              <RnLogo />
+            </Box>
+          </Stack>
 
           <Box
             sx={{
