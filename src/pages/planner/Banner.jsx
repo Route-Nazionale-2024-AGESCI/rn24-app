@@ -18,6 +18,15 @@ export default function Banner({ type, event }) {
       ? "Confronti"
       : "Incontri";
 
+  let body =
+    event !== undefined
+      ? `Complimenti, hai già scelto l'evento di tipo ${title} a cui partecipare! Se vuoi modificarlo, clicca qui sotto.`
+      : `Seleziona l'evento di tipo ${title} a cui partecipare!`;
+
+  if (type === "incontri") {
+    body += ` Ogni capo può iscriversi ad un solo evento del modulo Incontri. Nel tempo restante potrà visitare gli eventi che non necessitano di prenotazione. Troverai tali eventi elencati insieme agli altri del modulo Incontri.`;
+  }
+
   return (
     <>
       <Card
@@ -40,9 +49,7 @@ export default function Banner({ type, event }) {
           {title}
         </Typography>
         <Typography color="#2B2D2B" fontSize="16px">
-          {event !== undefined
-            ? `Complimenti, hai già scelto l'evento di tipo ${title} a cui partecipare! Se vuoi modificarlo, clicca qui sotto.`
-            : `Seleziona l'evento di tipo ${title} a cui partecipare!`}
+          {body}
         </Typography>
 
         <AccessButton
