@@ -27,7 +27,6 @@ export default function IncontriPlanner() {
     () => invitations.map((inv) => inv.uuid),
     [invitations]
   );
-  console.log(freeEvent);
 
   const incontri = useMemo(
     () =>
