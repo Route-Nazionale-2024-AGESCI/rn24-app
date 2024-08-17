@@ -24,7 +24,7 @@ export default function Banner({ type, event }) {
       : `Seleziona l'evento di tipo ${title} a cui partecipare!`;
 
   if (type === "incontri") {
-    body += ` Ogni capo può iscriversi ad un solo evento del modulo Incontri. Nel tempo restante potrà visitare gli eventi che non necessitano di prenotazione. Troverai tali eventi elencati insieme agli altri del modulo Incontri.`;
+    body += ` Se vuoi puoi anche visualizzare gli eventi di tipo Incontri che non necessitano di prenotazione: potrai visitare queste attività nel tempo che ti resta libero!`;
   }
 
   return (

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useLoaderData } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 
 import WhitePaper from "../../ui/WhitePaper";
 import Banner from "./Banner";
@@ -58,6 +59,14 @@ export default function RoutePlanner() {
           px: "24px",
         }}
       >
+        <Typography fontSize="16px" fontWeight={400} color="#2B2D2B">
+          Qui puoi prenotare gli eventi ad iscrizione limitata a cui desideri
+          partecipare. <br />
+          Potrai iscriverti ad un solo evento per ogni tipo: Incontri, Confronti
+          e Sguardi. <br />
+          Le iscrizioni sono aperte fino ad esaurimento posti.
+        </Typography>
+        <Box sx={{ height: "24px" }} />
         <Stack direction={"column"} alignItems={"center"} spacing={"20px"}>
           <Banner type="incontri" event={incontro} />
           <Banner type="confronti" event={confronto} />
