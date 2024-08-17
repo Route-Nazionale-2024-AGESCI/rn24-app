@@ -1,19 +1,18 @@
 import ButtonBase from "@mui/material/ButtonBase";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
-import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import Typography from "@mui/material/Typography";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import { styled } from "@mui/material/styles";
-import LocationCard from "../LocationCard";
+// import LocationCard from "../LocationCard";
 import TuneIcon from "@mui/icons-material/Tune";
 
 import { useFilters } from "../../contexts/locationFilter"
 import { useMemo, useState } from "react";
-import { alpha, Badge, FormControl, InputBase, MenuItem, Select } from "@mui/material";
+import { alpha, Badge, FormControl, FormControlLabel, InputBase, MenuItem, Select, Switch } from "@mui/material";
 import AccessButton from "../AccessButton";
 
 const StyledButton = styled(ButtonBase)(({ hasfilters, theme }) => ({
@@ -73,23 +72,23 @@ const StyledAccordion = styled((props) => (
   },
 }));
 
-const FilterAccordion = ({ title, children }) => (
-  <StyledAccordion elevation={0} disableGutters square>
-    <AccordionSummary
-      expandIcon={
-        <ExpandMoreIcon
-          color="agesciPurple"
-          sx={{ backgroundColor: "#E2DCEA", borderRadius: "200px" }}
-        />
-      }
-    >
-      <Typography fontSize="18px" fontWeight={600}>
-        {title}
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>{children}</AccordionDetails>
-  </StyledAccordion>
-);
+// const FilterAccordion = ({ title, children }) => (
+//   <StyledAccordion elevation={0} disableGutters square>
+//     <AccordionSummary
+//       expandIcon={
+//         <ExpandMoreIcon
+//           color="agesciPurple"
+//           sx={{ backgroundColor: "#E2DCEA", borderRadius: "200px" }}
+//         />
+//       }
+//     >
+//       <Typography fontSize="18px" fontWeight={600}>
+//         {title}
+//       </Typography>
+//     </AccordionSummary>
+//     <AccordionDetails>{children}</AccordionDetails>
+//   </StyledAccordion>
+// );
 
 const countFilters = (filters) => {
   let n = 0;
@@ -108,6 +107,7 @@ export default function FilterLocation({
 }) {
   const { filters, updateFilter } = useFilters();
   const [category, setCategory] = useState(filters.category);
+  const [ignoreDistrict, setIgnoreDistrict] = useState(filters.ignoreDistrict);
 
   const categories = useMemo(() => {
     return [...new Set(publicLocations.filter(loc => loc.coords?.coordinates).map(obj => obj.category))].sort()
@@ -142,13 +142,13 @@ export default function FilterLocation({
             }}
           >
             <MenuItem value="All">Tutti</MenuItem>
-            {categories.map((c, i)=>(
-              <MenuItem value={c} key={i}>{c}</MenuItem>
+            {categories.map((c, i) => (
+              <MenuItem value={c} key={i}>
+                {c}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
-
-        
 
         {/* <FilterAccordion title="Location degli eventi">
           {Boolean(eventLocations && eventLocations.length) ? (
@@ -192,38 +192,69 @@ export default function FilterLocation({
         </FilterAccordion> */}
       </Box>
       <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            mt: "48px",
-            px: "16px",
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          mt: "48px",
+          px: "16px",
+        }}
+      >
+        <AccessButton
+          sx={{ m: 0, mb: "16px" }}
+          onClick={(ev) => {
+            updateFilter("category", category);
+            onClose();
           }}
         >
-          <AccessButton
-            sx={{ m: 0, mb: "16px" }}
-            onClick={(ev) => {
-              updateFilter("category", category);
-              onClose();
-            }}
-          >
-            <Typography fontSize="16px" fontWeight={600}>
-              Applica Filtri
-            </Typography>
-          </AccessButton>
+          <Typography fontSize="16px" fontWeight={600}>
+            Applica Filtri
+          </Typography>
+        </AccessButton>
 
-          <AccessButton
-            sx={{ m: 0, borderColor: "agesciRed.main" }}
-            onClick={(ev) => {
-              updateFilter("category", "");
-              setCategory("");
-              onClose();
-            }}
-          >
-            <Typography fontSize="16px" fontWeight={600} color="agesciRed.main">
-              Elimina Filtri
+        <AccessButton
+          sx={{ m: 0, borderColor: "agesciRed.main" }}
+          onClick={(ev) => {
+            updateFilter("category", "");
+            setCategory("");
+            onClose();
+          }}
+        >
+          <Typography fontSize="16px" fontWeight={600} color="agesciRed.main">
+            Elimina Filtri
+          </Typography>
+        </AccessButton>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          mt: "auto",
+          p: "16px",
+          maxWidth: "300px",
+        }}
+      >
+        <FormControlLabel
+          sx={{
+            fontSize: "10px",
+          }}
+          control={
+            <Switch
+              checked={!ignoreDistrict}
+              onChange={() => {
+                setIgnoreDistrict(!ignoreDistrict)
+                updateFilter("ignoreDistrict", !ignoreDistrict);
+              }}
+              inputProps={{ "aria-label": "controlled" }}
+              size="small"
+            />
+          }
+          label={
+            <Typography sx={{  fontSize: "12px", }}>
+              Nascondi luoghi degli altri sottocampi (consigliato)
             </Typography>
-          </AccessButton>
-        </Box>
+          }
+        />
+      </Box>
     </SwipeableDrawer>
   );
 }
