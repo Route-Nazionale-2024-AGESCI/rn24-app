@@ -70,6 +70,7 @@ export default function Mappa() {
 
   // Location per la tenda dell'utente
   const { user } = useUser();
+  const { district } = user?.scout_group?.line?.subdistrict
   const tentLocationUuid = user?.scout_group?.line?.location;
   const tentLocation = tentLocationUuid
     ? locations.find((loc) => loc.uuid === tentLocationUuid)
@@ -137,7 +138,8 @@ export default function Mappa() {
   const { filters } = useFilters();
   const filteredPublicLocations = applyFilter(
     publicLocations,
-    filters
+    filters,
+    district?.uuid
   );
   
   const [hasFilters, setHasFilters] = useState(false) 
