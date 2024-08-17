@@ -1,4 +1,5 @@
 import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
@@ -18,9 +19,16 @@ export default function AlfiereModal({ open, onClose, onYes, onNo }) {
     >
       <DialogTitle id="alfiere-dialog-title" textAlign={"center"}>
         <Typography fontSize={"20px"} fontWeight={600}>
-          Sei l'artigiano di futuro della tua Comunità Capi?
+          Sei l'Artigiano di Futuro della tua Comunità Capi?
         </Typography>
       </DialogTitle>
+      <DialogContent>
+        <Typography fontSize={"16px"} fontWeight={400}>
+          Gli Artigiani di Futuro sono due capi scelti dalla propria Comunità
+          Capi per partecipare alle Botteghe di Futuro, luoghi di confronto dove
+          portare il contributo del proprio percorso.
+        </Typography>
+      </DialogContent>
 
       <DialogActions>
         <Stack
