@@ -208,20 +208,20 @@ export default function Login() {
             />
           </FormControl>
 
-          <Link component={RouterLink} to="/recuperoPassword" underline="none">
+          <Link component={RouterLink} to="/generaPassword" underline="none">
             <Typography
               fontSize="14px"
               fontWeight={600}
-              sx={{ mt: "8px", textAlign: "right", color: "#000000" }}
+              sx={{ mt: "32px", textAlign: "right", color: "#000000" }}
             >
-              Password dimenticata?
+              Non sai come accedere o non ricordi la password?
             </Typography>
           </Link>
           <Link href="mailto:supporto.it@rn24.agesci.it" underline="none">
             <Typography
               fontSize="14px"
               fontWeight={600}
-              sx={{ mt: "8px", textAlign: "right", color: "#000000" }}
+              sx={{ mt: "32px", textAlign: "right", color: "#000000" }}
             >
               Ti serve aiuto?
             </Typography>

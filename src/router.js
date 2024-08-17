@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Profilo from "./pages/Profilo";
 import RecuperoCodice from "./pages/RecuperoCodice";
 import RecuperoPwd from "./pages/RecuperoPwd";
+import GeneraPwd from "./pages/GeneraPwd";
 import AttendeesList from "./pages/AttendeesList";
 import {
   PurpleLayout,
@@ -110,6 +111,11 @@ export const router = [
               {
                 path: "recuperoPassword",
                 element: <RecuperoPwd />,
+                errorElement: <SegmentedError />,
+              },
+              {
+                path: "generaPassword",
+                element: <GeneraPwd />,
                 errorElement: <SegmentedError />,
               },
             ],

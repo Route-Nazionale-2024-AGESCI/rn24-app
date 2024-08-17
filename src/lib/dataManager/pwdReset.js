@@ -7,3 +7,10 @@ export async function passwordReset({ codice, email }) {
   });
   return response.data;
 }
+
+export async function passwordGenerate({ username }) {
+  const response = await axios.post("auth/password-generate/", {
+    username,
+  });
+  return response.data;
+}
