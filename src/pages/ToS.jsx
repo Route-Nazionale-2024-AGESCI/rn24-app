@@ -51,7 +51,7 @@ export default function ToS({ onClose, onAccept }) {
             <Typography variant="h4">Accesso ai Servizi</Typography>
             <Typography variant="body1">
               L’applicazione è pensata e riservata ai partecipanti, al personale
-              di servizio e agli ospiti dell’evento Arena RN24. Pertanto, non è
+              di servizio e agli ospiti dell’evento Arena24. Pertanto, non è
               possibile registrarsi e usufruire dei servizi dell’applicazione
               senza un profilo A.G.E.S.C.I. È responsabilità dei partecipanti
               mantenere riservate le proprie credenziali di accesso, utilizzarle

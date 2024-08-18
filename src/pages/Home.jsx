@@ -157,7 +157,7 @@ export default function Home() {
         Ciao, {name}
       </Typography>
       <Typography variant="body1" fontSize="14px" fontWeight={400}>
-        Bentornato nell'App di RN24
+        Bentornato nell'App RN24
       </Typography>
       <Box height="48px" />
       <AddContactButton />
