@@ -7,7 +7,6 @@ import {
   getEventList,
   useEventInvitations,
 } from "../../lib/cacheManager/events";
-import { useUser } from "../../lib/cacheManager/user";
 
 import WhitePaper from "../../ui/WhitePaper";
 import IncontroGeneralCard from "./IncontroGeneralCard";
@@ -21,7 +20,6 @@ export async function loader({ request }) {
 }
 export default function IncontriPlanner() {
   const { isAlfiere, events, freeEvent } = useLoaderData();
-  const { user } = useUser();
   const { invitations } = useEventInvitations();
   const invUuid = useMemo(
     () => invitations.map((inv) => inv.uuid),
@@ -79,6 +77,7 @@ export default function IncontriPlanner() {
             title={e.name}
             idAccadimento={e.correlation_id}
             eventUuid={e.uuid}
+            locationId={e.location}
           />
         )),
     [idAccadimento, incontri]

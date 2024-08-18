@@ -7,6 +7,11 @@ import Box from "@mui/material/Box";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Diversity1RoundedIcon from "@mui/icons-material/Diversity1Rounded";
 import HexagonRoundedIcon from "@mui/icons-material/HexagonRounded"; // incontri
+import PlaceIcon from "@mui/icons-material/Place";
+
+import { useLocations } from "../../lib/cacheManager/locations";
+
+
 
 export default function IncontroGeneralCard({
   title,
@@ -14,7 +19,10 @@ export default function IncontroGeneralCard({
   date,
   idAccadimento,
   eventUuid,
+  locationId
 }) {
+  const locations = useLocations();
+  const location = locations.find((loc) => loc.uuid === locationId);
   return (
     <Button
       component={RouterLink}
@@ -93,6 +101,19 @@ export default function IncontroGeneralCard({
           sx={{ color: "#666A66" }}
         >
           {date}
+        </Typography>
+      </Stack>
+      <Stack direction="row" spacing="8px" alignItems="center" mt="12px">
+        <PlaceIcon sx={{ fontSize: 14, color: "#666A66" }} />
+        <Typography
+          variant="subtitle2"
+          fontSize="14px"
+          fontWeight={400}
+          textAlign="left"
+          mb="4px"
+          sx={{ color: "#666A66" }}
+        >
+          {location?.name}
         </Typography>
       </Stack>
       {happinessPath !== null && (
