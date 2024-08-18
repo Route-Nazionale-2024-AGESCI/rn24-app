@@ -208,7 +208,7 @@ export default function Login() {
             />
           </FormControl>
 
-          <Link component={RouterLink} to="/generaPassword" underline="none">
+          <Link component={RouterLink} to="/recuperoPassword" underline="none">
             <Typography
               fontSize="14px"
               fontWeight={600}
