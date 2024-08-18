@@ -41,7 +41,7 @@ export default function IncontriPlanner() {
               e.registration_limit_from_same_scout_group !== null
             : e.registration_limit_from_same_scout_group === null)
       ),
-    [events, isAlfiere /*, user.scout_group?.happiness_path*/, invUuid]
+    [events, isAlfiere, freeEvent, invUuid]
   );
 
   const idAccadimento = useMemo(() => {
