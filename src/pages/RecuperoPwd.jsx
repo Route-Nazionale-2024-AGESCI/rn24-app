@@ -106,7 +106,7 @@ export default function RecuperoPwd() {
               setEmail(ev.target.value);
             }}
             fullWidth
-            placeholder="Inserisci email"
+            placeholder="Email censimento AGESCI"
             sx={{
               mt: "8px",
             }}
