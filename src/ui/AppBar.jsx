@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -26,7 +26,7 @@ import LogoutModal from "./LogoutModal";
 import RnLogo from "./RnLogo";
 // import NotifyButton from "./NotifyButton";
 import Menu from "./Menu";
-import { usePages, getPages } from "../lib/cacheManager/pages";
+// import { usePages, getPages } from "../lib/cacheManager/pages";
 import { useAuth } from "../contexts/auth";
 import { useRefreshData } from "../lib/dataManager/version";
 import { usePersonalPages } from "../contexts/personalPages";
@@ -59,6 +59,7 @@ export default function AppBar({ pages }) {
   const { personalPages, removePersonalPageUuid } = usePersonalPages();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   //const pages = usePages();
   //const { pages } = useLoaderData();
 
@@ -105,7 +106,8 @@ export default function AppBar({ pages }) {
         : null}
     </StyledTreeItem>
   );
-
+  console.log(location.pathname);
+  
   return (
     <>
       <Container
@@ -133,7 +135,7 @@ export default function AppBar({ pages }) {
               onClick={() => navigate(-1)}
               sx={{ zIndex: 410 }}
             >
-              <ArrowBackIosIcon sx={{ color: "#2B2D2B" }} />
+              <ArrowBackIosIcon sx={{ color: "#2B2D2B", visibility: location.pathname !== "/" ? "visible" : "hidden" }} />
             </IconButton>
             <Box
               sx={{
