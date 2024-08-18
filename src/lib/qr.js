@@ -233,3 +233,22 @@ export function encodeContact(
 }
 // export function encodeEvent(data) {}
 // export function encodePage(data) {}
+
+export function getCameraConstraints(setConstraints) {
+  navigator.mediaDevices
+  .enumerateDevices()
+  .then((devices) => {
+    console.log(devices);
+    const backCameraList = devices
+      .filter((device) => device.kind === "videoinput" && device.label.match(/back/) != null)
+    if (backCameraList.length > 0 && backCameraList[backCameraList.length - 1]['deviceId'] !== undefined) {
+      console.log(backCameraList);
+      setConstraints({ deviceId: backCameraList[backCameraList.length - 1]['deviceId'] });
+    } else {
+      setConstraints({facingMode: { ideal: "environment" }})
+    }
+  })
+  .catch((error) => {
+    setConstraints({facingMode: { ideal: "environment" }})
+})
+}

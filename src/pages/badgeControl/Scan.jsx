@@ -6,8 +6,9 @@ import Typography from "@mui/material/Typography";
 import { QrReader } from "react-qr-reader";
 
 import MainContainer from "../../ui/BadgeControl/MainContainer";
-import { decodeQr, QRCodeScanError } from "../../lib/qr";
+import { decodeQr, getCameraConstraints, QRCodeScanError } from "../../lib/qr";
 import { useEventAttendees } from "../../lib/cacheManager/events";
+import { useEffect, useState } from "react";
 
 export default function Scan() {
   const { eventId } = useParams();
@@ -40,14 +41,18 @@ export default function Scan() {
       }
     }
   };
+  
+  const [constraints, setConstraints] = useState()
+ 
+  useEffect(() => {
+    getCameraConstraints(setConstraints)
+  },[])
 
   return (
     <MainContainer scanButton={false}>
-      <QrReader
+      {constraints && <QrReader
         delay={300}
-        constraints={{
-          facingMode: { ideal: "environment" },
-        }}
+        constraints={constraints}
         onResult={handleScan}
         containerStyle={{
           borderRadius: "8px",
@@ -56,7 +61,7 @@ export default function Scan() {
           width: "300px",
           height: "300px",
         }}
-      />
+      />}
       <Typography fontSize="16px" fontWeight={600} mt="24px">
         Inquadra il QR CODE del partecipante all'evento
       </Typography>

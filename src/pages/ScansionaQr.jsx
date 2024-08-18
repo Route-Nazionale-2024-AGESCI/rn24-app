@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -10,7 +10,7 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import { QrReader } from "react-qr-reader";
 import AccessButton from "../ui/AccessButton";
 import generateVCardBlob from "../lib/vCard";
-import { decodeQr } from "../lib/qr";
+import { decodeQr, getCameraConstraints } from "../lib/qr";
 
 // Struttura dei dati codificati nel QR Code:
 // {
@@ -71,16 +71,21 @@ export default function ScansionaQr() {
     }
   };
 
+
+  const [constraints, setConstraints] = useState()
+ 
+  useEffect(() => {
+    getCameraConstraints(setConstraints)
+  },[])
+
   return (
     <>
       {/* Canvas per la scansione del QR Code */}
-      {!data && !error && !urlDetected && (
+      {!data && !error && !urlDetected && constraints && (
         <>
           <QrReader
             delay={300}
-            constraints={{
-              facingMode: { ideal: "environment" },
-            }}
+            constraints={constraints}
             onResult={handleScan}
             containerStyle={{
               borderRadius: "8px",
