@@ -57,6 +57,7 @@ export default function IncontroGeneralCard({
             backgroundColor: "#E2DCEA",
             height: "32px",
             width: "32px",
+            minWidth: "32px",
             borderRadius: "8px",
             display: "flex",
             justifyContent: "center",
