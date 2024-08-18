@@ -106,7 +106,6 @@ export default function AppBar({ pages }) {
         : null}
     </StyledTreeItem>
   );
-  console.log(location.pathname);
   
   return (
     <>
