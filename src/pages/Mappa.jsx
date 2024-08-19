@@ -36,7 +36,7 @@ export async function loader({ request }) {
     // Found location uuid in request
     location = await getLocation(url.searchParams.get("location"));
     if (location === undefined || !location?.coords?.coordinates) {
-      location = null;
+      // location = null;
       lat = null;
       lon = null;
     } else {
@@ -122,10 +122,25 @@ export default function Mappa() {
 
   const [centerTo, setCenterTo] = useState();
   const centerMap = (location) => {
-    setCenterTo([
-      location.coords.coordinates[1],
-      location.coords.coordinates[0],
-    ]);
+    if (location?.coords?.coordinates) {
+      setCenterTo([
+        location.coords.coordinates[1],
+        location.coords.coordinates[0],
+      ]);
+    } else if (location?.polygon?.coordinates && location?.polygon?.coordinates.length > 0) {
+      const i = parseInt(location.polygon.coordinates.length / 2)
+      setCenterTo([
+        location.polygon.coordinates[i][1],
+        location.polygon.coordinates[i][0],
+      ]);
+    } else if (location?.path?.coordinates && location?.path?.coordinates.length > 0) {
+      const i = parseInt(location.path.coordinates.length / 2)
+      setCenterTo([
+        location.path.coordinates[i][1],
+        location.path.coordinates[i][0],
+      ]);
+    }
+    
     setOpenFilterDrawer(false);
     window.scrollTo({
       top: 0,
@@ -142,13 +157,32 @@ export default function Mappa() {
     district?.uuid
   );
   
-  const [hasFilters, setHasFilters] = useState(false) 
+  const [infoBarHeight, setInfoBarHeight] = useState("200")
+
+  useEffect(()=>{
+    if (location) {
+      setInfoBarHeight(270)
+    } else {
+      setInfoBarHeight(200)
+    }
+  }, [location])
+
+  const [hasFilters, setHasFilters] = useState(false)
 
   useEffect(()=>{
     let f = false;
     if (filters.category !== "") f = true;
     setHasFilters(f)
   }, [filters])
+
+  const locationsToShow = useMemo(() => {
+    let locs = filteredPublicLocations;
+    if (!hasFilters) {
+      locs = locs.concat(eventLocations);
+      locs.push(tentLocation);
+    }
+    return [...new Set(locs)];
+  }, [eventLocations, tentLocation, hasFilters, filteredPublicLocations]);
 
   return (
     <>
@@ -162,10 +196,11 @@ export default function Mappa() {
       <Box
         sx={{
           background: "white",
-          height: "calc(100vh - 200px)",
+          height: `calc(100vh - ${infoBarHeight}px)`,
           minHeight: `270px`,
           overflow: "hidden",
           marginTop: "-112px",
+          transition: "height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         }}
       >
         <MapContainer
@@ -181,11 +216,8 @@ export default function Mappa() {
           <Map
             position={center}
             location={location}
-            locations={locations}
+            locations={locationsToShow}
             centerTo={centerTo}
-            publicLocations={filteredPublicLocations}
-            eventLocations={!hasFilters ? eventLocations : []}
-            tentLocation={!hasFilters ? tentLocation : []}
           />
           <Box
             sx={{
@@ -246,6 +278,7 @@ export default function Mappa() {
             onLocationClick={centerMap}
             showBorder={false}
             events={userEvents}
+            selected
           />
         )}
         {Boolean(nextEventsLocations && nextEventsLocations.length) && (

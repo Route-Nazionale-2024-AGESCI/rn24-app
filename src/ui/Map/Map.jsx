@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-export const Map = ({ location, centerTo, publicLocations, eventLocations, tentLocation }) => {
+export const Map = ({ location, centerTo, locations }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -62,17 +62,11 @@ export const Map = ({ location, centerTo, publicLocations, eventLocations, tentL
         zoomToBoundsOnClick={18}
         spiderfyOnMaxZoom={false}
       >
-        {Boolean(publicLocations) &&
-          publicLocations.map((loc, i) => (
-            <LocationInMap key={i} location={loc} />
-          ))}
-
-        {Boolean(eventLocations) &&
-          eventLocations.map((loc, i) => (
+        {Boolean(locations) &&
+          locations.map((loc, i) => (
             <LocationInMap key={i} location={loc} />
           ))}
       </MarkerClusterGroup>
-      {Boolean(tentLocation) && <LocationInMap location={tentLocation} />}
       {Boolean(location) && <LocationInMap location={location} big />}
       <ZoomControl position="bottomright" />
     </>

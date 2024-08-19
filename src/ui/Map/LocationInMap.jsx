@@ -34,10 +34,18 @@ export const LocationInMap = ({ location, icon, big = false }) => {
         ></Marker>
       )}
       {Boolean(location.path) && (
-        <Polyline pathOptions={colorOption} positions={pathCoords} />
+        <Polyline pathOptions={colorOption} positions={pathCoords} eventHandlers={{
+          click: () => {
+            onClick();
+          },
+        }} />
       )}
       {Boolean(location.polygon) && (
-        <Polygon pathOptions={colorOption} positions={polygonCoords} />
+        <Polygon pathOptions={colorOption} positions={polygonCoords} eventHandlers={{
+          click: () => {
+            onClick();
+          },
+        }} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EventSummaryCard from "./EventSummaryCard";
 import { useMemo } from "react";
+import { IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function LocationCard({
   location,
@@ -14,7 +16,9 @@ export default function LocationCard({
   showBorder = true,
   disabled = false,
   events,
+  selected = false
 }) {
+  const navigate = useNavigate();
   const icon = location.icon ? location.icon : "location-dot";
   const locationEvents = useMemo(() => {
     if (!events) return null;
@@ -37,7 +41,7 @@ export default function LocationCard({
       />
     ));
   };
-  if (!location?.coords?.coordinates) return(
+  if (!location?.coords?.coordinates && !selected) return(
     <></>
   )
  
@@ -76,6 +80,23 @@ export default function LocationCard({
         >
           {location.category}
         </Typography>
+        {selected && (
+          <IconButton
+            onClick={(e) => {
+              navigate(`/mappa`);
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            sx={{
+              mt: "-10px",
+              pb: "0",
+              display: "flex",
+              mb: "-2px"
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
       </Stack>
       <Stack direction={"row"} gap="10px" mt="16px" alignItems={"center"}>
         <Box
