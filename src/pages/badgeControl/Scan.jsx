@@ -51,7 +51,7 @@ export default function Scan() {
   return (
     <MainContainer scanButton={false}>
       {constraints && <QrReader
-        delay={300}
+        scanDelay={300}
         constraints={constraints}
         onResult={handleScan}
         containerStyle={{

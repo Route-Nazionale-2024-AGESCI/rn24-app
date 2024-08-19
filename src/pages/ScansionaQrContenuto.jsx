@@ -83,7 +83,7 @@ export default function ScansionaQrContenuto() {
       {!data && !error && !profileDetected && constraints &&(
         <>
           <QrReader
-            delay={300}
+            scanDelay={300}
             constraints={constraints}
             onResult={handleScan}
             containerStyle={{

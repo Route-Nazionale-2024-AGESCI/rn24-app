@@ -84,7 +84,7 @@ export default function ScansionaQr() {
       {!data && !error && !urlDetected && constraints && (
         <>
           <QrReader
-            delay={300}
+            scanDelay={300}
             constraints={constraints}
             onResult={handleScan}
             containerStyle={{
