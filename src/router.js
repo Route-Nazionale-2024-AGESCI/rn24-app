@@ -59,6 +59,8 @@ import AccadimentoPlanner, {
   loader as accadimentoPlannerLoader,
 } from "./pages/planner/AccadimentoPlanner";
 
+import SecurityScan, {loader as securityScanLoader} from "./pages/SecurityScan";
+
 import { FilterProvider } from "./contexts/filter";
 import { PersonalPagesProvider } from "./contexts/personalPages";
 import { useAuth } from "./contexts/auth";
@@ -237,6 +239,11 @@ export const router = [
                             element: <AccadimentoPlanner />,
                             loader: accadimentoPlannerLoader,
                           },
+                          {
+                            path: "security-scan",
+                            element: <SecurityScan />,
+                            loader: securityScanLoader,
+                          }
                         ],
                       },
                       {

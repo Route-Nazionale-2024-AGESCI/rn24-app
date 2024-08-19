@@ -10,6 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -267,7 +268,7 @@ export default function AppBar({ pages }) {
                   />
                 </ListItemButton>
               </ListItem>
-              {user.permissions.is_staff && (
+              {user?.permissions?.is_staff && (
                 <ListItem>
                   <ListItemButton href="/api/admin/" target="_blank">
                     <ListItemIcon>
@@ -275,6 +276,26 @@ export default function AppBar({ pages }) {
                     </ListItemIcon>
                     <ListItemText
                       primary="Amministratore"
+                      primaryTypographyProps={{
+                        fontSize: "16px",
+                        fontWeight: 600,
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )}
+              {user?.permissions?.can_scan_qr && (
+                <ListItem>
+                  <ListItemButton component={Link}
+                  to="/security-scan"
+                  onClick={() => {
+                    setOpenDrawer(false);
+                  }}>
+                    <ListItemIcon>
+                      <QrCodeScannerIcon color="white" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="QR Scanner"
                       primaryTypographyProps={{
                         fontSize: "16px",
                         fontWeight: 600,
