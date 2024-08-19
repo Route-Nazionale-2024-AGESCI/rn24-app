@@ -108,6 +108,10 @@ export default function Mappa() {
       .map((ev) => locations.find((l) => l.uuid === ev.location)))];
   }, [nextEvents, locations, evtLocsToShow]);
 
+  const nxtEvtLocsLenght = useMemo(() => (
+    [...new Set(nextEvents.map(obj => obj.location))].length
+  ),[nextEvents])
+
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
 
@@ -298,7 +302,7 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
-            {Boolean(nextEvents.length > evtLocsToShow) && (
+            {Boolean(nxtEvtLocsLenght > evtLocsToShow) && (
               <Button
                 variant="text"
                 onClick={() => {
