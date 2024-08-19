@@ -42,9 +42,14 @@ export default function IncontriPlanner() {
     [events, isAlfiere, freeEvent, invUuid]
   );
 
+  const incontriWithoutCorrelationId = useMemo(
+    () => incontri.filter((e) => !e.correlation_id),
+    [incontri]
+  );
+
   const idAccadimento = useMemo(() => {
     const id = incontri.reduce((ids, e) => {
-      if (!ids.includes(e.correlation_id)) {
+      if (!ids.includes(e.correlation_id) && e.correlation_id) {
         ids.push(e.correlation_id);
       }
       return ids;
@@ -83,12 +88,36 @@ export default function IncontriPlanner() {
     [idAccadimento, incontri]
   );
 
+  const cardsWithoutCorrelationId = useMemo(
+    () =>
+      incontriWithoutCorrelationId.map((e) => (
+        <IncontroGeneralCard
+          key={e.uuid}
+          date={new Date(e.starts_at)
+            .toLocaleDateString("it-IT", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            })
+            .replace(/\//g, "-")}
+          happinessPath={e.happiness_path ?? null}
+          title={e.name}
+          idAccadimento=""
+          eventUuid={e.uuid}
+          locationId={e.location}
+        />
+      )),
+    [incontriWithoutCorrelationId]
+  );
+
+  const allCards = cards.concat(cardsWithoutCorrelationId);
+
   return (
     <>
       <Typography fontSize="25px" fontWeight={900} color="#2B2D2B" ml="16px">
         Incontri
       </Typography>
-      <WhitePaper sx={{ px: "24px" }}>{cards}</WhitePaper>
+      <WhitePaper sx={{ px: "24px" }}>{allCards}</WhitePaper>
     </>
   );
 }
