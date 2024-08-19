@@ -94,23 +94,18 @@ export default function Mappa() {
   const [evtLocsToShow, setEvtLocsToShow] = useState(2)
 
   const nextEvents = useMemo(() => {
-    return userEvents
+    return [...new Set(userEvents
       .filter((ev) => {
         const endDt = new Date(ev.ends_at);
         const now = new Date();
         return endDt >= now;
-      });
+      })
+      .map((ev) => locations.find((l) => l.uuid === ev.location)))];
   }, [userEvents]);
 
   const nextEventsLocations = useMemo(() => {
-    return [...new Set(nextEvents
-      .slice(0, evtLocsToShow)
-      .map((ev) => locations.find((l) => l.uuid === ev.location)))];
-  }, [nextEvents, locations, evtLocsToShow]);
-
-  const nxtEvtLocsLenght = useMemo(() => (
-    [...new Set(nextEvents.map(obj => obj.location))].length
-  ),[nextEvents])
+    return nextEvents.slice(0, evtLocsToShow);
+  }, [nextEvents, evtLocsToShow]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
   const { lat, lon } = useLoaderData();
@@ -302,7 +297,7 @@ export default function Mappa() {
                 events={userEvents}
               />
             ))}
-            {Boolean(nxtEvtLocsLenght > evtLocsToShow) && (
+            {Boolean(nextEvents.length > evtLocsToShow) && (
               <Button
                 variant="text"
                 onClick={() => {
