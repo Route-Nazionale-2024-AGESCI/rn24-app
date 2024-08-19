@@ -179,7 +179,7 @@ export default function Mappa() {
     let locs = filteredPublicLocations;
     if (!hasFilters) {
       locs = locs.concat(eventLocations);
-      locs.push(tentLocation);
+      if (tentLocation) { locs.push(tentLocation) }
     }
     return [...new Set(locs)];
   }, [eventLocations, tentLocation, hasFilters, filteredPublicLocations]);

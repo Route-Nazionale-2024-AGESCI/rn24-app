@@ -88,10 +88,7 @@ export default function LocationCard({
               e.stopPropagation();
             }}
             sx={{
-              mt: "-10px",
-              pb: "0",
-              display: "flex",
-              mb: "-2px"
+              my: "-10px",
             }}
           >
             <CloseIcon />

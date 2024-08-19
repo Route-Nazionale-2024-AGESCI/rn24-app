@@ -64,7 +64,7 @@ export const Map = ({ location, centerTo, locations }) => {
       >
         {Boolean(locations) &&
           locations.map((loc, i) => (
-            <LocationInMap key={i} location={loc} />
+            loc && <LocationInMap key={i} location={loc} />
           ))}
       </MarkerClusterGroup>
       {Boolean(location) && <LocationInMap location={location} big />}
