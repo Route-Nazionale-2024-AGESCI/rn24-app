@@ -128,10 +128,9 @@ export default function Mappa() {
         location.coords.coordinates[0],
       ]);
     } else if (location?.polygon?.coordinates && location?.polygon?.coordinates.length > 0) {
-      const i = parseInt(location.polygon.coordinates.length / 2)
       setCenterTo([
-        location.polygon.coordinates[i][1],
-        location.polygon.coordinates[i][0],
+        location.polygon.coordinates[0][0][1],
+        location.polygon.coordinates[0][0][0],
       ]);
     } else if (location?.path?.coordinates && location?.path?.coordinates.length > 0) {
       const i = parseInt(location.path.coordinates.length / 2)
