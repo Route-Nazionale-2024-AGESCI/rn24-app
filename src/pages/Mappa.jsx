@@ -99,13 +99,13 @@ export default function Mappa() {
         const endDt = new Date(ev.ends_at);
         const now = new Date();
         return endDt >= now;
-      })
+      });
   }, [userEvents]);
 
   const nextEventsLocations = useMemo(() => {
-    return nextEvents
+    return [...new Set(nextEvents
       .slice(0, evtLocsToShow)
-      .map((ev) => locations.find((l) => l.uuid === ev.location));
+      .map((ev) => locations.find((l) => l.uuid === ev.location)))];
   }, [nextEvents, locations, evtLocsToShow]);
 
   // Centro della mappa, se non sono null... altrimenti centrare sulla posizione del dispositivo
