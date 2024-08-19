@@ -14,12 +14,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import MainContainer from "../../ui/BadgeControl/MainContainer";
 import { useEventAttendees } from "../../lib/cacheManager/events";
 
-const UserInfo = ({
-  title,
-  children,
-  autoFormat = true,
-  //fullWidth = false,
-}) => (
+const UserInfo = ({ title, children, autoFormat = true }) => (
   <Stack direction="column" mt="12px">
     <Typography fontSize="14px" fontWeight={600}>
       {title}:

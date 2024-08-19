@@ -20,7 +20,6 @@ const NewScanStyledButton = styled(ButtonBase)(() => ({
 const NewScanButton = () => {
   const navigate = useNavigate();
   return (
-    // FIXME: on successful scan, path must go 2 steps back. Using navigate(-1) should be right for every case
     <NewScanStyledButton onClick={() => navigate(-1)}>
       <Typography fontSize="16px" fontWeight={600}>
         Effettua Nuova scansione
