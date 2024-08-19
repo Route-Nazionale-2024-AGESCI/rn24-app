@@ -13,3 +13,12 @@ export function useUser() {
   }
   return { user: JSON.parse(localStorage.getItem("user")) ?? {}, mutate: null };
 }
+
+export async function getUser() {
+  let user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    user = await APIgetUser();
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+  return user;
+}
