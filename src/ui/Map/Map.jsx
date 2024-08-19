@@ -22,7 +22,7 @@ export const Map = ({ location, centerTo, locations }) => {
     if (centerTo) {
       map.flyTo(centerTo, 17);
     }
-  }, [centerTo]);
+  }, [centerTo, map]);
 
   useEffect(() => {
     map.whenReady(() => {
@@ -31,7 +31,7 @@ export const Map = ({ location, centerTo, locations }) => {
         theme: "light",
         bounds: [
           [45.46, 10.98],
-          [45.4, 11.06],
+          [45.407, 11.06],
         ],
         minZoom: 13,
         maxZoom: 18,

@@ -82,7 +82,7 @@ export default function Mappa() {
   const userEvents = useMemo(() => {
     const regUuid = registrations.map((reg) => reg.event);
     return events.filter((ev) => regUuid.includes(ev.uuid));
-  }, [events, registrations]);
+  }, []);
 
   const eventLocations = useMemo(() => {
     return userEvents.map((ev) =>
