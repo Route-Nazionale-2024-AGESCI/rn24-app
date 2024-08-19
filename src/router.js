@@ -27,6 +27,7 @@ import {
   PurpleLayout,
   GreenLayout,
   RedLayout,
+  BadgeLayout,
 } from "./pages/layout/ColorLayout";
 import ScansionaQr from "./pages/ScansionaQr";
 import CondividiQr from "./pages/CondividiQr";
@@ -59,7 +60,9 @@ import AccadimentoPlanner, {
   loader as accadimentoPlannerLoader,
 } from "./pages/planner/AccadimentoPlanner";
 
-import SecurityScan, {loader as securityScanLoader} from "./pages/SecurityScan";
+import SecurityScan, {
+  loader as securityScanLoader,
+} from "./pages/SecurityScan";
 
 import { FilterProvider } from "./contexts/filter";
 import { PersonalPagesProvider } from "./contexts/personalPages";
@@ -243,7 +246,7 @@ export const router = [
                             path: "security-scan",
                             element: <SecurityScan />,
                             loader: securityScanLoader,
-                          }
+                          },
                         ],
                       },
                       {
@@ -302,12 +305,7 @@ export const router = [
                         ],
                       },
                       {
-                        element: (
-                          <PurpleLayout
-                            back="/profilo"
-                            backText="Torna al profilo"
-                          />
-                        ),
+                        element: <BadgeLayout />,
                         path: "badge",
                         children: [
                           {

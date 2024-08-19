@@ -9,7 +9,7 @@ import { useUser, getUser } from "./user";
 import isValidUUID, { isValidId } from "../uuid";
 import { getData, saveData } from "../idb";
 
-async function getUnfilteredEventList(){
+async function getUnfilteredEventList() {
   let events, version;
   const localData = await getData("events");
   if (localData !== null && localStorage.getItem("eventsVersion") !== null) {
@@ -25,19 +25,19 @@ async function getUnfilteredEventList(){
 }
 
 async function getEventList() {
-  let {events, version } = await getUnfilteredEventList();
+  let { events, version } = await getUnfilteredEventList();
   const user = await getUser();
   const arrival = user?.scout_group?.arrival_date;
   const departure = user?.scout_group?.departure_date;
   const arrivalDate = arrival !== undefined ? new Date(arrival) : null;
   const departureDate = departure !== undefined ? new Date(departure) : null;
-  if ( arrivalDate !== null){
+  if (arrivalDate !== null) {
     events = events.filter((event) => {
       const eventStart = new Date(event.starts_at);
       return eventStart >= arrivalDate;
     });
   }
-  if ( departureDate !== null){
+  if (departureDate !== null) {
     events = events.filter((event) => {
       const eventEnd = new Date(event.ends_at);
       return eventEnd <= departureDate;

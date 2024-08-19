@@ -10,7 +10,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -107,7 +108,7 @@ export default function AppBar({ pages }) {
         : null}
     </StyledTreeItem>
   );
-  
+
   return (
     <>
       <Container
@@ -135,7 +136,12 @@ export default function AppBar({ pages }) {
               onClick={() => navigate(-1)}
               sx={{ zIndex: 410 }}
             >
-              <ArrowBackIosIcon sx={{ color: "#2B2D2B", visibility: location.pathname !== "/" ? "visible" : "hidden" }} />
+              <ArrowBackIosIcon
+                sx={{
+                  color: "#2B2D2B",
+                  visibility: location.pathname !== "/" ? "visible" : "hidden",
+                }}
+              />
             </IconButton>
             <Box
               sx={{
@@ -153,6 +159,22 @@ export default function AppBar({ pages }) {
           >
             <Stack direction="row" spacing="16px">
               {/* <NotifyButton /> */}
+              <IconButton
+                component={Link}
+                to="/badge"
+                disableElevation
+                sx={{
+                  borderRadius: "8px",
+                  p: "10px 12px 10px 12px",
+                  height: "40px",
+                  width: "40px",
+                  minWidth: "40px",
+                  bgcolor: "#ffffff",
+                }}
+                variant="contained"
+              >
+                <QrCode2Icon color="agesciPurple" />
+              </IconButton>
               <Menu
                 onClick={() => setOpenDrawer(!openDrawer)}
                 aria-label="menu"
@@ -286,11 +308,13 @@ export default function AppBar({ pages }) {
               )}
               {user?.permissions?.can_scan_qr && (
                 <ListItem>
-                  <ListItemButton component={Link}
-                  to="/security-scan"
-                  onClick={() => {
-                    setOpenDrawer(false);
-                  }}>
+                  <ListItemButton
+                    component={Link}
+                    to="/security-scan"
+                    onClick={() => {
+                      setOpenDrawer(false);
+                    }}
+                  >
                     <ListItemIcon>
                       <QrCodeScannerIcon color="white" />
                     </ListItemIcon>
