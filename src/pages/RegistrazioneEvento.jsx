@@ -25,6 +25,8 @@ import {
   deleteRegistrationToEvent,
 } from "../lib/dataManager/events";
 
+import { useUser } from "../lib/cacheManager/user";
+
 const GreenBox = styled(Box)({
   backgroundColor: "#EBF6F0",
   border: "2px solid #38A368",
@@ -101,6 +103,7 @@ export default function RegistrazioneEvento() {
   const { invitations } = useEventInvitations();
   const { registrations, mutate } = useEventRegistrations();
   const networkState = useNetworkState();
+  const { user } = useUser();
 
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
@@ -155,6 +158,9 @@ export default function RegistrazioneEvento() {
           <GreenBox>
             <Typography fontWeight={600} fontSize="16px">
               Sei registrato a questo evento
+            </Typography>
+            <Typography fontWeight={400} fontSize="14px">
+              ID: {event.id} - {user?.first_name} {user?.last_name}
             </Typography>
           </GreenBox>
           <Box height="16px" />
