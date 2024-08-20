@@ -17,8 +17,12 @@ instance.interceptors.response.use(
     if (status === 401 || status === 403) {
       console.log(error);
       localStorage.clear();
-      window.location = "/login";
-      return Promise.resolve();
+      if(window.location.pathname === "/login") {
+        return Promise.reject(error);
+      } else {
+        window.location = "/login";
+        return Promise.resolve();
+      }
     }
     return Promise.reject(error);
   }
