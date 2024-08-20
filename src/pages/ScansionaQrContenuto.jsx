@@ -278,7 +278,9 @@ export default function ScansionaQrContenuto() {
                     profileDetected.firstName,
                     profileDetected.lastName,
                     profileDetected.phone,
-                    profileDetected.email
+                    profileDetected.email,
+                    profileDetected.note,
+                    profileDetected.url
                   );
                   const url = window.URL.createObjectURL(vCardBlob);
                   setVCardUrl(url);

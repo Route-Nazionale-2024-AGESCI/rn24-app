@@ -12,7 +12,7 @@ N:${lastName ? `${lastName};` : ""}${firstName ? firstName : ""}
 FN:${firstName ?? `${firstName} `}${lastName ?? ""}
 ${phone ? `TEL:${phone}` : ""}
 ${email ? `EMAIL:${email}` : ""}
-${note ? `NOTE:${note.replace(/\r?\n/g, ' ')}` : ""}
+${note ? `NOTE:${note.replace(/\r?\n/g, '\\n')}` : ""}
 ${url ? `URL:${url}` : ""}
 END:VCARD`
     .split("\n")
