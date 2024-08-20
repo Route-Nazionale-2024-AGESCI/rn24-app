@@ -235,20 +235,44 @@ export function encodeContact(
 // export function encodePage(data) {}
 
 export function getCameraConstraints(setConstraints) {
-  navigator.mediaDevices
-  .enumerateDevices()
-  .then((devices) => {
-    console.log(devices);
-    const backCameraList = devices
-      .filter((device) => device.kind === "videoinput" && device.label.match(/back/) != null)
-    if (backCameraList.length > 0 && backCameraList[backCameraList.length - 1]['deviceId'] !== undefined) {
-      console.log(backCameraList);
-      setConstraints({ deviceId: backCameraList[backCameraList.length - 1]['deviceId'] });
-    } else {
-      setConstraints({facingMode: { ideal: "environment" }})
-    }
-  })
-  .catch((error) => {
-    setConstraints({facingMode: { ideal: "environment" }})
-})
+  const findMainBackCamera = () => {
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        console.log(devices);
+        const backCameraList = devices
+          .filter((device) => device.kind === "videoinput" && device.label.match(/back/) != null)
+        if (backCameraList.length > 0 && backCameraList[backCameraList.length - 1]['deviceId'] !== undefined) {
+          console.warn(backCameraList);
+          setConstraints({ deviceId: backCameraList[backCameraList.length - 1]['deviceId'] });
+        } else {
+          console.warn("backCamera not found:", devices);
+          setConstraints({facingMode: { ideal: "environment" }})
+        }
+      })
+      .catch(() => {
+        console.warn("error mediaDevices enumerateDevices");
+        setConstraints({facingMode: { ideal: "environment" }})
+      })
+  }
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(()=>{
+      findMainBackCamera()
+    })
+    .catch(()=>{
+      navigator.permissions.query({name: 'camera'})
+        .then((permissionObj) => {
+          if(permissionObj.state === "denied") {
+            alert("Autorizzazione Videocamera bloccata. Consenti l'autorizzazione alla Videocamera per continuare.")
+          } else if (permissionObj.state === "granted") {
+            findMainBackCamera()
+          } else {
+            setConstraints({facingMode: { ideal: "environment" }})
+          }
+        })
+        .catch(()=>{
+          console.warn("error mediaDevices getUserMedia");
+          setConstraints({facingMode: { ideal: "environment" }})
+        });
+    });
 }
