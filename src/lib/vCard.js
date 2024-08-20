@@ -7,12 +7,12 @@ export default function generateVCardBlob(
   url
 ) {
   const vcardData = `BEGIN:VCARD
-VERSION:4.0
+VERSION:3.0
 N:${lastName ? `${lastName};` : ""}${firstName ? firstName : ""}
 FN:${firstName ?? `${firstName} `}${lastName ?? ""}
 ${phone ? `TEL:${phone}` : ""}
 ${email ? `EMAIL:${email}` : ""}
-${note ? `NOTE:${note}` : ""}
+${note ? `NOTE:${note.replace(/\r?\n/g, ' ')}` : ""}
 ${url ? `URL:${url}` : ""}
 END:VCARD`
     .split("\n")
