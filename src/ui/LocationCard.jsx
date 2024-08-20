@@ -7,9 +7,15 @@ import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EventSummaryCard from "./EventSummaryCard";
 import { useMemo } from "react";
-import { IconButton } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import { IconButton, styled } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import CopyToClipboardButton from "./CopyToClipboardButton";
+
+const StyledButton = styled(Button)`
+  &:hover {
+    background: none;
+  }
+`;
 
 export default function LocationCard({
   location,
@@ -17,7 +23,7 @@ export default function LocationCard({
   showBorder = true,
   disabled = false,
   events,
-  selected = false
+  selected = false,
 }) {
   const navigate = useNavigate();
   const icon = location.icon ? location.icon : "location-dot";
@@ -42,10 +48,10 @@ export default function LocationCard({
       />
     ));
   };
- 
+
   return (
     <>
-      <Button
+      <StyledButton
         disabled={disabled}
         component={RouterLink}
         onClick={() => {
@@ -83,25 +89,30 @@ export default function LocationCard({
             {location.category}
           </Typography>
           {selected && (
-            <Box sx={{
-              display: "flex",
-            }}>
-            <CopyToClipboardButton 
-            text={location.name}
-            message={"Nome luogo copiato negli appunti."}
-            />
-            <IconButton
-              onClick={(e) => {
-                navigate(`/mappa`);
-                e.preventDefault();
-                e.stopPropagation();
-              }}
+            <Box
               sx={{
-                my: "-10px",
+                display: "flex",
+                mr: "-8px",
               }}
+              onMouseDown={(e) => e.stopPropagation()}
             >
-              <CloseIcon />
-            </IconButton></Box>
+              <CopyToClipboardButton
+                text={location.name}
+                message={"Nome luogo copiato negli appunti."}
+              />
+              <IconButton
+                onClick={(e) => {
+                  navigate(`/mappa`);
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                sx={{
+                  my: "-10px",
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
           )}
         </Stack>
         <Stack direction={"row"} gap="10px" mt="16px" alignItems={"center"}>
@@ -157,7 +168,7 @@ export default function LocationCard({
             fontWeight={400}
             textAlign="left"
             mb="4px"
-            sx={{ 
+            sx={{
               color: "#666A66",
               wordBreak: "break-word",
             }}
@@ -179,7 +190,7 @@ export default function LocationCard({
             {buildEventCards(locationEvents)}
           </Box>
         )}
-      </Button>
+      </StyledButton>
       {/* {selected && location?.coords?.coordinates && (
         <Typography variant="body2" sx={{ color: "#666A66" }}>
           {`${location.coords.coordinates[1].toFixed(5)}, 
