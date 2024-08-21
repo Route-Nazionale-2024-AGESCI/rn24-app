@@ -75,6 +75,15 @@ const AuthProvider = ({ children }) => {
 
   const onLine = networkState.online;
 
+  const logOut = () => {
+    setToken(null);
+    setCsrfToken(null);
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
+    setStatus(AuthStatus.LoggedOut);
+    setUser(null);
+  };
+
   useEffect(() => {
     if (token && csrfToken) {
       const interceptor = axios.interceptors.request.use(
@@ -87,6 +96,25 @@ const AuthProvider = ({ children }) => {
           return Promise.reject(error);
         }
       );
+      const resInterceptor = axios.interceptors.response.use(
+        (response) => response,
+        (error) => {
+          const status = error.response?.status;
+          if (status === 401 || status === 403) {
+            console.log(error);
+            logOut();
+            Promise.resolve();
+            //localStorage.clear();
+            // if (window.location.pathname === "/login") {
+            //   return Promise.reject(error);
+            // } else {
+            //   window.location = "/login";
+            //   return Promise.resolve(error);
+            // }
+          }
+          return Promise.reject(error);
+        }
+      );
 
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
       localStorage.setItem(LOCAL_STORAGE_CSRF_TOKEN_KEY, csrfToken);
@@ -94,6 +122,7 @@ const AuthProvider = ({ children }) => {
 
       return () => {
         axios.interceptors.request.eject(interceptor);
+        axios.interceptors.response.eject(resInterceptor);
         //console.log("Clearing whole local storage...");
         //localStorage.clear();
       };
@@ -107,6 +136,10 @@ const AuthProvider = ({ children }) => {
           setUser(res);
           localStorage.setItem("user", JSON.stringify(res));
         });
+        // .catch(error => {
+        //   console.log(error);
+        //   window.localtion = "/login"
+        // });
       } else {
         setUser(JSON.parse(localStorage.getItem("user")) ?? {});
       }
@@ -127,15 +160,6 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       throw error;
     }
-  };
-
-  const logOut = () => {
-    setToken(null);
-    setCsrfToken(null);
-    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-    localStorage.removeItem(LOCAL_STORAGE_CSRF_TOKEN_KEY);
-    setStatus(AuthStatus.LoggedOut);
-    setUser(null);
   };
 
   const isLoaded = AuthStatus.Loading !== status;

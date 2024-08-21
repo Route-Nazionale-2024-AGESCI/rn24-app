@@ -40,9 +40,13 @@ import axios from "../api";
 
 */
 export async function getUser() {
-  const response = await axios.get("profile/");
-
-  return response.data;
+  try {
+    const response = await axios.get("profile/");
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return {};
+  }
 }
 
 export async function notifyAvailabilityForExtraServices(availability) {

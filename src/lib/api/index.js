@@ -10,22 +10,22 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const status = error.response?.status;
-    if (status === 401 || status === 403) {
-      console.log(error);
-      localStorage.clear();
-      if(window.location.pathname === "/login") {
-        return Promise.reject(error);
-      } else {
-        window.location = "/login";
-        return Promise.resolve();
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+// instance.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     const status = error.response?.status;
+//     if (status === 401 || status === 403) {
+//       console.log(error);
+//       localStorage.clear();
+//       if(window.location.pathname === "/login") {
+//         return Promise.reject(error);
+//       } else {
+//         window.location = "/login";
+//         return Promise.resolve(error);
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default instance;

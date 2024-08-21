@@ -66,15 +66,19 @@ import SecurityScan, {
 
 import { FilterProvider } from "./contexts/filter";
 import { PersonalPagesProvider } from "./contexts/personalPages";
-import { useAuth } from "./contexts/auth";
+import { AuthStatus, useAuth } from "./contexts/auth";
 import { LocationFilterProvider } from "./contexts/locationFilter";
 
 const AuthMiddleware = () => {
-  const { isLoaded, user } = useAuth();
+  const { isLoaded, user, status } = useAuth();
 
   if (!isLoaded) return <p>caricamento...</p>;
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return status !== AuthStatus.LoggedOut ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" replace />
+  );
 };
 
 const ContextsMiddleware = () => {
