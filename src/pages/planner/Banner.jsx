@@ -72,7 +72,31 @@ export default function Banner({ type, event }) {
           <Typography fontSize="16px" fontWeight={600}>
             {event !== undefined ? "Modifica Evento" : "Seleziona Evento"}
           </Typography>
+
         </AccessButton>
+        {
+            event !== undefined && (
+              <AccessButton
+                sx={{
+                  my: "16px",
+                  py: "8px",
+                  width: "100%",
+                  maxWidth: "400px",
+                }}
+                onClick={
+                  type === "incontri"
+                    ? () => setOpen(true)
+                    : type === "confronti"
+                    ? () => navigate("/progetta-route/confronti")
+                    : () => navigate("/progetta-route/sguardi")
+                }
+              >
+                <Typography fontSize="16px" fontWeight={600}>
+                  Visualizza Lista Eventi
+                </Typography>
+              </AccessButton>
+            )
+          }
         {type === "incontri" && (
           <AccessButton
             sx={{
