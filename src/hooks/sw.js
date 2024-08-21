@@ -19,6 +19,10 @@ function useServiceWorker() {
       window.location.reload();
     };
 
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+
     navigator.serviceWorker.addEventListener(
       "controllerchange",
       handleControllerChange
