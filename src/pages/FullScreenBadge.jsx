@@ -29,6 +29,7 @@ export default function FullScreenBadge() {
     <Box
       sx={{
         paddingX: "12px",
+        paddingBottom: "80px",
       }}>
       <Typography variant="body2" color="#ffffff" my="32px">
         {user.agesci_id ? user.agesci_id + " - " : ""}
