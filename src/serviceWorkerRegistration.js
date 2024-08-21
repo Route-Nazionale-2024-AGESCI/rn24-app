@@ -62,6 +62,9 @@ export function register(config) {
 }
 
 function checkForUpdates(config) {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
   navigator.serviceWorker.getRegistration().then((registration) => {
     if (registration) {
       registration.update().then(() => {
@@ -76,6 +79,9 @@ function checkForUpdates(config) {
 }
 
 function registerValidSW(swUrl, config) {
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -131,6 +137,9 @@ function checkValidServiceWorker(swUrl, config) {
         response.status === 404 ||
         (contentType != null && contentType.indexOf("javascript") === -1)
       ) {
+        if (!("serviceWorker" in navigator)) {
+          return;
+        }
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
