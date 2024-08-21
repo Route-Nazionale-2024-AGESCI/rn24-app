@@ -54,6 +54,12 @@ export default function Scan() {
         scanDelay={300}
         constraints={constraints}
         onResult={handleScan}
+        videoStyle={{
+          width: "180%",
+          height: "180%",
+          top: "-40%",
+          left: "-40%",
+        }}
         containerStyle={{
           borderRadius: "8px",
           border: "8px solid white",
