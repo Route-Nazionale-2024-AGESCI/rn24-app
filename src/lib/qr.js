@@ -239,25 +239,26 @@ export function getCameraConstraints(setConstraints) {
     navigator.mediaDevices
       .enumerateDevices()
       .then((devices) => {
-        console.log(devices);
+        console.log("qr_camera_mediaDevices",devices);
         const backCameraList = devices
           .filter((device) => device.kind === "videoinput" && device.label.match(/back/) != null)
-        if (backCameraList.length > 0 && backCameraList[backCameraList.length - 1]['deviceId'] !== undefined) {
-          console.warn(backCameraList);
+        if (backCameraList.length > 0 && backCameraList[backCameraList.length - 1].deviceId) {
           setConstraints({ deviceId: backCameraList[backCameraList.length - 1]['deviceId'] });
+          console.log("qr_camera_backCameraList",backCameraList);
         } else {
-          console.warn("backCamera not found:", devices);
           setConstraints({facingMode: { ideal: "environment" }})
+          console.log("qr_camera_backCamera not found:", devices);
         }
       })
       .catch(() => {
-        console.warn("error mediaDevices enumerateDevices");
         setConstraints({facingMode: { ideal: "environment" }})
+        console.log("qr_camera_error mediaDevices enumerateDevices");
       })
   }
   navigator.mediaDevices.getUserMedia({ video: true })
-    .then(()=>{
+    .then((stream)=>{
       findMainBackCamera()
+      if (stream) stream.getTracks().forEach(track => track.stop())
     })
     .catch(()=>{
       navigator.permissions.query({name: 'camera'})
@@ -271,7 +272,7 @@ export function getCameraConstraints(setConstraints) {
           }
         })
         .catch(()=>{
-          console.warn("error mediaDevices getUserMedia");
+          console.log("qr_camera_error mediaDevices getUserMedia");
           setConstraints({facingMode: { ideal: "environment" }})
         });
     });
