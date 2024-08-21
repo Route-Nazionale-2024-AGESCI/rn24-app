@@ -454,7 +454,10 @@ export default function Evento() {
                   <Typography fontSize="14px" fontWeight={600}>
                     Descrizione:
                   </Typography>
-                  <div className="description-container">
+                  <div
+                    className="description-container"
+                    style={{ padding: "24px 24px 24px 24px" }}
+                  >
                     <HtmlWithRouterLinks htmlString={description.body} />
                   </div>
                 </Stack>

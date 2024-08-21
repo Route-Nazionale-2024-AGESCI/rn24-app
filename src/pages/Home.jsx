@@ -16,6 +16,7 @@ import {
 } from "../ui/CardButton";
 import EventSummaryCard from "../ui/EventSummaryCard";
 import AccessButton from "../ui/AccessButton";
+import WhitePaper from "../ui/WhitePaper";
 
 import {
   getEventList,
@@ -28,10 +29,14 @@ import { useUser } from "../lib/cacheManager/user";
 
 import { getLocalStorageFirstName } from "../lib/shareContactInfo";
 
+import HtmlWithRouterLinks from "../lib/htmlParser";
+import { searchBySlug } from "../lib/cacheManager/pages";
+
 export async function loader() {
   const { events } = await getEventList();
   const { locations } = await getLocationList();
-  return { events, locations };
+  const news = await searchBySlug("news");
+  return { events, locations, news };
 }
 
 const ThanksModal = ({ open, onClose }) => {
@@ -122,7 +127,7 @@ const ThanksModal = ({ open, onClose }) => {
 
 export default function Home() {
   const { user } = useUser();
-  const { events, locations } = useLoaderData();
+  const { events, locations, news } = useLoaderData();
   const { registrations } = useEventRegistrations();
   const [thanksShown, setThanksShown] = useState(
     localStorage.getItem("thanksShown") === "true"
@@ -188,6 +193,30 @@ export default function Home() {
         La tua Route
       </Typography>
       <RoutePlannerButton />
+      {news !== null && (
+        <>
+          <Box height="32px" />
+          <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
+            News
+          </Typography>
+          <Box
+            sx={{
+              background: "white",
+              borderRadius: "16px 16px 0 0",
+              mt: "16px",
+              marginBottom: "-80px",
+              pt: "24px",
+              pb: "80px",
+              px: "24px",
+              // minHeight: `calc(100vh - 318px)`,
+            }}
+          >
+            <div className="description-container">
+              <HtmlWithRouterLinks htmlString={news.body} />
+            </div>
+          </Box>
+        </>
+      )}
       <Box sx={{ height: "40px" }} />
       {!thanksShown && (
         <ThanksModal open={!thanksShown} onClose={handleThanksClose} />
