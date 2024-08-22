@@ -111,26 +111,10 @@ export default function RegistrazioneEvento() {
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
 
-  const incontro = useMemo(
+  const registeredEvent = useMemo(
     () =>
       regUuid.find((uuid) =>
-        events.filter((e) => e.kind === "INCONTRI").some((e) => e.uuid === uuid)
-      ),
-    [events, regUuid]
-  );
-  const confronto = useMemo(
-    () =>
-      regUuid.find((uuid) =>
-        events
-          .filter((e) => e.kind === "CONFRONTI")
-          .some((e) => e.uuid === uuid)
-      ),
-    [events, regUuid]
-  );
-  const sguardo = useMemo(
-    () =>
-      regUuid.find((uuid) =>
-        events.filter((e) => e.kind === "SGUARDI").some((e) => e.uuid === uuid)
+        events.filter((e) => e.kind === event.kind).some((e) => e.uuid === uuid)
       ),
     [events, regUuid]
   );
@@ -158,7 +142,7 @@ export default function RegistrazioneEvento() {
   */
   if (!invUuid.includes(event.uuid)) return null;
 
-  if (incontro || sguardo || confronto) {
+  if (registeredEvent && registeredEvent !== event.uuid) {
     return (
       <GreenBox>
         <Typography fontWeight={600} fontSize="16px">
