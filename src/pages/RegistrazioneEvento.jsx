@@ -1,5 +1,5 @@
-import { useLoaderData } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useLoaderData, Link } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -16,6 +16,7 @@ import UnsubscribeModal from "../ui/UnsubscribeModal";
 
 import {
   getEvent,
+  getEventList,
   useEventInvitations,
   useEventRegistrations,
 } from "../lib/cacheManager/events";
@@ -89,14 +90,15 @@ const capitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
 
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
-  return { event };
+  const { events } = await getEventList();
+  return { event, events };
 }
 
 export default function RegistrazioneEvento() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const { event } = useLoaderData();
+  const { event, events } = useLoaderData();
   const regStartDT = event.registrations_open_at ?? null;
   const regEndDT = event.registrations_close_at ?? null;
   const startDt = event.starts_at;
@@ -107,6 +109,14 @@ export default function RegistrazioneEvento() {
 
   const regUuid = registrations.map((r) => r.event);
   const invUuid = invitations.map((i) => i.uuid);
+
+  const registeredEvent = useMemo(
+    () =>
+      regUuid.find((uuid) =>
+        events.filter((e) => e.kind === event.kind).some((e) => e.uuid === uuid)
+      ),
+    [events, regUuid, event.kind]
+  );
 
   useEffect(() => {
     if (error !== null) {
@@ -130,6 +140,31 @@ export default function RegistrazioneEvento() {
     invitato.
   */
   if (!invUuid.includes(event.uuid)) return null;
+
+  if (registeredEvent && registeredEvent !== event.uuid) {
+    return (
+      <Box
+        sx={{
+          paddingX: "24px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <GreenBox>
+          <Typography fontWeight={600} fontSize="16px">
+            Sei già registrato ad un evento di questo tipo.
+          </Typography>
+        </GreenBox>
+        <Box sx={{ height: "32px" }} />
+        <AccessButton component={Link} to={`/eventi/${registeredEvent}`}>
+          <Typography fontSize="16px" fontWeight={600}>
+            Modifica la tua iscrizione
+          </Typography>
+        </AccessButton>
+      </Box>
+    );
+  }
 
   // Evento senza registrazione personale: aperto a tutti i capi, oppure con registrazione di Co.Ca. o simili
   if (!event.is_registration_required) {
