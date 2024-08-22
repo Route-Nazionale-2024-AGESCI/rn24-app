@@ -128,6 +128,21 @@ function useEventInvitations() {
   };
 }
 
+function isQuotaExceededError(err) {
+  return (
+    err instanceof DOMException &&
+    // everything except Firefox
+    (err.code === 22 ||
+      // Firefox
+      err.code === 1014 ||
+      // test name field too, because code might not be present
+      // everything except Firefox
+      err.name === "QuotaExceededError" ||
+      // Firefox
+      err.name === "NS_ERROR_DOM_QUOTA_REACHED")
+  );
+}
+
 function useEventAttendees(eventId) {
   const { user } = useUser();
   const shouldFetch = user && user?.permissions?.can_scan_qr;
@@ -138,7 +153,21 @@ function useEventAttendees(eventId) {
   // TODO: manage errors
   error !== undefined && console.error(error);
   if (data) {
-    localStorage.setItem(`attendees-${eventId}`, JSON.stringify(data));
+    try {
+      localStorage.setItem(`attendees-${eventId}`, JSON.stringify(data));
+    } catch (e) {
+      if (isQuotaExceededError(e) || true) {
+        console.error("Storage quota exceeded! Freeing up local storage...");
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith("attendees-")) {
+            localStorage.removeItem(key);
+          }
+        });
+        localStorage.setItem(`attendees-${eventId}`, JSON.stringify(data));
+      } else {
+        console.error(e);
+      }
+    }
     return { attendees: data, mutate };
   }
   return {
