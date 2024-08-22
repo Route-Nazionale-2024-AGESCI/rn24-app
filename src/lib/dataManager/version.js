@@ -7,8 +7,8 @@ import { refreshEventList } from "../cacheManager/events";
 import { refreshLocationList } from "../cacheManager/locations";
 import { refreshPages } from "../cacheManager/pages";
 
-// 30 secs
-const refreshInterval = 30000;
+// 2 min
+const refreshInterval = 120000;
 
 export function useVersions() {
   const { data } = useSWR(
