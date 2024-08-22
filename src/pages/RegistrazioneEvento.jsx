@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 
 import { styled } from "@mui/material/styles";
@@ -91,7 +91,6 @@ const capitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
 export async function loader({ params }) {
   const event = await getEvent(params.eventId);
   const { events } = await getEventList();
-  console.log('aaaaa', events)
   return { event, events };
 }
 
@@ -116,7 +115,7 @@ export default function RegistrazioneEvento() {
       regUuid.find((uuid) =>
         events.filter((e) => e.kind === event.kind).some((e) => e.uuid === uuid)
       ),
-    [events, regUuid]
+    [events, regUuid, event.kind]
   );
 
   useEffect(() => {
@@ -144,12 +143,26 @@ export default function RegistrazioneEvento() {
 
   if (registeredEvent && registeredEvent !== event.uuid) {
     return (
-      <GreenBox>
-        <Typography fontWeight={600} fontSize="16px">
-          Sei già registrato ad un evento di questo tipo.
-          Torna indietro e modifica la tua iscrizione.
-        </Typography>
-      </GreenBox>
+      <Box
+        sx={{
+          paddingX: "24px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <GreenBox>
+          <Typography fontWeight={600} fontSize="16px">
+            Sei già registrato ad un evento di questo tipo.
+          </Typography>
+        </GreenBox>
+        <Box sx={{ height: "32px" }} />
+        <AccessButton component={Link} to={`/eventi/${registeredEvent}`}>
+          <Typography fontSize="16px" fontWeight={600}>
+            Modifica la tua iscrizione
+          </Typography>
+        </AccessButton>
+      </Box>
     );
   }
 
