@@ -186,7 +186,7 @@ export default function Home() {
                 <Button
                   variant="text"
                   sx={{
-                    textAlign: "end",
+                    padding: "0 6px 8px",
                     width: "100%"
                   }}
                   endIcon={<ArrowForwardIosIcon />}
@@ -198,7 +198,7 @@ export default function Home() {
                 <Button
                   variant="text"
                   sx={{
-                    textAlign: "right",
+                    padding: "0 6px 8px",
                     width: "100%"
                   }}
                   onClick={() => {setExpandNews(false)}}
