@@ -170,19 +170,12 @@ export default function Home() {
       {news !== null && (
         <>
           <Box height="32px" />
-          <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
-            News
-          </Typography>
+        
           <Box
             sx={{
               background: "white",
-              borderRadius: "16px 16px 0 0",
-              mt: "16px",
-              marginBottom: "-80px",
-              pt: "24px",
-              pb: "30px",
-              px: "24px",
-              mb: "4px",
+              borderRadius: "8px",
+              padding: "4px 16px 4px 16px",
               // minHeight: `calc(100vh - 318px)`,
             }}
           >
@@ -193,7 +186,7 @@ export default function Home() {
                 <Button
                   variant="text"
                   sx={{
-                    textAlign: "right",
+                    textAlign: "end",
                     width: "100%"
                   }}
                   endIcon={<ArrowForwardIosIcon />}
@@ -217,7 +210,7 @@ export default function Home() {
           </Box>
         </>
       )}
-      <Box height="48px" />
+      <Box height="24px" />
       <AddContactButton />
       <Box height="32px" />
       <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
