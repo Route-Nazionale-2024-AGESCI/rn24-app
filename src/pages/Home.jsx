@@ -169,7 +169,7 @@ export default function Home() {
       </Typography>
       {news !== null && (
         <>
-          <Box height="32px" />
+          <Box height="16px" />
         
           <Box
             sx={{
@@ -180,7 +180,7 @@ export default function Home() {
             }}
           >
             <div className="description-container">
-              <HtmlWithRouterLinks htmlString={expandNews ? news.body : `${news.body.substr(0, 200)}...`} />
+              <HtmlWithRouterLinks htmlString={expandNews ? news.body : `${news.body.substr(0, 150)}...`} />
               { !expandNews 
                 ? 
                 <Button
