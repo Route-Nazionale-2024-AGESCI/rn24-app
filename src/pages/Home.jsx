@@ -2,12 +2,14 @@ import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
   AddContactButton,
   BookletButton,
@@ -128,6 +130,7 @@ const ThanksModal = ({ open, onClose }) => {
 export default function Home() {
   const { user } = useUser();
   const { events, locations, news } = useLoaderData();
+  const [ expandNews, setExpandNews ] = useState(false);
   const { registrations } = useEventRegistrations();
   const [thanksShown, setThanksShown] = useState(
     localStorage.getItem("thanksShown") === "true"
@@ -164,6 +167,56 @@ export default function Home() {
       <Typography variant="body1" fontSize="14px" fontWeight={400}>
         Bentornato nell'App RN24
       </Typography>
+      {news !== null && (
+        <>
+          <Box height="32px" />
+          <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
+            News
+          </Typography>
+          <Box
+            sx={{
+              background: "white",
+              borderRadius: "16px 16px 0 0",
+              mt: "16px",
+              marginBottom: "-80px",
+              pt: "24px",
+              pb: "30px",
+              px: "24px",
+              mb: "4px",
+              // minHeight: `calc(100vh - 318px)`,
+            }}
+          >
+            <div className="description-container">
+              <HtmlWithRouterLinks htmlString={expandNews ? news.body : `${news.body.substr(0, 200)}...`} />
+              { !expandNews 
+                ? 
+                <Button
+                  variant="text"
+                  sx={{
+                    textAlign: "right",
+                    width: "100%"
+                  }}
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={() => {setExpandNews(true)}}
+                >
+                  Leggi Tutto
+                </Button> 
+                :
+                <Button
+                  variant="text"
+                  sx={{
+                    textAlign: "right",
+                    width: "100%"
+                  }}
+                  onClick={() => {setExpandNews(false)}}
+                >
+                  Chiudi
+                </Button> 
+              }
+            </div>
+          </Box>
+        </>
+      )}
       <Box height="48px" />
       <AddContactButton />
       <Box height="32px" />
@@ -193,30 +246,6 @@ export default function Home() {
         La tua Route
       </Typography>
       <RoutePlannerButton />
-      {news !== null && (
-        <>
-          <Box height="32px" />
-          <Typography variant="h5" fontSize="14px" fontWeight={800} mb="8px">
-            News
-          </Typography>
-          <Box
-            sx={{
-              background: "white",
-              borderRadius: "16px 16px 0 0",
-              mt: "16px",
-              marginBottom: "-80px",
-              pt: "24px",
-              pb: "80px",
-              px: "24px",
-              // minHeight: `calc(100vh - 318px)`,
-            }}
-          >
-            <div className="description-container">
-              <HtmlWithRouterLinks htmlString={news.body} />
-            </div>
-          </Box>
-        </>
-      )}
       <Box sx={{ height: "40px" }} />
       {!thanksShown && (
         <ThanksModal open={!thanksShown} onClose={handleThanksClose} />
