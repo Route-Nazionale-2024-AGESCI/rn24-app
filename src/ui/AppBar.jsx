@@ -10,6 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import QrCode2Icon from "@mui/icons-material/QrCode2";
 import List from "@mui/material/List";
@@ -32,6 +33,10 @@ import Menu from "./Menu";
 import { useAuth } from "../contexts/auth";
 import { useRefreshData } from "../lib/dataManager/version";
 import { usePersonalPages } from "../contexts/personalPages";
+
+import { refreshEventList } from "../lib/cacheManager/events";
+import { refreshLocationList } from "../lib/cacheManager/locations";
+import { refreshPages } from "../lib/cacheManager/pages";
 
 const StyledTreeItem = styled((props) => <TreeItem {...props} />)(
   ({ theme }) => ({
@@ -159,6 +164,27 @@ export default function AppBar({ pages }) {
           >
             <Stack direction="row" spacing="16px">
               {/* <NotifyButton /> */}
+              {user?.permissions?.is_staff && (
+                <IconButton
+                  disableElevation
+                  sx={{
+                    borderRadius: "8px",
+                    p: "10px 12px 10px 12px",
+                    height: "40px",
+                    width: "40px",
+                    minWidth: "40px",
+                    bgcolor: "#ffffff",
+                  }}
+                  variant="contained"
+                  onClick={() => {
+                    refreshEventList();
+                    refreshLocationList();
+                    refreshPages();
+                  }}
+                >
+                  <RefreshIcon color="agesciPurple" />
+                </IconButton>
+              )}
               <IconButton
                 component={Link}
                 to="/badge"
