@@ -37,10 +37,11 @@ async function getEventList() {
       return eventStart >= arrivalDate;
     });
   }
+  const timeSpan = 3 * 60 * 60 * 1000;
   if (departureDate !== null) {
     events = events.filter((event) => {
       const eventEnd = new Date(event.ends_at);
-      return eventEnd <= departureDate;
+      return eventEnd <= new Date(departureDate.getTime() + timeSpan);
     });
   }
   return { events, version };
