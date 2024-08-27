@@ -68,7 +68,8 @@ Perché questo accada è necessario che siano attivi i Service Worker, cosa che 
 2. la connessione avviene tramite protocollo HTTPS
 
 Di conseguenza, se si esegue localmente l'ambiente di sviluppo e si visita l'URL tramite un dispositivo mobile, l'App non verrà rilevata come installabile, perché il server di sviluppo utilizza il protocollo HTTP.
-Per poter testare appieno le funzionalità legate all'installazione è stato predisposto un server web di sviluppo con protocollo HTTPS all'indirizzo [https://rn24-dev.tapion.it/](https://rn24-dev.tapion.it/)
+
+Puoi collegare la app ad un backend online, oppure puoi eseguire il backend nella tua macchina seguendo le istruzioni che trovi in https://github.com/Route-Nazionale-2024-AGESCI/rn24-backend
 
 ### Note
 
